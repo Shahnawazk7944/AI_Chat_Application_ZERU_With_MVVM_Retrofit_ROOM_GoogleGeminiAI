@@ -43,6 +43,6 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 
 ### Screenshots/Visuals:
 
-
+# Pending......
 
 
