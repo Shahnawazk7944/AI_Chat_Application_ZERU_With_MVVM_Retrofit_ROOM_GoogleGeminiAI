@@ -22,6 +22,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 
 @Composable
 fun SplashScreen() {
+    //Check
     val composition by rememberLottieComposition(
         spec = LottieCompositionSpec.RawRes(R.raw.splash_screen)
     )
