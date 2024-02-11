@@ -11,12 +11,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM"
-        >
+        android:theme="@style/Theme.MySplashScreen"
+        tools:targetApi="s">
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM">
+            android:theme="@style/Theme.MySplashScreen">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

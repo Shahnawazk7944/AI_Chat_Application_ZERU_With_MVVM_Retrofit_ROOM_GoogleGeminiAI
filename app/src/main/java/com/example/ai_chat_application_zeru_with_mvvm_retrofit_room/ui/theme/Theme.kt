@@ -58,7 +58,7 @@ fun AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOMTheme(
         SideEffect {
             val window = (view.context as Activity).window
             //window.statusBarColor = colorScheme.primary.toArgb()
-            window.statusBarColor = Main.toArgb()
+            window.statusBarColor = PrimaryColor.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
