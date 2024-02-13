@@ -1,22 +1,26 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 
@@ -56,7 +61,7 @@ fun Welcome(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        HorizontalPager(state = pagerState, ) { page ->
+        HorizontalPager(state = pagerState) { page ->
             Column(
                 Modifier
                     //.wrapContentSize()
@@ -72,9 +77,10 @@ fun Welcome(navController: NavHostController) {
                         .fillMaxWidth()
                         .height(400.dp),
 
-                )
+                    )
                 //Spacer(modifier = Modifier.height(20.dp))
-                Text(welcomeDescription[page],
+                Text(
+                    welcomeDescription[page],
                     fontFamily = ubuntu,
                     fontSize = 40.sp,
                     fontWeight = FontWeight.Medium,
@@ -88,12 +94,12 @@ fun Welcome(navController: NavHostController) {
 
         }
 
-    PageIndicator(
-        pageCount = welcomeImages.size,
-        currentPage = pagerState.currentPage,
-        modifier = Modifier.padding(60.dp)
-    )
-        MainButton(onClick= {}, eventText = "Next")
+        PageIndicator(
+            pageCount = welcomeImages.size,
+            currentPage = pagerState.currentPage,
+            modifier = Modifier.padding(60.dp)
+        )
+        MainButton(onClick = {}, eventText = "Next")
     }
 
 }
@@ -103,9 +109,30 @@ fun PageIndicator(
     pageCount: Int,
     currentPage: Int,
     modifier: Modifier
-){
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+    ) {
+        repeat(pageCount) {
+            IndicatorDot(isSelected = it == currentPage)
+        }
+    }
 
-    
+
+}
+
+@Composable
+fun IndicatorDot(isSelected: Boolean) {
+    val width = animateDpAsState(targetValue = if (isSelected) 35.dp else 15.dp, label = "")
+    Box(
+        modifier = Modifier
+            .padding(2.dp)
+            .height(15.dp)
+            .width(width.value)
+            .clip(CircleShape)
+            .background(if (isSelected) PrimaryColor else Color.Gray)
+    )
 }
 
 @Preview(showBackground = true)
