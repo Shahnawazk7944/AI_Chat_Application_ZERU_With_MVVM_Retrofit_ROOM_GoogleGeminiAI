@@ -1,22 +1,32 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.MainActivity
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Home
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Welcome
 
 @Composable
-fun NavigationGraph(navController: NavHostController){
-    NavHost(navController = navController, startDestination = Screen.Welcome.route ){
+fun NavigationGraph(navController: NavHostController, context: MainActivity){
+    val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+    val onboardingCompletedKey = "onboarding_completed"
+    fun isFirstRun(): Boolean {
+        return sharedPreferences.getBoolean(onboardingCompletedKey, true)
+    }
 
-        composable(route = Screen.Welcome.route){
-            Welcome(navController= navController)
-        }
+    NavHost(navController = navController, startDestination = Screen.Home.route ){
 
         composable(route = Screen.Home.route){
-            Home(navController= navController)
+            if (isFirstRun()) {
+                Welcome(navController= navController, context = context)
+            } else {
+                Home(navController = navController)
+            }
+            
         }
+        
     }
 }
