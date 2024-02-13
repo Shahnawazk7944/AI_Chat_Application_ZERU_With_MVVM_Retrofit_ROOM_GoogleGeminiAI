@@ -82,13 +82,30 @@ fun Welcome(navController: NavHostController) {
                     color = PrimaryFontColor,
                     textAlign = TextAlign.Center
                 )
-                MainButton(onClick= {}, eventText = "Next")
+
 
             }
 
         }
+
+    PageIndicator(
+        pageCount = welcomeImages.size,
+        currentPage = pagerState.currentPage,
+        modifier = Modifier.padding(60.dp)
+    )
+        MainButton(onClick= {}, eventText = "Next")
     }
 
+}
+
+@Composable
+fun PageIndicator(
+    pageCount: Int,
+    currentPage: Int,
+    modifier: Modifier
+){
+
+    
 }
 
 @Preview(showBackground = true)
