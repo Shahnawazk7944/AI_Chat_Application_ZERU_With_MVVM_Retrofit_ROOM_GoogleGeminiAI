@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.MainActivity
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Home
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.SignIn
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.SignUp
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Welcome
 
 @Composable
@@ -23,9 +25,16 @@ fun NavigationGraph(navController: NavHostController, context: MainActivity){
             if (isFirstRun()) {
                 Welcome(navController= navController, context = context)
             } else {
-                Home(navController = navController)
+                SignIn(navController = navController)
             }
-            
+        }
+
+
+        composable(route = Screen.SignUp.route){
+            SignUp(navController = navController)
+        }
+        composable(route = Screen.SignIn.route){
+            SignIn(navController = navController)
         }
         
     }
