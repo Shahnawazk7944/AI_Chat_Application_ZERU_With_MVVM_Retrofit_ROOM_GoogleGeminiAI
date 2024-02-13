@@ -18,10 +18,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.NavigationGraph
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOMTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 
 class MainActivity : ComponentActivity() {
+    private lateinit var navController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -34,21 +38,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    navController = rememberNavController()
+                    NavigationGraph(navController = navController)
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(PrimaryColor),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = "Hello SK",
-                            fontSize = 30.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.Black
-                        )
-                    }
                 }
             }
         }
