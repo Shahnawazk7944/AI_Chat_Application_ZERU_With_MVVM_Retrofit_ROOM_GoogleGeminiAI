@@ -43,6 +43,10 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 
 ### Screenshots/Visuals:
 
+
+<div align="center"><video src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/1efcbf86-a22e-48fb-b88e-ec5c9045e060" height="400" ></video></div>
+<p align="center"><img src="" width="220" height="400" ></p>
+
 # Pending......
 
 
