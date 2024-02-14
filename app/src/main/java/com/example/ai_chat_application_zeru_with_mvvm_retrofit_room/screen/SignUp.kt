@@ -2,6 +2,7 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Divider
@@ -42,8 +44,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.LightGrayColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
@@ -205,7 +210,7 @@ fun SignUp(navController: NavHostController) {
                 eventText = "Sign Up", modifier = Modifier
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             Row(
                 Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -217,10 +222,53 @@ fun SignUp(navController: NavHostController) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
-                    color = PrimaryFontColor,
+                    color = GrayColor,
                     textAlign = TextAlign.Center,
                 )
                 Divider(Modifier.weight(2f))
+            }
+            Spacer(modifier = Modifier.height(30.dp))
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                ThirdPartyAuthButtonWithOutTitle(
+                    onClick = { /*TODO*/ }, icon = R.drawable.google, modifier = Modifier
+                )
+                ThirdPartyAuthButtonWithOutTitle(
+                    onClick = { /*TODO*/ }, icon = R.drawable.facebook, modifier = Modifier
+                )
+                ThirdPartyAuthButtonWithOutTitle(
+                    onClick = { /*TODO*/ }, icon = R.drawable.apple, modifier = Modifier
+                )
+            }
+            Spacer(modifier = Modifier.height(30.dp))
+            Row(
+                Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    "Already have an account?",
+                    fontFamily = ubuntu,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    "Sign In",
+                    fontFamily = ubuntu,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = PrimaryColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.clickable { navController.navigate(Screen.SignUp.route) }
+                )
             }
         }
     }
