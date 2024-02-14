@@ -37,6 +37,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,7 +50,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.S
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.LightGrayColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
@@ -62,6 +63,14 @@ fun SignUp(navController: NavHostController) {
     }
     var password by remember {
         mutableStateOf("")
+    }
+    var passwordVisible by remember {
+        mutableStateOf(false)
+    }
+    val icon = if (passwordVisible) {
+        painterResource(id = R.drawable.visible)
+    } else {
+        painterResource(id = R.drawable.invisible)
     }
     Scaffold(
         topBar = {
@@ -192,13 +201,15 @@ fun SignUp(navController: NavHostController) {
                     )
                 },
                 trailingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.invisible),
-                        contentDescription = "email icon",
-                        modifier = Modifier.size(25.dp)
-                    )
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            painter = icon,
+                            contentDescription = "email icon",
+                            modifier = Modifier.size(25.dp)
+                        )
+                    }
                 },
-
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
             )
 
@@ -228,11 +239,11 @@ fun SignUp(navController: NavHostController) {
                 Divider(Modifier.weight(2f))
             }
             Spacer(modifier = Modifier.height(30.dp))
-            Row (
+            Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 ThirdPartyAuthButtonWithOutTitle(
                     onClick = { /*TODO*/ }, icon = R.drawable.google, modifier = Modifier
                 )
