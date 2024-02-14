@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,8 +35,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,12 +42,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.LightGrayColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -133,13 +132,11 @@ fun SignUp(navController: NavHostController) {
                     unfocusedLeadingIconColor = PrimaryFontColor
                 ),
                 leadingIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.email),
-                            contentDescription = "email icon",
-                            modifier = Modifier.size(25.dp)
-                        )
-                    }
+                    Icon(
+                        painter = painterResource(id = R.drawable.email),
+                        contentDescription = "email icon",
+                        modifier = Modifier.size(25.dp)
+                    )
                 },
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -183,26 +180,48 @@ fun SignUp(navController: NavHostController) {
                     unfocusedTrailingIconColor = PrimaryFontColor
                 ),
                 leadingIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.password),
-                            contentDescription = "email icon",
-                            modifier = Modifier.size(25.dp)
-                        )
-                    }
+                    Icon(
+                        painter = painterResource(id = R.drawable.password),
+                        contentDescription = "email icon",
+                        modifier = Modifier.size(25.dp)
+                    )
                 },
                 trailingIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.invisible),
-                            contentDescription = "email icon",
-                            modifier = Modifier.size(25.dp)
-                        )
-                    }
+                    Icon(
+                        painter = painterResource(id = R.drawable.invisible),
+                        contentDescription = "email icon",
+                        modifier = Modifier.size(25.dp)
+                    )
                 },
 
                 modifier = Modifier.fillMaxWidth(),
             )
+
+
+
+            Spacer(modifier = Modifier.height(30.dp))
+            MainButton(
+                onClick = { /*TODO*/ },
+                eventText = "Sign Up", modifier = Modifier
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Divider(Modifier.weight(2f))
+                Text(
+                    "  Or continue with  ",
+                    fontFamily = ubuntu,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = PrimaryFontColor,
+                    textAlign = TextAlign.Center,
+                )
+                Divider(Modifier.weight(2f))
+            }
         }
     }
 }
