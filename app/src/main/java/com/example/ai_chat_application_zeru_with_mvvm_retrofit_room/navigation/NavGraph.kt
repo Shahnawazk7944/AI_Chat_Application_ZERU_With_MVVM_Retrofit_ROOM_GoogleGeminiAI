@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.MainActivity
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.GoogleSignIn
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Home
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.SignIn
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.SignUp
@@ -19,7 +20,7 @@ fun NavigationGraph(navController: NavHostController, context: MainActivity){
         return sharedPreferences.getBoolean(onboardingCompletedKey, true)
     }
 
-    NavHost(navController = navController, startDestination = Screen.Home.route ){
+    NavHost(navController = navController, startDestination = Screen.GoogleSignIn.route ){
 
         composable(route = Screen.Home.route){
             if (isFirstRun()) {
@@ -35,6 +36,9 @@ fun NavigationGraph(navController: NavHostController, context: MainActivity){
         }
         composable(route = Screen.SignIn.route){
             SignIn(navController = navController)
+        }
+        composable(route = Screen.GoogleSignIn.route){
+            GoogleSignIn(navController = navController)
         }
         
     }
