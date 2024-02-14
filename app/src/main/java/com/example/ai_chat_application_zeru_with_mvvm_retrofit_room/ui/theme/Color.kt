@@ -27,3 +27,5 @@ val PrimaryBackground = Color(0xFFf0ffff)
 val PrimaryColor = Color(0xFF00CDBD)
 val PrimaryFontColor = Color(0xFF1e0d07)
 val SecondaryFontColor = Color(0xFFf0ffff)
+val LightGrayColor = Color.LightGray
+val GrayColor = Color.Gray
