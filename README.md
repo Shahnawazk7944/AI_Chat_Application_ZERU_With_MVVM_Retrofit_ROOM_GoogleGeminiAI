@@ -51,7 +51,10 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 
 <p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/691835ab-a984-4833-9646-107fa5e64114" width="220" height="400" ></p>
 <p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/6547f1cf-8e22-407a-9e0a-56f7c0fd38a4" width="220" height="400" ></p>
-
+<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/62d7dcb1-5362-49eb-ae70-c82f5962fd25" width="220" height="400" ></p>
+<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/d78a3c5d-a94b-4bad-bf9b-cdccf12dc48a" width="220" height="400" ></p>
+<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/d42e0a52-119b-4608-a683-f62b10e80791" width="220" height="400" ></p>
+<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/f3ff974a-0a85-4041-bc6f-59635f40daaf" width="220" height="400" ></p>
 
 
 # Pending......
