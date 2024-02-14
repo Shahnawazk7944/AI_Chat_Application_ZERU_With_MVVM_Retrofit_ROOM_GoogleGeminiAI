@@ -50,11 +50,10 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 <div align="center"><video src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/1efcbf86-a22e-48fb-b88e-ec5c9045e060" height="400" ></video></div>
 
 <p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/691835ab-a984-4833-9646-107fa5e64114" width="220" height="400" ></p>
+<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/6547f1cf-8e22-407a-9e0a-56f7c0fd38a4" width="220" height="400" ></p>
+
 
 
 # Pending......
-
-
-
 
 
