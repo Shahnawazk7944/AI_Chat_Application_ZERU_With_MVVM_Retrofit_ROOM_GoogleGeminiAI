@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.ai_chat_application_zeru_with_mvvm_retrofit_room" />
+                  <option name="mobileSdkAppId" value="1:79628294599:android:338e4bc2edf344278ea1e2" />
+                  <option name="projectId" value="my-ai-chat-application-zeru" />
+                  <option name="projectNumber" value="79628294599" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

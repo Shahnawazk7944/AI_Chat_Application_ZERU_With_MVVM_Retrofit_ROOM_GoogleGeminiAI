@@ -1,4 +1,4 @@
-package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen
+package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -218,7 +218,7 @@ fun SignIn(navController: NavHostController) {
             Spacer(modifier = Modifier.height(30.dp))
             MainButton(
                 onClick = { /*TODO*/ },
-                eventText = "Sign Up", modifier = Modifier
+                eventText = "Sign In", modifier = Modifier
             )
 
             Spacer(modifier = Modifier.height(30.dp))

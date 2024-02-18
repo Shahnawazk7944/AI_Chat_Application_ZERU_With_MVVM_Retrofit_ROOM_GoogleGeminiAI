@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "79628294599",
+    "project_id": "my-ai-chat-application-zeru",
+    "storage_bucket": "my-ai-chat-application-zeru.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79628294599:android:338e4bc2edf344278ea1e2",
+        "android_client_info": {
+          "package_name": "com.example.ai_chat_application_zeru_with_mvvm_retrofit_room"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzZIAUu9_a39VunYEuoUyqAXAZnJOnoxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

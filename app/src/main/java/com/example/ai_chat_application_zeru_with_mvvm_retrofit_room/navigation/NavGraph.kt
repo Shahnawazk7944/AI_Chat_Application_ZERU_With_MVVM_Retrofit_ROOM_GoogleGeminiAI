@@ -7,9 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.MainActivity
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.GoogleSignIn
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Home
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.SignIn
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.SignUp
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens.SignIn
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens.SignUp
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Welcome
 
 @Composable

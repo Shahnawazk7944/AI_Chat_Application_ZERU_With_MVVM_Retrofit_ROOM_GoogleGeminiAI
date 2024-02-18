@@ -1,4 +1,4 @@
-package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen
+package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -58,6 +58,9 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubu
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUp(navController: NavHostController) {
+    var name by remember {
+        mutableStateOf("")
+    }
     var email by remember {
         mutableStateOf("")
     }
@@ -112,6 +115,49 @@ fun SignUp(navController: NavHostController) {
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.height(60.dp))
+            OutlinedTextField(
+                value = name,
+                onValueChange = {
+                    name = it
+                },
+                textStyle = TextStyle(
+                    fontFamily = ubuntu,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = PrimaryFontColor
+                ),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text
+                ),
+                singleLine = true,
+                placeholder = {
+                    Text(
+                        text = "Name",
+                        fontFamily = ubuntu,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = GrayColor
+                    )
+                },
+                shape = RoundedCornerShape(15.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color(0x1700CDBD),
+                    unfocusedContainerColor = Color(0xD8DFF5F3),
+                    unfocusedBorderColor = Color.Transparent,
+                    focusedBorderColor = PrimaryColor,
+                    focusedLeadingIconColor = PrimaryColor,
+                    unfocusedLeadingIconColor = PrimaryFontColor
+                ),
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.user),
+                        contentDescription = "email icon",
+                        modifier = Modifier.size(25.dp)
+                    )
+                },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Spacer(modifier = Modifier.height(20.dp))
             OutlinedTextField(
                 value = email,
                 onValueChange = {
@@ -278,7 +324,7 @@ fun SignUp(navController: NavHostController) {
                     fontWeight = FontWeight.Medium,
                     color = PrimaryColor,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.clickable { navController.navigate(Screen.SignUp.route) }
+                    modifier = Modifier.clickable { navController.navigate(Screen.SignIn.route) }
                 )
             }
         }
