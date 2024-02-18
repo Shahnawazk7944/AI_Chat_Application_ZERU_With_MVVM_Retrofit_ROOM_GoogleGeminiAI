@@ -1,6 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -65,6 +68,10 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    //firebase
+    implementation("com.google.firebase:firebase-auth:22.3.1")
+    implementation("com.google.firebase:firebase-firestore:24.10.2")
+    implementation("com.google.firebase:firebase-database:20.3.0")
 
     //Splash Screen
     implementation("androidx.core:core-splashscreen:1.0.1")
@@ -74,8 +81,24 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
     //pager
     val pagingVersion = "3.2.1"
-
     implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
     //implementation("com.google.accompanist:accompanist-pager:0.12.0")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
+    //dagger hilt
+    implementation("com.google.dagger:hilt-android:2.46")
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    kapt("com.google.dagger:hilt-android-compiler:2.46")
+
+    //Material extended icon
+    implementation("androidx.compose.material:material-icons-extended-android:1.6.1")
+
+
 
 }
