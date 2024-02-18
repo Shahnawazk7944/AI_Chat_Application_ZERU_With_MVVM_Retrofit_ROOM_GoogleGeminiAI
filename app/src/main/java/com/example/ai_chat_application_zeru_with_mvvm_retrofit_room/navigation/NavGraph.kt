@@ -19,7 +19,7 @@ fun NavigationGraph(navController: NavHostController, context: MainActivity){
         return sharedPreferences.getBoolean(onboardingCompletedKey, true)
     }
 
-    NavHost(navController = navController, startDestination = Screen.GoogleSignIn.route ){
+    NavHost(navController = navController, startDestination = Screen.Welcome.route ){
 
         composable(route = Screen.Home.route){
             if (isFirstRun()) {
