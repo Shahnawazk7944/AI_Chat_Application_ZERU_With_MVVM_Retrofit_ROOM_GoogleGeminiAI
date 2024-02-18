@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,9 +44,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserSignUpRepository
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.SignUpViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
@@ -54,10 +60,12 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.Pri
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SignUp(navController: NavHostController) {
+fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
+var state = viewModel.state.collectAsState()
     var name by remember {
         mutableStateOf("")
     }
@@ -264,9 +272,15 @@ fun SignUp(navController: NavHostController) {
             Spacer(modifier = Modifier.height(30.dp))
             MainButton(
                 onClick = {
-                          
-                          },
-                eventText = "Sign Up", modifier = Modifier
+                    viewModel.viewModelScope.launch {
+                        viewModel.signUp(name, email, password)
+                        navController.navigate(Screen.Home.route)
+                    }
+
+                },
+                eventText = "Sign Up",
+                isLoading = state.value.isLoading,
+                modifier = Modifier
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -336,5 +350,5 @@ fun SignUp(navController: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun SignUpPreview() {
-    SignUp(navController = rememberNavController())
+    //SignUp(navController = rememberNavController())
 }

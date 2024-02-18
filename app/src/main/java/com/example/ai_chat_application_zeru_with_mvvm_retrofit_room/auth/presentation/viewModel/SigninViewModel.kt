@@ -25,7 +25,8 @@ class LoginViewModel @Inject constructor(
                     email, password
                 )
                 if (user) {
-                    navController.navigate(Screen.Home.route)
+
+                    _state.value = _state.value.copy(isLoading = false)
                 }
             } catch (e: Exception) {
 

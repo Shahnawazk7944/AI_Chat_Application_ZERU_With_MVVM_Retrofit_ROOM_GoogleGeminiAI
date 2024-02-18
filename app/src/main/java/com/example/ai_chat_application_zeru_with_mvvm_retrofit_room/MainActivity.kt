@@ -3,6 +3,7 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.LoginViewModel
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.SignUpViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.NavigationGraph
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOMTheme
 import dagger.hilt.EntryPoint
@@ -21,6 +24,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
+    private val SignUpViewModel by viewModels<SignUpViewModel>()
+    private val LoginViewModel by viewModels<LoginViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -34,7 +39,12 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     navController = rememberNavController()
-                    NavigationGraph(navController = navController, context = this@MainActivity)
+                    NavigationGraph(
+                        navController = navController,
+                        context = this@MainActivity,
+                        signUpViewModel = SignUpViewModel,
+                        loginViewModel = LoginViewModel
+                    )
 
                 }
             }

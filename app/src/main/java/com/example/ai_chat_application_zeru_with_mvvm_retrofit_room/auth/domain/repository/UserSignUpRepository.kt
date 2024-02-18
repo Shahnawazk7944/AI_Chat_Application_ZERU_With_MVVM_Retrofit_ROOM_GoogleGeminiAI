@@ -7,5 +7,5 @@ interface UserSignUpRepository {
         name: String,
         email: String,
         password: String
-    ): UserSignUp?
+    ): Boolean
 }

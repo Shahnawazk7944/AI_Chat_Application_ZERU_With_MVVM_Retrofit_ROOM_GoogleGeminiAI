@@ -3,9 +3,11 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.comp
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +21,12 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.Sec
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 
 @Composable
-fun MainButton(onClick: () -> Unit, eventText: String, modifier: Modifier) {
+fun MainButton(
+    onClick: () -> Unit,
+    eventText: String,
+    isLoading: Boolean = false,
+    modifier: Modifier
+) {
     Button(
         onClick = onClick,
         modifier = modifier
@@ -37,13 +44,17 @@ fun MainButton(onClick: () -> Unit, eventText: String, modifier: Modifier) {
             contentColor = SecondaryFontColor
         )
     ) {
-        Text(
-            eventText,
-            fontFamily = ubuntu,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
-        )
+        if (!isLoading) {
+            Text(
+                eventText,
+                fontFamily = ubuntu,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
+            )
+        } else {
+            CircularProgressIndicator(Modifier.size(40.dp), color = SecondaryFontColor)
+        }
     }
 }
 

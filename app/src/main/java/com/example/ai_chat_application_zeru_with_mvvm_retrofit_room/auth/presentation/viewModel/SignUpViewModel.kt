@@ -1,9 +1,7 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserSignUpRepository
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
@@ -17,21 +15,20 @@ class SignUpViewModel @Inject constructor(
     private val userSignUpRepository: UserSignUpRepository,
     private val navController: NavHostController
 ) : ViewModel() {
-    private val _state
-    = MutableStateFlow(SignUpState())
+    private val _state = MutableStateFlow(SignUpState())
     val state = _state.asStateFlow()
 
-    suspend fun signUp(name: String, email:String, password:String){
+    suspend fun signUp(name: String, email: String, password: String) {
         viewModelScope.let {
             _state.value = _state.value.copy(isLoading = true)
             try {
                 val user = userSignUpRepository.signUp(
                     name, email, password
                 )
-                if (user != null){
-                navController.navigate(Screen.Home.route)
+                if (user) {
+                    _state.value = _state.value.copy(isLoading = false)
                 }
-            }catch (e:Exception){
+            } catch (e: Exception) {
 
             }
         }
