@@ -263,7 +263,9 @@ fun SignUp(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(30.dp))
             MainButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          
+                          },
                 eventText = "Sign Up", modifier = Modifier
             )
 
