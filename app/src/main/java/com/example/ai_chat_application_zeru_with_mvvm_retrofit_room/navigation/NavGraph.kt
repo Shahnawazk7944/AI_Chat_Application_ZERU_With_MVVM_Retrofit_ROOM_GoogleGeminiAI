@@ -11,6 +11,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.present
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.LoginViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.SignUpViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.GoogleSignIn
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Home
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Welcome
 
 @Composable
@@ -28,11 +29,12 @@ fun NavigationGraph(
 
     NavHost(navController = navController, startDestination = Screen.Welcome.route) {
 
-        composable(route = Screen.Home.route) {
+        composable(route = Screen.Welcome.route) {
             if (isFirstRun()) {
                 Welcome(navController = navController, context = context)
             } else {
-                SignIn(navController = navController, viewModel = loginViewModel)
+                GoogleSignIn(navController = navController)
+                //SignIn(navController = navController, viewModel = loginViewModel)
             }
         }
 
@@ -42,6 +44,9 @@ fun NavigationGraph(
         }
         composable(route = Screen.SignIn.route) {
             SignIn(navController = navController,viewModel = loginViewModel)
+        }
+        composable(route = Screen.Home.route) {
+            Home(navController = navController)
         }
         composable(route = Screen.GoogleSignIn.route) {
             GoogleSignIn(navController = navController)
