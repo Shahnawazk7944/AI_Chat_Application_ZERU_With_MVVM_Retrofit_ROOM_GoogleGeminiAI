@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val userSignUpRepository: UserSignUpRepository,
-    private val navController: NavHostController
+  //  private val navController: NavHostController
 ) : ViewModel() {
     private val _state = MutableStateFlow(SignUpState())
     val state = _state.asStateFlow()

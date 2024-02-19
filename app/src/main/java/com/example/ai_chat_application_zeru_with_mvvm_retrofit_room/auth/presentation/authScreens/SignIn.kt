@@ -1,5 +1,6 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -222,9 +223,13 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
             Spacer(modifier = Modifier.height(30.dp))
             MainButton(
                 onClick = {
+                    Log.d("check","clicked")
+
                     viewModel.viewModelScope.launch {
+                        Log.d("check","not entered")
                         viewModel.login(email, password)
                         navController.navigate(Screen.Home.route)
+
                     }
 
                 },

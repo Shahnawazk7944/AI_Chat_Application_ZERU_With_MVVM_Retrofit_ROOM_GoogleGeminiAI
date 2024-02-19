@@ -126,7 +126,7 @@ fun Welcome(navController: NavHostController, context: MainActivity) {
                     } else {
                         setOnboardingCompleted( context= context)
                         navController.popBackStack()
-                        navController.navigate(Screen.Home.route)
+                        navController.navigate(Screen.GoogleSignIn.route)
                     }
                 },
                 eventText = "Next",
