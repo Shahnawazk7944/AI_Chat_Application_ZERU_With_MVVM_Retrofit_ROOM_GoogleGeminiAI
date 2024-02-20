@@ -7,7 +7,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.mapper.toAuthError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
@@ -17,13 +16,12 @@ class UserLoginRepositoryImpl @Inject constructor(
 ) : UserLoginRepository {
     override suspend fun login(email: String, password: String): Either<Errors, Boolean> {
         Log.d("check2", "function called")
-
         return try {
             val result = auth.signInWithEmailAndPassword(email, password)
-            if (result.isSuccessful) {
-                Either.Right(true)
-            } else {
-                Either.Left(FirebaseAuthException)
+            try {
+                Either.Right(result.isSuccessful)
+            } catch (e: FirebaseAuthException) {
+                Either.Left(e.toAuthError())
             }
         } catch (e: FirebaseAuthException) {
             Either.Left(e.toAuthError())
@@ -31,8 +29,6 @@ class UserLoginRepositoryImpl @Inject constructor(
 
 
         //exception.errorCode
-
-
 
 
         // Handle errors as before
