@@ -1,8 +1,13 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.data.repository
 
 import android.util.Log
+import arrow.core.Either
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.model.Errors
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserLoginRepository
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.mapper.toAuthError
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
@@ -10,26 +15,25 @@ class UserLoginRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     // private val dataStore: DataStore<UserLogin>
 ) : UserLoginRepository {
-    override suspend fun login(email: String, password: String): Boolean {
+    override suspend fun login(email: String, password: String): Either<Errors, Boolean> {
         Log.d("check2", "function called")
-        val task = auth.signInWithEmailAndPassword(email, password)
-        try {
-            return if (task.isSuccessful) {
-                val user = auth.currentUser
-                Log.d("check2", "successful")
-                Log.d("checkEmail", "${auth.currentUser!!.email}")
-                true
+
+        return try {
+            val result = auth.signInWithEmailAndPassword(email, password)
+            if (result.isSuccessful) {
+                Either.Right(true)
             } else {
-                Log.d("check1", "${task.exception!!}")
-                false
+                Either.Left(FirebaseAuthException)
             }
-        } catch (
-            exception: Exception
-        ) {
-            Log.d("check2", exception.message!!)
-            Log.e("check3", exception.toString())
+        } catch (e: FirebaseAuthException) {
+            Either.Left(e.toAuthError())
         }
-        return false
+
+
+        //exception.errorCode
+
+
+
 
         // Handle errors as before
 
@@ -56,3 +60,5 @@ class UserLoginRepositoryImpl @Inject constructor(
     }
 
 }
+
+

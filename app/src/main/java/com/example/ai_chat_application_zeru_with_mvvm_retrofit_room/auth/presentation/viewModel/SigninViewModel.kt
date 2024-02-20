@@ -18,17 +18,6 @@ class LoginViewModel @Inject constructor(
     private val _state = MutableStateFlow(LoginState())
     val state = _state.asStateFlow()
 
-    init {
-        suspend fun callToLogin(email: String, password: String) {
-            val user = userLoginRepository.login(
-                email, password
-            )
-            if (user) {
-                _state.value = _state.value.copy(isLoading = false)
-            }
-        }
-    }
-
     suspend fun login(email: String, password: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
