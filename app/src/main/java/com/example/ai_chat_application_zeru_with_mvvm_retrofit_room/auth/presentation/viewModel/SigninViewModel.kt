@@ -26,13 +26,12 @@ class LoginViewModel @Inject constructor(
                 it.copy(isLoading = true)
             }
             Log.d("check", "is Loading ${state.value.isLoading}")
-
             userLoginRepository.login(
                 email, password
             ).onRight { it ->
                 if (it) {
                     _state.update {
-                        it.copy(isLoading = false)
+                        it.copy(isLoading = false, loggedIn = true)
                     }
                 }
             }.onLeft { error ->
@@ -42,12 +41,11 @@ class LoginViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                Log.e("test InViewModel", "${state.value.error}")
-                Log.d("check", "is Loading ${state.value.isLoading}")
+                Log.d("check Iz", "${state.value.error}")
                 sendEvent(event = Event.Toast(error.errors.message))
             }
         }
-        Log.e("test InViewModel", "${state.value.error}")
+        Log.d("check Iz", "${state.value.error}")
 
     }
 }

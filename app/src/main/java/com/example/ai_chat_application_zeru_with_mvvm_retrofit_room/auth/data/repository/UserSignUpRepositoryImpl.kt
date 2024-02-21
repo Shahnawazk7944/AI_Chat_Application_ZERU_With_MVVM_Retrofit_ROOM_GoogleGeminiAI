@@ -2,7 +2,6 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.data.r
 
 import android.util.Log
 import arrow.core.Either
-import arrow.core.right
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.model.Errors
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserSignUpRepository
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.mapper.toAuthError
@@ -20,13 +19,21 @@ class UserSignUpRepositoryImpl @Inject constructor(
         password: String
     ): Either<Errors, Boolean> {
         Log.e("check2", "function called")
-        return Either.catch {
-             auth.createUserWithEmailAndPassword(email, password).isSuccessful
-        }.mapLeft {
-            Log.e("check2", "${it.message}")
-            it.toAuthError()
+        return try {
+            Log.e("check2", "enter in first try")
+            val result = auth.createUserWithEmailAndPassword(email, password)
+            Log.e("check2", "pass sign up")
+            try {
+                Log.e("check2", "enter in second try")
+                Either.Right(result.isSuccessful)
+            } catch (e: FirebaseAuthException) {
+                Log.e("test Inner", e.errorCode)
+                Either.Left(e.toAuthError())
+            }
+        } catch (e: FirebaseAuthException) {
+            Log.e("test", e.errorCode)
+            Either.Left(e.toAuthError())
         }
-
     }
 
 }

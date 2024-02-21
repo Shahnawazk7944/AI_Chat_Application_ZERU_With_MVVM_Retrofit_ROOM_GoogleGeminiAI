@@ -21,22 +21,26 @@ class SignUpViewModel @Inject constructor(
 
     suspend fun signUp(name: String, email: String, password: String) {
         viewModelScope.let {
-            _state.value = _state.value.copy(isLoading = true)
+            _state.update {
+                it.copy(isLoading = true)
+            }
 
             userSignUpRepository.signUp(
                 name, email, password
             ).onRight { it ->
                 if (it) {
-                    _state.value = _state.value.copy(isLoading = false)
+                    _state.update {
+                        it.copy(isLoading = false,loggedIn = true)
+                    }
                 }
             }.onLeft { error ->
                 _state.update {
                     it.copy(
-                        error = error.errors.message
+                        error = error.errors.message,
+                        isLoading = false
                     )
                 }
                 Log.e("test InViewModel", "${state.value.error}")
-                _state.value = _state.value.copy(isLoading = false)
                 sendEvent(event = Event.Toast(error.errors.message))
             }
         }

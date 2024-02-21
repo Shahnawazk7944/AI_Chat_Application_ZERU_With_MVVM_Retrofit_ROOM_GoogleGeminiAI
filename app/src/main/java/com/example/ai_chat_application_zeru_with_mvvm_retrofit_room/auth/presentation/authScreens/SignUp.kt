@@ -275,8 +275,8 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
             MainButton(
                 onClick = {
                     viewModel.viewModelScope.launch {
-                        val result = viewModel.signUp(name, email, password)
-                        if (result.right().equals(true)) {
+                        viewModel.signUp(name, email, password)
+                        if (viewModel.state.value.loggedIn) {
                             navController.navigate(Screen.Home.route)
                         } else {
                             EventBus.event.collect { event ->
