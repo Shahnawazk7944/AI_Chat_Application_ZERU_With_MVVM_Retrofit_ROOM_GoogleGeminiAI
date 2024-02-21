@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserLoginRepository
+import com.example.androidjetpackcomposepracticeprojects.store.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,21 +22,34 @@ class LoginViewModel @Inject constructor(
 
     suspend fun login(email: String, password: String) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
-            Log.d("check", "is Loading ${_state.value.isLoading}")
-
-            val user = userLoginRepository.login(
-                email, password
-            )
-            if (user) {
-                _state.value = _state.value.copy(isLoading = false)
+            _state.update {
+                it.copy(isLoading = true)
             }
+            Log.d("check", "is Loading ${state.value.isLoading}")
 
+            userLoginRepository.login(
+                email, password
+            ).onRight { it ->
+                if (it) {
+                    _state.update {
+                        it.copy(isLoading = false)
+                    }
+                }
+            }.onLeft { error ->
+                _state.update {
+                    it.copy(
+                        error = error.errors.message,
+                        isLoading = false
+                    )
+                }
+                Log.e("test InViewModel", "${state.value.error}")
+                Log.d("check", "is Loading ${state.value.isLoading}")
+                sendEvent(event = Event.Toast(error.errors.message))
+            }
         }
+        Log.e("test InViewModel", "${state.value.error}")
 
     }
-
-
 }
 
 data class LoginState(
