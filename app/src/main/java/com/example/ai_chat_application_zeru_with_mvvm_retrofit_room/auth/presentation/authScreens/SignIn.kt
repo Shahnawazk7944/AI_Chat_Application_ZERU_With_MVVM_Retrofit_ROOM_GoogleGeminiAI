@@ -1,6 +1,8 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -47,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import arrow.core.right
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.LoginViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
@@ -57,7 +61,10 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.Pri
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
+import com.example.androidjetpackcomposepracticeprojects.store.util.Event
+import com.example.androidjetpackcomposepracticeprojects.store.util.EventBus
 import kotlinx.coroutines.launch
+import org.checkerframework.checker.units.qual.Current
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,6 +84,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
     } else {
         painterResource(id = R.drawable.invisible)
     }
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -227,8 +235,20 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
 
                     viewModel.viewModelScope.launch {
                         Log.d("check","not entered")
-                        viewModel.login(email, password)
-                        navController.navigate(Screen.Home.route)
+                        val result = viewModel.login(email, password)
+                        if (result.right().equals(true)) {
+                            navController.navigate(Screen.Home.route)
+                        } else {
+                            EventBus.event.collect { event ->
+                                when (event) {
+                                    is Event.Toast -> {
+                                        //val context = LocalContext.current
+                                        Toast.makeText(context, event.message, Toast.LENGTH_SHORT)
+                                            .show()
+                                    }
+                                }
+                            }
+                        }
 
                     }
 

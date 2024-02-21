@@ -1,19 +1,20 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavHostController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserSignUpRepository
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
+import com.example.androidjetpackcomposepracticeprojects.store.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val userSignUpRepository: UserSignUpRepository,
-  //  private val navController: NavHostController
+    //  private val navController: NavHostController
 ) : ViewModel() {
     private val _state = MutableStateFlow(SignUpState())
     val state = _state.asStateFlow()
@@ -21,19 +22,27 @@ class SignUpViewModel @Inject constructor(
     suspend fun signUp(name: String, email: String, password: String) {
         viewModelScope.let {
             _state.value = _state.value.copy(isLoading = true)
-            try {
-                val user = userSignUpRepository.signUp(
-                    name, email, password
-                )
-                if (user) {
+
+            userSignUpRepository.signUp(
+                name, email, password
+            ).onRight { it ->
+                if (it) {
                     _state.value = _state.value.copy(isLoading = false)
                 }
-            } catch (e: Exception) {
-
+            }.onLeft { error ->
+                _state.update {
+                    it.copy(
+                        error = error.errors.message
+                    )
+                }
+                Log.e("test InViewModel", "${state.value.error}")
+                _state.value = _state.value.copy(isLoading = false)
+                sendEvent(event = Event.Toast(error.errors.message))
             }
         }
     }
 }
+
 
 data class SignUpState(
     val isLoading: Boolean = false,
