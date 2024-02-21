@@ -238,7 +238,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                     viewModel.viewModelScope.launch {
                         Log.d("check","not entered")
                         viewModel.login(email, password)
-                        if (viewModel.state.value.isLoading) {
+                        if (viewModel.state.value.loggedIn) {
                             navController.navigate(Screen.Home.route)
                         } else {
                             EventBus.event.collect { event ->

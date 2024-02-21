@@ -22,9 +22,9 @@ class UserSignUpRepositoryImpl @Inject constructor(
         return try {
             Log.e("check2", "enter in first try")
             val result = auth.createUserWithEmailAndPassword(email, password)
-            Log.e("check2", "pass sign up")
+            Log.d("check after result", "${result.isSuccessful}")
             try {
-                Log.e("check2", "enter in second try")
+                Log.d("check in try", "${result.isSuccessful}")
                 Either.Right(result.isSuccessful)
             } catch (e: FirebaseAuthException) {
                 Log.e("test Inner", e.errorCode)
