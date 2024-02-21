@@ -50,8 +50,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import arrow.core.Either
 import arrow.core.right
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.model.Errors
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.LoginViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
@@ -235,13 +237,14 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
 
                     viewModel.viewModelScope.launch {
                         Log.d("check","not entered")
-                        val result = viewModel.login(email, password)
-                        if (result.right().equals(true)) {
+                        viewModel.login(email, password)
+                        if (viewModel.state.value.isLoading) {
                             navController.navigate(Screen.Home.route)
                         } else {
                             EventBus.event.collect { event ->
                                 when (event) {
                                     is Event.Toast -> {
+                                        Log.d("check", event.message)
                                         //val context = LocalContext.current
                                         Toast.makeText(context, event.message, Toast.LENGTH_SHORT)
                                             .show()

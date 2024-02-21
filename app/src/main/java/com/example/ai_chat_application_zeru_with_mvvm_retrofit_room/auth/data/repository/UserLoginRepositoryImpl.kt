@@ -16,12 +16,20 @@ class UserLoginRepositoryImpl @Inject constructor(
 ) : UserLoginRepository {
     override suspend fun login(email: String, password: String): Either<Errors, Boolean> {
         Log.d("check2", "function called")
-         return Either.catch {
-             auth.signInWithEmailAndPassword(email, password).isSuccessful
-        }.mapLeft {
-             Log.e("check2", "${it.message}")
-            it.toAuthError()
+        return try {
+            val result = auth.signInWithEmailAndPassword(email, password)
+            try {
+                Either.Right(result.isSuccessful)
+            } catch (e: FirebaseAuthException) {
+                Log.d("check Inner", e.errorCode)
+                Either.Left(e.toAuthError())
+            }
+        } catch (e: FirebaseAuthException) {
+            Log.d("check outer", e.errorCode)
+            Either.Left(e.toAuthError())
         }
+
+
         //exception.errorCode
 
 
