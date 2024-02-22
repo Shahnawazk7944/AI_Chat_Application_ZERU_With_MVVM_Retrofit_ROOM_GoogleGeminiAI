@@ -1,7 +1,7 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
-import android.content.Context
 import android.util.Log
+import android.util.Patterns.EMAIL_ADDRESS
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,6 +25,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -33,6 +37,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,23 +55,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import arrow.core.Either
-import arrow.core.right
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.model.Errors
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.LoginViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ChocolateBrown
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PinkDark
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.SecondaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import com.example.androidjetpackcomposepracticeprojects.store.util.Event
 import com.example.androidjetpackcomposepracticeprojects.store.util.EventBus
 import kotlinx.coroutines.launch
-import org.checkerframework.checker.units.qual.Current
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,10 +91,28 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
         painterResource(id = R.drawable.invisible)
     }
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val snackbarState = remember {
+        SnackbarHostState()
+    }
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {},
+                title = {
+
+                    SnackbarHost(
+                        hostState = snackbarState,
+
+                        ) {
+                        Snackbar(
+                            snackbarData = it,
+                            containerColor = PinkDark,
+                            contentColor = SecondaryFontColor,
+                            actionColor =PrimaryFontColor,
+                            shape = RoundedCornerShape(10.dp)
+                        )
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Image(
@@ -104,8 +126,19 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                 )
             )
         },
+//        snackbarHost = {
+//            SnackbarHost(hostState = snackbarState) {
+//                Snackbar(
+//                    snackbarData = it,
+//                    containerColor = PrimaryColor,
+//                    contentColor = PinkDark,
+//                    actionColor = ChocolateBrown,
+//                    shape = RoundedCornerShape(10.dp)
+//                )
+//            }
+//        },
+    ) { paddingValues ->
 
-        ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -115,7 +148,18 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top
         ) {
-
+//            SnackbarHost(
+//                hostState = snackbarState,
+//                modifier = Modifier.align(Alignment.Start)
+//            ) {
+//                Snackbar(
+//                    snackbarData = it,
+//                    containerColor = PrimaryColor,
+//                    contentColor = PinkDark,
+//                    actionColor = ChocolateBrown,
+//                    shape = RoundedCornerShape(10.dp)
+//                )
+//            }
             Text(
                 "Login to your Account",
                 fontFamily = ubuntu,
@@ -233,25 +277,58 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
             Spacer(modifier = Modifier.height(30.dp))
             MainButton(
                 onClick = {
-                    Log.d("check","clicked")
-
+                    Log.d("check", "clicked")
                     viewModel.viewModelScope.launch {
-                        Log.d("check","not entered")
-                        viewModel.login(email, password)
-                        if (viewModel.state.value.loggedIn) {
-                            navController.navigate(Screen.Home.route)
-                        } else {
-                            EventBus.event.collect { event ->
-                                when (event) {
-                                    is Event.Toast -> {
-                                        Log.d("check", event.message)
-                                        //val context = LocalContext.current
-                                        Toast.makeText(context, event.message, Toast.LENGTH_SHORT)
-                                            .show()
+                        Log.d("check", "not entered")
+
+                        if (email.isNotEmpty() && password.isNotEmpty()) {
+                            if (EMAIL_ADDRESS.matcher(email).matches()) {
+                                viewModel.login(email, password)
+                                if (viewModel.state.value.loggedIn) {
+                                    navController.navigate(Screen.Home.route)
+                                } else {
+                                    EventBus.event.collect { event ->
+                                        when (event) {
+                                            is Event.Toast -> {
+                                                Log.d("check", event.message)
+                                                //val context = LocalContext.current
+                                                Toast.makeText(
+                                                    context,
+                                                    event.message,
+                                                    Toast.LENGTH_SHORT
+                                                )
+                                                    .show()
+                                            }
+                                        }
                                     }
                                 }
+                            } else {
+                                scope.launch {
+                                    snackbarState.currentSnackbarData?.dismiss()
+                                    snackbarState.showSnackbar(
+                                        message = "There is a typo in the Email field.",
+                                        actionLabel = "Retry",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+
+                            }
+
+                        } else {
+                            Log.d(
+                                "check",
+                                "Fields are empty = ${email.isNotEmpty() && password.isNotEmpty()}"
+                            )
+                            scope.launch {
+                                snackbarState.currentSnackbarData?.dismiss()
+                                snackbarState.showSnackbar(
+                                    message = "Email and Password are mandatory.",
+                                    actionLabel = "Retry",
+                                    duration = SnackbarDuration.Short
+                                )
                             }
                         }
+
 
                     }
 
