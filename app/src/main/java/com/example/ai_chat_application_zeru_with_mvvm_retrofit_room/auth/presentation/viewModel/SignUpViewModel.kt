@@ -24,7 +24,8 @@ class SignUpViewModel @Inject constructor(
             _state.update {
                 it.copy(isLoading = true)
             }
-
+            Log.d("check", "is Loading ${state.value.isLoading}")
+            Log.d("check", "is loggedIn ${state.value.loggedIn}")
             userSignUpRepository.signUp(
                 name, email, password
             ).onRight { it ->

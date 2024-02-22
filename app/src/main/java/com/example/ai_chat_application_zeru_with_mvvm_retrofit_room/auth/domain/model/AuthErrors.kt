@@ -7,9 +7,8 @@ data class Errors(
 
 enum class AuthError(val message: String) {
     NetworkConnectionError("No Internet Connection"),
-    WeakPassword("Weak Password"),
     EmailExist("Email Already Exist"),
-    InvalidPassword("Incorrect Password"),
+    InvalidCredential("Incorrect Email or Password or User Doesn't Exist"),
     TooManyAttempt("Limit exceed for Login"),
     UserNotFound("User not found, Please Sign Up"),
     UserDisable("Account has been Disabled"),
