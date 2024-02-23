@@ -89,6 +89,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
     } else {
         painterResource(id = R.drawable.invisible)
     }
+    val checkedState = remember { mutableStateOf(false) }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarState = remember {
