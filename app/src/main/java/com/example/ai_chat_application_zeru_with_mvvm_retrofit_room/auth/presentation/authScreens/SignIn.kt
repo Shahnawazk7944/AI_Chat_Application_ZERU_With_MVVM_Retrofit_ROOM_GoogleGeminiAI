@@ -2,7 +2,6 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presen
 
 import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -60,7 +59,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.present
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ChocolateBrown
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PinkDark
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
@@ -70,6 +68,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.Sec
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import com.example.androidjetpackcomposepracticeprojects.store.util.Event
 import com.example.androidjetpackcomposepracticeprojects.store.util.EventBus
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,18 +98,31 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
         topBar = {
             TopAppBar(
                 title = {
-
                     SnackbarHost(
                         hostState = snackbarState,
-
-                        ) {
+                    ) {
                         Snackbar(
-                            snackbarData = it,
+                            action = {
+                                Text(
+                                    text = it.visuals.actionLabel!!,
+                                    fontFamily = ubuntu,
+                                    fontSize = 15.sp,
+                                    color = PrimaryFontColor,
+                                    fontWeight = FontWeight.Medium,
+                                    modifier = Modifier.clickable { snackbarState.currentSnackbarData?.dismiss() }
+                                )
+                            },
                             containerColor = PinkDark,
                             contentColor = SecondaryFontColor,
-                            actionColor =PrimaryFontColor,
-                            shape = RoundedCornerShape(10.dp)
-                        )
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Text(
+                                text = it.visuals.message,
+                                fontFamily = ubuntu,
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Medium,
+                            )
+                        }
                     }
                 },
                 navigationIcon = {
@@ -277,27 +289,36 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
             Spacer(modifier = Modifier.height(30.dp))
             MainButton(
                 onClick = {
-                    Log.d("check", "clicked")
                     viewModel.viewModelScope.launch {
-                        Log.d("check", "not entered")
-
                         if (email.isNotEmpty() && password.isNotEmpty()) {
                             if (EMAIL_ADDRESS.matcher(email).matches()) {
                                 viewModel.login(email, password)
-                                if (viewModel.state.value.loggedIn) {
-                                    navController.navigate(Screen.Home.route)
-                                } else {
-                                    EventBus.event.collect { event ->
-                                        when (event) {
-                                            is Event.Toast -> {
-                                                Log.d("check", event.message)
-                                                //val context = LocalContext.current
-                                                Toast.makeText(
-                                                    context,
-                                                    event.message,
-                                                    Toast.LENGTH_SHORT
-                                                )
-                                                    .show()
+                                viewModel.state.collectLatest { state ->
+                                    if (state.loggedIn) {
+                                        navController.navigate(Screen.Home.route)
+                                    } else {
+                                        EventBus.event.collect { event ->
+
+                                            when (event) {
+                                                is Event.Toast ->
+                                                    scope.launch {
+                                                        snackbarState.currentSnackbarData?.dismiss()
+                                                        snackbarState.showSnackbar(
+                                                            message = event.message,
+                                                            actionLabel = "Retry",
+                                                            duration = SnackbarDuration.Short
+                                                        )
+                                                    }
+
+//                                                {
+//                                                Log.d("check", event.message)
+//                                                //val context = LocalContext.current
+//                                                Toast.makeText(
+//                                                    context,
+//                                                    event.message,
+//                                                    Toast.LENGTH_SHORT
+//                                                ).show()
+//                                            }
                                             }
                                         }
                                     }
@@ -395,7 +416,11 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                     fontWeight = FontWeight.Medium,
                     color = PrimaryColor,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.clickable { navController.navigate(Screen.SignUp.route) }
+                    modifier = Modifier.clickable {
+                        navController.navigate(Screen.SignUp.route) {
+                            navController.popBackStack()
+                        }
+                    }
                 )
             }
         }

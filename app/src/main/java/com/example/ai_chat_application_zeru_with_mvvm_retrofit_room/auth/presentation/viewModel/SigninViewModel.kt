@@ -33,8 +33,12 @@ class LoginViewModel @Inject constructor(
                 if (it) {
                     Log.d("check", "is loggedIn ${state.value.loggedIn}")
                     _state.update {
-                        it.copy(isLoading = false, loggedIn = true)
+                        it.copy(
+                            isLoading = false,
+                            loggedIn = true
+                        )
                     }
+
                 }
             }.onLeft { error ->
                 _state.update {
