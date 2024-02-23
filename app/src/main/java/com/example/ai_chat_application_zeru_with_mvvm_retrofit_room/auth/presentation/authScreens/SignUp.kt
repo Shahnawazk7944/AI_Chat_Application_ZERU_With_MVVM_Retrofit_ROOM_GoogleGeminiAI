@@ -1,6 +1,7 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
-import android.widget.Toast
+import android.util.Log
+import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,6 +24,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -31,6 +36,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,19 +54,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import arrow.core.right
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.SignUpViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PinkDark
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.SecondaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import com.example.androidjetpackcomposepracticeprojects.store.util.Event
 import com.example.androidjetpackcomposepracticeprojects.store.util.EventBus
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,10 +93,41 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
         painterResource(id = R.drawable.invisible)
     }
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val snackbarState = remember {
+        SnackbarHostState()
+    }
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {},
+                title = {
+                    SnackbarHost(
+                        hostState = snackbarState,
+                    ) {
+                        Snackbar(
+                            action = {
+                                Text(
+                                    text = it.visuals.actionLabel!!,
+                                    fontFamily = ubuntu,
+                                    fontSize = 12.sp,
+                                    color = PrimaryFontColor,
+                                    fontWeight = FontWeight.Medium,
+                                    modifier = Modifier.clickable { snackbarState.currentSnackbarData?.dismiss() }
+                                )
+                            },
+                            containerColor = PinkDark,
+                            contentColor = SecondaryFontColor,
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Text(
+                                text = it.visuals.message,
+                                fontFamily = ubuntu,
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Medium,
+                            )
+                        }
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Image(
@@ -274,20 +313,90 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
             Spacer(modifier = Modifier.height(30.dp))
             MainButton(
                 onClick = {
-                    viewModel.viewModelScope.launch {
-                        viewModel.signUp(name, email, password)
-                        if (viewModel.state.value.loggedIn) {
-                            navController.navigate(Screen.Home.route)
-                        } else {
-                            EventBus.event.collect { event ->
-                                when (event) {
-                                    is Event.Toast -> {
-                                        //val context = LocalContext.current
-                                        Toast.makeText(context, event.message, Toast.LENGTH_SHORT)
-                                            .show()
+                    Log.d(
+                        "check",
+                        "fields are empty? ${email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()}"
+                    )
+                    Log.d("check", "fields are isNotEmpty? ${name.length}")
+                    Log.d("check", "fields are isNotEmpty? ${password.length}")
+                    if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
+
+                        if (name.length >= 3 && Patterns.EMAIL_ADDRESS.matcher(email)
+                                .matches() && password.length >= 6
+                        ) {
+                            viewModel.viewModelScope.launch {
+                                viewModel.signUp(name, email, password)
+                                viewModel.state.collectLatest { state ->
+                                    if (state.loggedIn) {
+                                        navController.navigate(Screen.Home.route)
+                                    } else {
+                                        EventBus.event.collect { event ->
+
+                                            when (event) {
+                                                is Event.Toast ->
+                                                    scope.launch {
+                                                        snackbarState.currentSnackbarData?.dismiss()
+                                                        snackbarState.showSnackbar(
+                                                            message = event.message,
+                                                            actionLabel = "Retry",
+                                                            duration = SnackbarDuration.Short
+                                                        )
+                                                    }
+
+//                                                {
+//                                                Log.d("check", event.message)
+//                                                //val context = LocalContext.current
+//                                                Toast.makeText(
+//                                                    context,
+//                                                    event.message,
+//                                                    Toast.LENGTH_SHORT
+//                                                ).show()
+//                                            }
+                                            }
+                                        }
                                     }
                                 }
                             }
+                        } else {
+                            if (name.length < 3) {
+                                scope.launch {
+                                    snackbarState.currentSnackbarData?.dismiss()
+                                    snackbarState.showSnackbar(
+                                        message = "Short name! Enter at least 3 characters.",
+                                        actionLabel = "Retry",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+                            } else if (Patterns.EMAIL_ADDRESS.matcher(email)
+                                    .matches()
+                            ) {
+                                scope.launch {
+                                    snackbarState.currentSnackbarData?.dismiss()
+                                    snackbarState.showSnackbar(
+                                        message = "There is a typo in the Email field.",
+                                        actionLabel = "Retry",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+                            } else if(password.length < 6 ){
+                                scope.launch {
+                                    snackbarState.currentSnackbarData?.dismiss()
+                                    snackbarState.showSnackbar(
+                                        message = "Short password, big risk! Make it 6+ characters for security.",
+                                        actionLabel = "Retry",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+                            }
+                        }
+                    } else {
+                        scope.launch {
+                            snackbarState.currentSnackbarData?.dismiss()
+                            snackbarState.showSnackbar(
+                                message = "Name, Email, Password are mandatory.",
+                                actionLabel = "Retry",
+                                duration = SnackbarDuration.Short
+                            )
                         }
                     }
 
@@ -354,7 +463,11 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontWeight = FontWeight.Medium,
                     color = PrimaryColor,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.clickable { navController.navigate(Screen.SignIn.route) }
+                    modifier = Modifier.clickable {
+                        navController.navigate(Screen.SignIn.route) {
+                            navController.popBackStack()
+                        }
+                    }
                 )
             }
         }
