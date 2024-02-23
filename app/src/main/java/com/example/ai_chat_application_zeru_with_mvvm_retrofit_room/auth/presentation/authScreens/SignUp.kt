@@ -1,7 +1,7 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
 import android.util.Log
-import android.util.Patterns
+import android.util.Patterns.EMAIL_ADDRESS
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,8 +15,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -92,6 +95,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
     } else {
         painterResource(id = R.drawable.invisible)
     }
+    val checkedState = remember { mutableStateOf(false) }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarState = remember {
@@ -137,6 +141,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
+                    //containerColor = Color.Red
                     containerColor = PrimaryBackground
                 )
             )
@@ -148,7 +153,8 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 .fillMaxSize()
                 .background(PrimaryBackground)
                 .padding(paddingValues)
-                .padding(20.dp),
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top
         ) {
@@ -307,6 +313,20 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
             )
+            Row {
+                Checkbox(
+                    checked = checkedState.value,
+                    onCheckedChange = { checkedState.value = it }
+                )
+                Text(
+                    "  Remember Me ",
+                    fontFamily = ubuntu,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = PrimaryFontColor,
+                    textAlign = TextAlign.Center,
+                )
+            }
 
 
 
@@ -315,33 +335,62 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 onClick = {
                     Log.d(
                         "check",
-                        "fields are empty? ${email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()}"
+                        "fields are isEmpty? ${email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()}"
                     )
                     Log.d("check", "fields are isNotEmpty? ${name.length}")
                     Log.d("check", "fields are isNotEmpty? ${password.length}")
                     if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
 
-                        if (name.length >= 3 && Patterns.EMAIL_ADDRESS.matcher(email)
-                                .matches() && password.length >= 6
-                        ) {
-                            viewModel.viewModelScope.launch {
-                                viewModel.signUp(name, email, password)
-                                viewModel.state.collectLatest { state ->
-                                    if (state.loggedIn) {
-                                        navController.navigate(Screen.Home.route)
-                                    } else {
-                                        EventBus.event.collect { event ->
+                        when (true) {
+                            (name.length < 3) -> {
+                                scope.launch {
+                                    snackbarState.currentSnackbarData?.dismiss()
+                                    snackbarState.showSnackbar(
+                                        message = "Short name! Enter at least 3 characters.",
+                                        actionLabel = "Retry",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+                            }
+                            (!EMAIL_ADDRESS.matcher(email).matches()) -> {
+                                scope.launch {
+                                    snackbarState.currentSnackbarData?.dismiss()
+                                    snackbarState.showSnackbar(
+                                        message = "There is a typo in the Email field.",
+                                        actionLabel = "Retry",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+                            }
+                            (password.length < 6) -> {
+                                scope.launch {
+                                    snackbarState.currentSnackbarData?.dismiss()
+                                    snackbarState.showSnackbar(
+                                        message = "Short password, big risk! Make it 6+ characters for security.",
+                                        actionLabel = "Retry",
+                                        duration = SnackbarDuration.Short
+                                    )
+                                }
+                            }
+                            else -> {
+                                viewModel.viewModelScope.launch {
+                                    viewModel.signUp(name, email, password)
+                                    viewModel.state.collectLatest { state ->
+                                        if (state.loggedIn) {
+                                            navController.navigate(Screen.Home.route)
+                                        } else {
+                                            EventBus.event.collect { event ->
 
-                                            when (event) {
-                                                is Event.Toast ->
-                                                    scope.launch {
-                                                        snackbarState.currentSnackbarData?.dismiss()
-                                                        snackbarState.showSnackbar(
-                                                            message = event.message,
-                                                            actionLabel = "Retry",
-                                                            duration = SnackbarDuration.Short
-                                                        )
-                                                    }
+                                                when (event) {
+                                                    is Event.Toast ->
+                                                        scope.launch {
+                                                            snackbarState.currentSnackbarData?.dismiss()
+                                                            snackbarState.showSnackbar(
+                                                                message = event.message,
+                                                                actionLabel = "Retry",
+                                                                duration = SnackbarDuration.Short
+                                                            )
+                                                        }
 
 //                                                {
 //                                                Log.d("check", event.message)
@@ -352,126 +401,96 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
 //                                                    Toast.LENGTH_SHORT
 //                                                ).show()
 //                                            }
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
-                        } else {
-                            if (name.length < 3) {
-                                scope.launch {
-                                    snackbarState.currentSnackbarData?.dismiss()
-                                    snackbarState.showSnackbar(
-                                        message = "Short name! Enter at least 3 characters.",
-                                        actionLabel = "Retry",
-                                        duration = SnackbarDuration.Short
-                                    )
-                                }
-                            } else if (Patterns.EMAIL_ADDRESS.matcher(email)
-                                    .matches()
-                            ) {
-                                scope.launch {
-                                    snackbarState.currentSnackbarData?.dismiss()
-                                    snackbarState.showSnackbar(
-                                        message = "There is a typo in the Email field.",
-                                        actionLabel = "Retry",
-                                        duration = SnackbarDuration.Short
-                                    )
-                                }
-                            } else if(password.length < 6 ){
-                                scope.launch {
-                                    snackbarState.currentSnackbarData?.dismiss()
-                                    snackbarState.showSnackbar(
-                                        message = "Short password, big risk! Make it 6+ characters for security.",
-                                        actionLabel = "Retry",
-                                        duration = SnackbarDuration.Short
-                                    )
-                                }
-                            }
                         }
-                    } else {
-                        scope.launch {
-                            snackbarState.currentSnackbarData?.dismiss()
-                            snackbarState.showSnackbar(
-                                message = "Name, Email, Password are mandatory.",
-                                actionLabel = "Retry",
-                                duration = SnackbarDuration.Short
-                            )
-                        }
-                    }
+                } else {
+                scope.launch {
+                    snackbarState.currentSnackbarData?.dismiss()
+                    snackbarState.showSnackbar(
+                        message = "Name, Email, Password are mandatory.",
+                        actionLabel = "Retry",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+            }
 
-                },
-                eventText = "Sign Up",
-                isLoading = state.value.isLoading,
-                modifier = Modifier
+        },
+        eventText = "Sign Up",
+        isLoading = state.value.isLoading,
+        modifier = Modifier
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+        Row(
+            Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Divider(Modifier.weight(2f))
+            Text(
+                "  Or continue with  ",
+                fontFamily = ubuntu,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium,
+                color = GrayColor,
+                textAlign = TextAlign.Center,
             )
-
-            Spacer(modifier = Modifier.height(30.dp))
-            Row(
-                Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Divider(Modifier.weight(2f))
-                Text(
-                    "  Or continue with  ",
-                    fontFamily = ubuntu,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = GrayColor,
-                    textAlign = TextAlign.Center,
-                )
-                Divider(Modifier.weight(2f))
-            }
-            Spacer(modifier = Modifier.height(30.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ThirdPartyAuthButtonWithOutTitle(
-                    onClick = { /*TODO*/ }, icon = R.drawable.google, modifier = Modifier
-                )
-                ThirdPartyAuthButtonWithOutTitle(
-                    onClick = { /*TODO*/ }, icon = R.drawable.facebook, modifier = Modifier
-                )
-                ThirdPartyAuthButtonWithOutTitle(
-                    onClick = { /*TODO*/ }, icon = R.drawable.apple, modifier = Modifier
-                )
-            }
-            Spacer(modifier = Modifier.height(30.dp))
-            Row(
-                Modifier
-                    .padding(top = 8.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    "Already have an account?",
-                    fontFamily = ubuntu,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.Gray,
-                    textAlign = TextAlign.Center,
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(
-                    "Sign In",
-                    fontFamily = ubuntu,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = PrimaryColor,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.clickable {
-                        navController.navigate(Screen.SignIn.route) {
-                            navController.popBackStack()
-                        }
+            Divider(Modifier.weight(2f))
+        }
+        Spacer(modifier = Modifier.height(30.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ThirdPartyAuthButtonWithOutTitle(
+                onClick = { /*TODO*/ }, icon = R.drawable.google, modifier = Modifier
+            )
+            ThirdPartyAuthButtonWithOutTitle(
+                onClick = { /*TODO*/ }, icon = R.drawable.facebook, modifier = Modifier
+            )
+            ThirdPartyAuthButtonWithOutTitle(
+                onClick = { /*TODO*/ }, icon = R.drawable.apple, modifier = Modifier
+            )
+        }
+        Spacer(modifier = Modifier.height(30.dp))
+        Row(
+            Modifier
+                .padding(top = 8.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Text(
+                "Already have an account?",
+                fontFamily = ubuntu,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.Gray,
+                textAlign = TextAlign.Center,
+            )
+            Spacer(modifier = Modifier.width(5.dp))
+            Text(
+                "Sign In",
+                fontFamily = ubuntu,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = PrimaryColor,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.clickable {
+                    navController.navigate(Screen.SignIn.route) {
+                        navController.popBackStack()
                     }
-                )
-            }
+                }
+            )
         }
     }
+}
 }
 
 @Preview(showBackground = true)
