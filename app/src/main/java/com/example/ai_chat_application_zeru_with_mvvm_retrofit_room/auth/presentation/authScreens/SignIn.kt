@@ -58,6 +58,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.LoginViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.RoundedCornerCheckbox
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PinkDark
@@ -89,7 +90,8 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
     } else {
         painterResource(id = R.drawable.invisible)
     }
-    val checkedState = remember { mutableStateOf(false) }
+    //val checkedState = remember { mutableStateOf(false) }
+    var checkedState by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarState = remember {
@@ -285,9 +287,45 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                 modifier = Modifier.fillMaxWidth(),
             )
 
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+//                Checkbox(
+//                    modifier = Modifier
+//                        .height(30.dp)
+//                        .border(5.dp, Color.Gray, RoundedCornerShape(5.dp)),
+//                    checked = checkedState,
+//                    onCheckedChange = { checkedState = it },
+//                    colors = CheckboxDefaults.colors(
+//                        checkedColor = PrimaryColor,
+//                        uncheckedColor = PrimaryColor,
+//                        checkmarkColor = PrimaryFontColor
+//                    )
+//                )
+//                Text(
+//                    "Remember Me",
+//                    fontFamily = ubuntu,
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Medium,
+//                    color = PrimaryFontColor,
+//                    //color = Color.Gray,
+//                    textAlign = TextAlign.Center,
+//                )
+                RoundedCornerCheckbox(
+                    label = "Remember Me",
+                    labelSize = 18.sp,
+                    labelColor = PrimaryFontColor,
+                    checkedColor = PrimaryColor,
+                    uncheckedColor = SecondaryFontColor,
+                    isChecked = checkedState,
+                    onValueChange = { checkedState = it },
+                    modifier = Modifier.padding(10.dp)
+                )
+            }
 
-
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(0.dp))
             MainButton(
                 onClick = {
                     viewModel.viewModelScope.launch {

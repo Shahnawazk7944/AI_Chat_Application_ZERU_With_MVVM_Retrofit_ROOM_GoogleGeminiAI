@@ -4,6 +4,7 @@ import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -61,6 +63,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.SignUpViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.RoundedCornerCheckbox
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PinkDark
@@ -95,7 +98,8 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
     } else {
         painterResource(id = R.drawable.invisible)
     }
-    val checkedState = remember { mutableStateOf(false) }
+    //val checkedState = remember { mutableStateOf(false) }
+    var checkedState by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val snackbarState = remember {
@@ -313,24 +317,47 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
             )
-            Row {
-                Checkbox(
-                    checked = checkedState.value,
-                    onCheckedChange = { checkedState.value = it }
-                )
-                Text(
-                    "  Remember Me ",
-                    fontFamily = ubuntu,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = PrimaryFontColor,
-                    textAlign = TextAlign.Center,
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+//                Checkbox(
+//                    modifier = Modifier
+//                        .height(30.dp)
+//                        .border(5.dp, Color.Gray, RoundedCornerShape(5.dp)),
+//                    checked = checkedState,
+//                    onCheckedChange = { checkedState = it },
+//                    colors = CheckboxDefaults.colors(
+//                        checkedColor = PrimaryColor,
+//                        uncheckedColor = PrimaryColor,
+//                        checkmarkColor = PrimaryFontColor
+//                    )
+//                )
+//                Text(
+//                    "Remember Me",
+//                    fontFamily = ubuntu,
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Medium,
+//                    color = PrimaryFontColor,
+//                    //color = Color.Gray,
+//                    textAlign = TextAlign.Center,
+//                )
+                RoundedCornerCheckbox(
+                    label = "Remember Me",
+                    labelSize = 18.sp,
+                    labelColor = PrimaryFontColor,
+                    checkedColor = PrimaryColor,
+                    uncheckedColor = SecondaryFontColor,
+                    isChecked = checkedState,
+                    onValueChange = { checkedState = it },
+                    modifier = Modifier.padding(10.dp)
                 )
             }
 
 
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(0.dp))
             MainButton(
                 onClick = {
                     Log.d(
@@ -352,6 +379,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                                     )
                                 }
                             }
+
                             (!EMAIL_ADDRESS.matcher(email).matches()) -> {
                                 scope.launch {
                                     snackbarState.currentSnackbarData?.dismiss()
@@ -362,6 +390,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                                     )
                                 }
                             }
+
                             (password.length < 6) -> {
                                 scope.launch {
                                     snackbarState.currentSnackbarData?.dismiss()
@@ -372,6 +401,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                                     )
                                 }
                             }
+
                             else -> {
                                 viewModel.viewModelScope.launch {
                                     viewModel.signUp(name, email, password)
@@ -408,93 +438,93 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                                 }
                             }
                         }
-                } else {
-                scope.launch {
-                    snackbarState.currentSnackbarData?.dismiss()
-                    snackbarState.showSnackbar(
-                        message = "Name, Email, Password are mandatory.",
-                        actionLabel = "Retry",
-                        duration = SnackbarDuration.Short
-                    )
-                }
-            }
-
-        },
-        eventText = "Sign Up",
-        isLoading = state.value.isLoading,
-        modifier = Modifier
-        )
-
-        Spacer(modifier = Modifier.height(30.dp))
-        Row(
-            Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Divider(Modifier.weight(2f))
-            Text(
-                "  Or continue with  ",
-                fontFamily = ubuntu,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Medium,
-                color = GrayColor,
-                textAlign = TextAlign.Center,
-            )
-            Divider(Modifier.weight(2f))
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ThirdPartyAuthButtonWithOutTitle(
-                onClick = { /*TODO*/ }, icon = R.drawable.google, modifier = Modifier
-            )
-            ThirdPartyAuthButtonWithOutTitle(
-                onClick = { /*TODO*/ }, icon = R.drawable.facebook, modifier = Modifier
-            )
-            ThirdPartyAuthButtonWithOutTitle(
-                onClick = { /*TODO*/ }, icon = R.drawable.apple, modifier = Modifier
-            )
-        }
-        Spacer(modifier = Modifier.height(30.dp))
-        Row(
-            Modifier
-                .padding(top = 8.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                "Already have an account?",
-                fontFamily = ubuntu,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Normal,
-                color = Color.Gray,
-                textAlign = TextAlign.Center,
-            )
-            Spacer(modifier = Modifier.width(5.dp))
-            Text(
-                "Sign In",
-                fontFamily = ubuntu,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = PrimaryColor,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.clickable {
-                    navController.navigate(Screen.SignIn.route) {
-                        navController.popBackStack()
+                    } else {
+                        scope.launch {
+                            snackbarState.currentSnackbarData?.dismiss()
+                            snackbarState.showSnackbar(
+                                message = "Name, Email, Password are mandatory.",
+                                actionLabel = "Retry",
+                                duration = SnackbarDuration.Short
+                            )
+                        }
                     }
-                }
+
+                },
+                eventText = "Sign Up",
+                isLoading = state.value.isLoading,
+                modifier = Modifier
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Divider(Modifier.weight(2f))
+                Text(
+                    "  Or continue with  ",
+                    fontFamily = ubuntu,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = GrayColor,
+                    textAlign = TextAlign.Center,
+                )
+                Divider(Modifier.weight(2f))
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ThirdPartyAuthButtonWithOutTitle(
+                    onClick = { /*TODO*/ }, icon = R.drawable.google, modifier = Modifier
+                )
+                ThirdPartyAuthButtonWithOutTitle(
+                    onClick = { /*TODO*/ }, icon = R.drawable.facebook, modifier = Modifier
+                )
+                ThirdPartyAuthButtonWithOutTitle(
+                    onClick = { /*TODO*/ }, icon = R.drawable.apple, modifier = Modifier
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(
+                Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    "Already have an account?",
+                    fontFamily = ubuntu,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center,
+                )
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    "Sign In",
+                    fontFamily = ubuntu,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = PrimaryColor,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.clickable {
+                        navController.navigate(Screen.SignIn.route) {
+                            navController.popBackStack()
+                        }
+                    }
+                )
+            }
         }
     }
-}
 }
 
 @Preview(showBackground = true)
 @Composable
 fun SignUpPreview() {
-    //SignUp(navController = rememberNavController())
+    //SignUp(navController = rememberNavController(), viewModel = hiltViewModel())
 }
