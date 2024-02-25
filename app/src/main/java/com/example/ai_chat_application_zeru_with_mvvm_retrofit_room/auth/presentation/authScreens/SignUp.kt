@@ -404,7 +404,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
 
                             else -> {
                                 viewModel.viewModelScope.launch {
-                                    viewModel.signUp(name, email, password)
+                                    viewModel.signUp(name, email, password,checkedState)
                                     viewModel.state.collectLatest { state ->
                                         if (state.loggedIn) {
                                             navController.navigate(Screen.Home.route)

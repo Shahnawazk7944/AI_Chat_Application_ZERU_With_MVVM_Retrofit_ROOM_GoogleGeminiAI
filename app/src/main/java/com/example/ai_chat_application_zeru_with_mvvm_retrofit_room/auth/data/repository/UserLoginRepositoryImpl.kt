@@ -1,6 +1,8 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.data.repository
 
 import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import arrow.core.Either
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.model.Errors
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserLoginRepository
@@ -13,9 +15,9 @@ import javax.inject.Inject
 
 class UserLoginRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    // private val dataStore: DataStore<UserLogin>
+    private val dataStore: DataStore<Preferences>
 ) : UserLoginRepository {
-    override suspend fun login(email: String, password: String): Either<Errors, Boolean> {
+    override suspend fun login(email: String, password: String,rememberMe:Boolean): Either<Errors, Boolean> {
         Log.d("check2", "function called")
         return try {
             val result = auth.signInWithEmailAndPassword(email, password).await()

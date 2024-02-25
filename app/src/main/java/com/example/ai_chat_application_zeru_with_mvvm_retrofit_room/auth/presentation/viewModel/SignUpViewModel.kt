@@ -19,15 +19,19 @@ class SignUpViewModel @Inject constructor(
     private val _state = MutableStateFlow(SignUpState())
     val state = _state.asStateFlow()
 
-    suspend fun signUp(name: String, email: String, password: String) {
+    suspend fun signUp(name: String, email: String, password: String, rememberMe:Boolean) {
         viewModelScope.let {
             _state.update {
-                it.copy(isLoading = true)
+                it.copy(isLoading = true,rememberMe = rememberMe)
             }
             Log.d("check", "is Loading ${state.value.isLoading}")
             Log.d("check", "is loggedIn ${state.value.loggedIn}")
             userSignUpRepository.signUp(
-                name, email, password
+                name,
+                email,
+                password,
+                isFirstTime = state.value.isFirstTime,
+                rememberMe = rememberMe
             ).onRight { it ->
                 if (it) {
                     _state.update {
@@ -52,5 +56,7 @@ class SignUpViewModel @Inject constructor(
 data class SignUpState(
     val isLoading: Boolean = false,
     val loggedIn: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val rememberMe: Boolean = false,
+    val isFirstTime: Boolean = false,
 )
