@@ -331,7 +331,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                     viewModel.viewModelScope.launch {
                         if (email.isNotEmpty() && password.isNotEmpty()) {
                             if (EMAIL_ADDRESS.matcher(email).matches()) {
-                                viewModel.login(email, password)
+                                viewModel.login(email, password,checkedState)
                                 viewModel.state.collectLatest { state ->
                                     if (state.loggedIn) {
                                         navController.navigate(Screen.Home.route)

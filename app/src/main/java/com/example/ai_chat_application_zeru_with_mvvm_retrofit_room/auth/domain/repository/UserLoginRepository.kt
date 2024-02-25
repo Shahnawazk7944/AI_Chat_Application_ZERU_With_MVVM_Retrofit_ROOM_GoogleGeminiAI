@@ -7,6 +7,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.
 interface UserLoginRepository {
     suspend fun login(
         email: String,
-        password: String
+        password: String,
+        rememberMe:Boolean
     ): Either<Errors,Boolean>
 }

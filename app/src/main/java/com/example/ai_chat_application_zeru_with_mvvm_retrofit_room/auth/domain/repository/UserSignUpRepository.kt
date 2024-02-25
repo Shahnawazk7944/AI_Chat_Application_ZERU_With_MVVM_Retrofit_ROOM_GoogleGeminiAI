@@ -8,6 +8,8 @@ interface UserSignUpRepository {
     suspend fun signUp(
         name: String,
         email: String,
-        password: String
+        password: String,
+        isFirstTime:Boolean,
+        rememberMe:Boolean
     ): Either<Errors, Boolean>
 }
