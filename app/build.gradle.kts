@@ -97,10 +97,11 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.46")
 
     //Material extended icon
-    implementation("androidx.compose.material:material-icons-extended-android:1.6.1")
+    implementation("androidx.compose.material:material-icons-extended-android:1.6.2")
 
     //Data Store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("com.google.accompanist:accompanist-datastore:1.2.0")
 
     // Arrow
     implementation("io.arrow-kt:arrow-core:1.2.0")
