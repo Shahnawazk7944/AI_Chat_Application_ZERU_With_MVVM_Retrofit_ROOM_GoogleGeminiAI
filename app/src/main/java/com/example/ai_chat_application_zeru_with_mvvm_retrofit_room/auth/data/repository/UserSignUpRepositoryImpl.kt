@@ -25,7 +25,6 @@ class UserSignUpRepositoryImpl @Inject constructor(
     ): Either<Errors, Boolean> {
         Log.e("check2", "function called")
         return try {
-            Log.e("check2", "enter in first try")
             val result = auth.createUserWithEmailAndPassword(email, password).await()
                 Log.d("check in try" ,"${result.user != null}")
                 Either.Right(result.user != null)
