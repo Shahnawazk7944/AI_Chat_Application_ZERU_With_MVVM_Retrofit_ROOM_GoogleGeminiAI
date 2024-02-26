@@ -26,8 +26,10 @@ class UserLoginRepositoryImpl @Inject constructor(
             val result = auth.signInWithEmailAndPassword(email, password).await()
             val user = result.user
             if (result.user != null) {
+                val isFirstTime = result.additionalUserInfo!!.isNewUser
                 dataStore.edit { preferences ->
                     preferences[KEY_REMEMBER_ME] = rememberMe
+                    preferences[KEY_REMEMBER_ME] = isFirstTime
                 }
             }
            Either.Right(user != null)

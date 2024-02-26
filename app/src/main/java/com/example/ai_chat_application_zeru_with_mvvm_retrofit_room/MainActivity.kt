@@ -1,5 +1,6 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,6 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.LoginViewModel
@@ -25,6 +29,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var navController: NavHostController
     private val signUpViewModel by viewModels<SignUpViewModel>()
     private val loginViewModel by viewModels<LoginViewModel>()
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("my_app_prefs")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -42,7 +47,8 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         context = this@MainActivity,
                         signUpViewModel = signUpViewModel,
-                        loginViewModel = loginViewModel
+                        loginViewModel = loginViewModel,
+                        dataStore = dataStore
                     )
 
                 }

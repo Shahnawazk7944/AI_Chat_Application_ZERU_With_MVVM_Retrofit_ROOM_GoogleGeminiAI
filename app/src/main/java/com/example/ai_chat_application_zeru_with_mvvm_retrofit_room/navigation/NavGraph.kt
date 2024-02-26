@@ -5,7 +5,6 @@ import androidx.compose.runtime.Composable
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,15 +15,20 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.present
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.SignUpViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.GoogleSignIn
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Home
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.NewUserDetails
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Welcome
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
     context: MainActivity,
     signUpViewModel: SignUpViewModel,
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel,
+    dataStore: DataStore<Preferences>
 ) {
     val KEY_IS_FIRST_TIME = booleanPreferencesKey("isFirstTime")
     val KEY_REMEMBER_ME = booleanPreferencesKey("rememberMe")
@@ -33,22 +37,27 @@ fun NavigationGraph(
     fun isFirstRun(): Boolean {
         return sharedPreferences.getBoolean(onboardingCompletedKey, true)
     }
-    object {
-        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore("my_app_prefs")
-        private val KEY_IS_FIRST_TIME = booleanPreferencesKey("isFirstTime")
-        private val KEY_REMEMBER_ME = booleanPreferencesKey("rememberMe")
-    }
-    fun isRemembered(): Boolean {
-       // val dataStore: DataStore<Preferences>
+
+    fun isRemembered(): Flow<Boolean> {
         val isRemembered = dataStore.data.map { preferences ->
-            preferences[KEY_REMEMBER_ME]
+            preferences[KEY_REMEMBER_ME]?: false
         }
-        return
+        return isRemembered
     }
+    fun isNewUser(): Flow<Boolean> {
+        val isRemembered = dataStore.data.map { preferences ->
+            preferences[KEY_IS_FIRST_TIME]?: false
+        }
+        return isRemembered
+    }
+    val isUserRemembered = runBlocking { isRemembered().first() }
+    val isNew = runBlocking { isNewUser().first() }
     NavHost(navController = navController, startDestination = Screen.Welcome.route) {
 
         composable(route = Screen.Welcome.route) {
-            if (isFirstRun()) {
+            if (isUserRemembered) {
+               Home(navController = navController)
+            }else if (isFirstRun()) {
                 Welcome(navController = navController, context = context)
             } else {
                 GoogleSignIn(navController = navController)
@@ -64,7 +73,11 @@ fun NavigationGraph(
             SignIn(navController = navController, viewModel = loginViewModel)
         }
         composable(route = Screen.Home.route) {
-            Home(navController = navController)
+            if (isNew){
+                NewUserDetails(navController = navController)
+            }else {
+                Home(navController = navController)
+            }
         }
         composable(route = Screen.GoogleSignIn.route) {
             GoogleSignIn(navController = navController)
