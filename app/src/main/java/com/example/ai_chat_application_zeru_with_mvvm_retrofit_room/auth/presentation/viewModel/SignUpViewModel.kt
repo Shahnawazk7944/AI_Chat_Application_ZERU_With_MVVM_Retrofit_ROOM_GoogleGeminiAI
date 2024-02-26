@@ -30,7 +30,6 @@ class SignUpViewModel @Inject constructor(
                 name,
                 email,
                 password,
-                isFirstTime = state.value.isFirstTime,
                 rememberMe = rememberMe
             ).onRight {
                 if (it) {
@@ -58,5 +57,4 @@ data class SignUpState(
     val loggedIn: Boolean = false,
     val error: String? = null,
     val rememberMe: Boolean = false,
-    val isFirstTime: Boolean = false,
 )

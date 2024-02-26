@@ -22,13 +22,14 @@ import javax.inject.Singleton
 object AppModule {
 
     private const val PREFERENCES_NAME = "my_app_prefs"
-    // private val KEY_SETTING_1 = booleanPreferencesKey("isFirstTime")
-    // private val KEY_SETTING_2 = booleanPreferencesKey("rememberMe")
+
+
     @Provides
     @Singleton
     fun provideContext(application: Application): Context {
         return application.applicationContext
     }
+
     @Provides
     @Singleton
     fun provideDataStore(context: Context): DataStore<Preferences> {
