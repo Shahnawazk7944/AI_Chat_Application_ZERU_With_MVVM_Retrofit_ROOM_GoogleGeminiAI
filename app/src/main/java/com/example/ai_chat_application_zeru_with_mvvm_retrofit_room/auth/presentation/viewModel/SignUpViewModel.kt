@@ -32,7 +32,7 @@ class SignUpViewModel @Inject constructor(
                 password,
                 isFirstTime = state.value.isFirstTime,
                 rememberMe = rememberMe
-            ).onRight { it ->
+            ).onRight {
                 if (it) {
                     _state.update {
                         it.copy(isLoading = false,loggedIn = true)

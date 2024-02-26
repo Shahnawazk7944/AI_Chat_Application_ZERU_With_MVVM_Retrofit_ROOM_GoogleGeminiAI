@@ -100,8 +100,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended-android:1.6.2")
 
     //Data Store
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("com.google.accompanist:accompanist-datastore:1.2.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.0-beta01")
 
     // Arrow
     implementation("io.arrow-kt:arrow-core:1.2.0")

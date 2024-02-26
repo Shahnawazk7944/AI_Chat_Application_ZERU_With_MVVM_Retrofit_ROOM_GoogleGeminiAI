@@ -1,29 +1,20 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.di
 
+import android.app.Application
 import android.content.Context
-import com.google.accompanist.datastore.serializer.BooleanSerializer
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.core.Serializer
-import androidx.datastore.dataStoreFile
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.data.repository.UserLoginRepositoryImpl
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.data.repository.UserSignUpRepositoryImpl
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserLoginRepository
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserSignUpRepository
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.io.File
-import java.io.InputStream
-import java.io.OutputStream
 import javax.inject.Singleton
 
 @Module
@@ -31,14 +22,17 @@ import javax.inject.Singleton
 object AppModule {
 
     private const val PREFERENCES_NAME = "my_app_prefs"
-    private val KEY_SETTING_1 = booleanPreferencesKey("isFirstTime")
-    private val KEY_SETTING_2 = booleanPreferencesKey("rememberMe")
-
+    // private val KEY_SETTING_1 = booleanPreferencesKey("isFirstTime")
+    // private val KEY_SETTING_2 = booleanPreferencesKey("rememberMe")
     @Provides
     @Singleton
-    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> {
-        return DataStoreFactory.create(
-            serializer = ,
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
+    }
+    @Provides
+    @Singleton
+    fun provideDataStore(context: Context): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
             produceFile = { context.preferencesDataStoreFile(PREFERENCES_NAME) }
         )
     }
@@ -88,3 +82,4 @@ object AppModule {
 //        context: Context
 //    ): NavHostController = NavHostController(context)
 //}
+
