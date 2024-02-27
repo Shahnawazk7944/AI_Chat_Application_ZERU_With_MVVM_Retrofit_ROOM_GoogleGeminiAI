@@ -3,8 +3,10 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.di
 import android.app.Application
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.data.repository.UserLoginRepositoryImpl
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.data.repository.UserSignUpRepositoryImpl
@@ -23,7 +25,6 @@ object AppModule {
 
     private const val PREFERENCES_NAME = "my_app_prefs"
 
-
     @Provides
     @Singleton
     fun provideContext(application: Application): Context {
@@ -34,15 +35,13 @@ object AppModule {
     @Singleton
     fun provideDataStore(context: Context): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
+            corruptionHandler = ReplaceFileCorruptionHandler(
+                produceNewData = { emptyPreferences() }
+            ),
             produceFile = { context.preferencesDataStoreFile(PREFERENCES_NAME) }
         )
     }
 
-    //    @Provides
-//    @Singleton
-//    fun provideDataStoreManager(dataStore: DataStore<Preferences>): DataStoreManager {
-//        return getInstance(dataStore)
-//    }
     @Provides
     fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -69,18 +68,6 @@ object AppModule {
         )
     }
 
-
-//    @Provides
-//    @ApplicationContext
-//    fun provideContext(application: Application): Context = application.applicationContext
-
 }
-//@Module
-//@InstallIn(ViewModelComponent::class)
-//object NavControllerModule {
-//    @Provides
-//    fun provideNavController(
-//        context: Context
-//    ): NavHostController = NavHostController(context)
-//}
+
 

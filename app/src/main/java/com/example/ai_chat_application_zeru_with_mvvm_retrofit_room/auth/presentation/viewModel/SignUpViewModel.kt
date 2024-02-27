@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,7 +21,7 @@ class SignUpViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     suspend fun signUp(name: String, email: String, password: String, rememberMe:Boolean) {
-        viewModelScope.let {
+        viewModelScope.launch {
             _state.update {
                 it.copy(isLoading = true,rememberMe = rememberMe)
             }
@@ -57,4 +58,5 @@ data class SignUpState(
     val loggedIn: Boolean = false,
     val error: String? = null,
     val rememberMe: Boolean = false,
+    val isFirstTime: Boolean = false,
 )
