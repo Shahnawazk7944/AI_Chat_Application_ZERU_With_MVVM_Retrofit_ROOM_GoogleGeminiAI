@@ -11,7 +11,11 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.mapper.toAuthError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
+import okhttp3.internal.wait
 import javax.inject.Inject
 
 
@@ -27,10 +31,25 @@ class UserLoginRepositoryImpl @Inject constructor(
             val user = result.user
             if (result.user != null) {
                 val isFirstTime = result.additionalUserInfo!!.isNewUser
+                Log.e("isRemembered and isNew", "$rememberMe and $isFirstTime")
+
                 dataStore.edit { preferences ->
                     preferences[KEY_REMEMBER_ME] = rememberMe
                     preferences[KEY_REMEMBER_ME] = isFirstTime
+                }.wait()
+
+                val isUserRemembered = runBlocking {
+                    dataStore.data.map { preferences ->
+                        preferences[KEY_REMEMBER_ME] ?: false
+                    }.first()
                 }
+                val isNew = runBlocking {
+                    dataStore.data.map { preferences ->
+                        preferences[KEY_REMEMBER_ME] ?: false
+                    }.first()
+                }
+
+                Log.e("isRemembered and isNew", "$isUserRemembered and $isNew")
             }
            Either.Right(user != null)
         } catch (e: FirebaseAuthException) {
