@@ -27,7 +27,6 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
@@ -65,11 +64,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                                 preferences[KEY_REMEMBER_ME] = false
                             }
                         }
-                        navController.navigate(Screen.GoogleSignIn.route){
-                            popUpTo(Screen.GoogleSignIn.route){
-                                inclusive = true
-                            }
-                        }
+                        navController.popBackStack()
                     }) {
                         Image(
                             painter = painterResource(R.drawable.logout),
