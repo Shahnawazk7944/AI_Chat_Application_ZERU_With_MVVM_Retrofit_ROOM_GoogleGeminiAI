@@ -11,9 +11,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.mapper.toAuthError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -23,7 +20,6 @@ class UserLoginRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : UserLoginRepository {
     private val KEY_REMEMBER_ME = booleanPreferencesKey("rememberMe")
-    private val KEY_IS_FIRST_TIME = booleanPreferencesKey("isFirstTime")
     override suspend fun login(
         email: String,
         password: String,
@@ -32,65 +28,18 @@ class UserLoginRepositoryImpl @Inject constructor(
         Log.d("check2", "function called")
         return try {
             val result = auth.signInWithEmailAndPassword(email, password).await()
-            val user = result.user
             if (result.user != null) {
-                val isFirstTime = result.additionalUserInfo!!.isNewUser
-                Log.e("isRemembered and isNew", "$rememberMe and $isFirstTime")
-
+                Log.e("isRemembered", "$rememberMe")
                 dataStore.edit { preferences ->
                     preferences[KEY_REMEMBER_ME] = rememberMe
-                    preferences[KEY_IS_FIRST_TIME] = isFirstTime
-                }
-                var iRemembered: Boolean
-                var iNew: Boolean
-
-                runBlocking {
-                    iRemembered =
-                        dataStore.data.map { preferences ->
-                            preferences[KEY_REMEMBER_ME] ?: false
-                        }.first()
-
-                    iNew =
-                        dataStore.data.map { preferences ->
-                            preferences[KEY_IS_FIRST_TIME] ?: false
-                        }.first()
-
                 }
 
-
-                Log.e("_isRemembered and _isNew", "$iRemembered and $iNew")
             }
-            Either.Right(user != null)
+            Either.Right(result.user != null)
         } catch (e: FirebaseAuthException) {
             Log.d("check Inner", e.errorCode)
             Either.Left(e.toAuthError())
         }
-
-
-        //exception.errorCode
-
-
-        // Handle errors as before
-
-//        try {
-//            if (task.isSuccessful) {
-//                Log.d("check","success")
-//                // Retrieve user data from Firebase or stored data (optional)
-//                //val user = UserLogin(task.result!!.user!!.email!!, task.result!!.user!!.email!!)
-//                // Optionally update data store for persistence
-//                return true
-//            } else {
-//                throw task.exception!!
-//            }
-//        } catch (e: FirebaseAuthException) {
-//            if (e.errorCode == FirebaseError.ERROR_INVALID_EMAIL.toString()) {
-//                throw Exception("Login failed3: ")
-//            }
-//            // Log the error message for debugging
-//            Log.e("Login failed2: ", "Login error:", e)
-//            // Return false or throw a custom exception to indicate failure
-//            return false
-//        }
 
     }
 

@@ -1,6 +1,5 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserSignUpRepository
@@ -23,10 +22,8 @@ class SignUpViewModel @Inject constructor(
     suspend fun signUp(name: String, email: String, password: String, rememberMe:Boolean) {
         viewModelScope.launch {
             _state.update {
-                it.copy(isLoading = true,rememberMe = rememberMe)
+                it.copy(isLoading = true, rememberMe = rememberMe)
             }
-            Log.d("check", "is Loading ${state.value.isLoading}")
-            Log.d("check", "is loggedIn ${state.value.loggedIn}")
             userSignUpRepository.signUp(
                 name,
                 email,
@@ -45,7 +42,6 @@ class SignUpViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                Log.e("test InViewModel", "${state.value.error}")
                 sendEvent(event = Event.Toast(error.errors.message))
             }
         }
@@ -58,5 +54,4 @@ data class SignUpState(
     val loggedIn: Boolean = false,
     val error: String? = null,
     val rememberMe: Boolean = false,
-    val isFirstTime: Boolean = false,
 )

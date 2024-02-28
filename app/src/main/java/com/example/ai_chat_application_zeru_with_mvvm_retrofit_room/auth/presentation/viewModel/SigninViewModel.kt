@@ -1,6 +1,5 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.repository.UserLoginRepository
@@ -25,13 +24,10 @@ class LoginViewModel @Inject constructor(
             _state.update {
                 it.copy(isLoading = true,rememberMe = rememberMe)
             }
-            Log.d("check", "is Loading ${state.value.isLoading}")
-            Log.d("check", "is loggedIn ${state.value.loggedIn}")
             userLoginRepository.login(
-                email, password,rememberMe
+                email, password, rememberMe
             ).onRight { it ->
                 if (it) {
-                    Log.d("check", "is loggedIn ${state.value.loggedIn}")
                     _state.update {
                         it.copy(
                             isLoading = false,
@@ -47,11 +43,11 @@ class LoginViewModel @Inject constructor(
                         isLoading = false
                     )
                 }
-                Log.d("check InViewModel", "${state.value.error}")
+
                 sendEvent(event = Event.Toast(error.errors.message))
             }
         }
-        Log.d("check Iz", "${state.value.error}")
+
 
     }
 }

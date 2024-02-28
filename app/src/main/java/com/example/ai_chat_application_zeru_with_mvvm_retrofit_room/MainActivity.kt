@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.LoginViewModel
@@ -19,12 +21,16 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.present
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.NavigationGraph
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOMTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
     private lateinit var navController: NavHostController
     private val signUpViewModel by viewModels<SignUpViewModel>()
     private val loginViewModel by viewModels<LoginViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -43,6 +49,7 @@ class MainActivity : ComponentActivity() {
                         context = this@MainActivity,
                         signUpViewModel = signUpViewModel,
                         loginViewModel = loginViewModel,
+                        dataStore = dataStore
                     )
 
                 }

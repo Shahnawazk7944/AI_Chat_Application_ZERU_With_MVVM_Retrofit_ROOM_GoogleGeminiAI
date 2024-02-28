@@ -1,6 +1,5 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
-import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -355,12 +354,6 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
             Spacer(modifier = Modifier.height(0.dp))
             MainButton(
                 onClick = {
-                    Log.d(
-                        "check",
-                        "fields are isEmpty? ${email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()}"
-                    )
-                    Log.d("check", "fields are isNotEmpty? ${name.length}")
-                    Log.d("check", "fields are isNotEmpty? ${password.length}")
                     if (email.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty()) {
 
                         when (true) {
