@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
-import okhttp3.internal.wait
 import javax.inject.Inject
 
 
@@ -24,7 +23,12 @@ class UserLoginRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : UserLoginRepository {
     private val KEY_REMEMBER_ME = booleanPreferencesKey("rememberMe")
-    override suspend fun login(email: String, password: String,rememberMe:Boolean): Either<Errors, Boolean> {
+    private val KEY_IS_FIRST_TIME = booleanPreferencesKey("isFirstTime")
+    override suspend fun login(
+        email: String,
+        password: String,
+        rememberMe: Boolean
+    ): Either<Errors, Boolean> {
         Log.d("check2", "function called")
         return try {
             val result = auth.signInWithEmailAndPassword(email, password).await()
@@ -35,23 +39,28 @@ class UserLoginRepositoryImpl @Inject constructor(
 
                 dataStore.edit { preferences ->
                     preferences[KEY_REMEMBER_ME] = rememberMe
-                    preferences[KEY_REMEMBER_ME] = isFirstTime
-                }.wait()
-
-                val isUserRemembered = runBlocking {
-                    dataStore.data.map { preferences ->
-                        preferences[KEY_REMEMBER_ME] ?: false
-                    }.first()
+                    preferences[KEY_IS_FIRST_TIME] = isFirstTime
                 }
-                val isNew = runBlocking {
-                    dataStore.data.map { preferences ->
-                        preferences[KEY_REMEMBER_ME] ?: false
-                    }.first()
+                var iRemembered: Boolean
+                var iNew: Boolean
+
+                runBlocking {
+                    iRemembered =
+                        dataStore.data.map { preferences ->
+                            preferences[KEY_REMEMBER_ME] ?: false
+                        }.first()
+
+                    iNew =
+                        dataStore.data.map { preferences ->
+                            preferences[KEY_IS_FIRST_TIME] ?: false
+                        }.first()
+
                 }
 
-                Log.e("isRemembered and isNew", "$isUserRemembered and $isNew")
+
+                Log.e("_isRemembered and _isNew", "$iRemembered and $iNew")
             }
-           Either.Right(user != null)
+            Either.Right(user != null)
         } catch (e: FirebaseAuthException) {
             Log.d("check Inner", e.errorCode)
             Either.Left(e.toAuthError())
