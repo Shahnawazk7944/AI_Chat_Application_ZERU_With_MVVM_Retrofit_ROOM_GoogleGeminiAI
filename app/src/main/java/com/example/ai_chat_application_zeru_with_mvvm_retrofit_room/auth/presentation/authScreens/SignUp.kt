@@ -395,7 +395,9 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                                     viewModel.signUp(name, email, password,checkedState)
                                     viewModel.state.collectLatest { state ->
                                         if (state.loggedIn) {
-                                            navController.navigate(Screen.Home.route)
+                                            navController.navigate(Screen.Home.route){
+                                                popUpTo(0)
+                                            }
                                         } else {
                                             EventBus.event.collect { event ->
 

@@ -1,5 +1,6 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen
 
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -44,12 +46,13 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubu
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoogleSignIn(navController: NavHostController) {
+    val activity = (LocalContext.current as? Activity)
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    IconButton(onClick = {  activity?.finishAndRemoveTask() }) {
                         Image(
                             painter = painterResource(R.drawable.arrow_back),
                             contentDescription = "back Icon", Modifier.size(18.dp)
