@@ -42,28 +42,34 @@ class UserSignUpRepositoryImpl @Inject constructor(
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             if (result.user != null) {
                 val isFirstTime = result.additionalUserInfo!!.isNewUser
-                Log.e("isFirstTime", "$isFirstTime")
+                Log.e("isRemembered and isNew", "$rememberMe and $isFirstTime")
+
 
                 dataStore.edit { preferences ->
-                    preferences[KEY_IS_FIRST_TIME] = isFirstTime
                     preferences[KEY_REMEMBER_ME] = rememberMe
+                    preferences[KEY_IS_FIRST_TIME] = isFirstTime
                 }
+                var iRemembered: Boolean
+                var iNew: Boolean
 
-                val isUserRemembered = runBlocking {
-                    dataStore.data.map { preferences ->
-                        preferences[KEY_REMEMBER_ME] ?: false
-                    }.first()
-                }
-                val isNew = runBlocking {
-                    dataStore.data.map { preferences ->
-                        preferences[KEY_REMEMBER_ME] ?: false
-                    }.first()
+                runBlocking {
+                    iRemembered =
+                        dataStore.data.map { preferences ->
+                            preferences[KEY_REMEMBER_ME] ?: false
+                        }.first()
+
+                    iNew =
+                        dataStore.data.map { preferences ->
+                            preferences[KEY_IS_FIRST_TIME] ?: false
+                        }.first()
+
                 }
 
                 _state.update {
-                    it.copy(rememberMe = isUserRemembered, isFirstTime = isNew )
+                    it.copy(rememberMe = iRemembered, isFirstTime = iNew )
                 }
-                Log.e("isRemembered and isNew", "$isUserRemembered and $isNew")
+                Log.e("_isRemembered and _isNew", "$iRemembered and $iNew")
+
 
             }
             Either.Right(result.user != null)
