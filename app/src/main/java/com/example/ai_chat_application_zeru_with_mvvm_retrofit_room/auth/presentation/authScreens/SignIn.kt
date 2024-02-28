@@ -333,7 +333,9 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                                 viewModel.login(email, password,checkedState)
                                 viewModel.state.collectLatest { state ->
                                     if (state.loggedIn) {
-                                        navController.navigate(Screen.Home.route)
+                                        navController.navigate(Screen.Home.route){
+                                            popUpTo(0)
+                                        }
                                     } else {
                                         EventBus.event.collect { event ->
 
