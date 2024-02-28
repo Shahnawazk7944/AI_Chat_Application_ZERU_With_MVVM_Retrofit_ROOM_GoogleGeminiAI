@@ -1,6 +1,5 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
-import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -373,10 +372,6 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                             }
 
                         } else {
-                            Log.d(
-                                "check",
-                                "Fields are empty = ${email.isNotEmpty() && password.isNotEmpty()}"
-                            )
                             scope.launch {
                                 snackbarState.currentSnackbarData?.dismiss()
                                 snackbarState.showSnackbar(

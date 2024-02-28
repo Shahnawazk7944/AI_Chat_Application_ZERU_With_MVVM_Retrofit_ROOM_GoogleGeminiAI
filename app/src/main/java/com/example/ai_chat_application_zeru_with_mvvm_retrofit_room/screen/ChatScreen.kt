@@ -16,14 +16,13 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.Pri
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 
 @Composable
-fun NewUserDetails(navController: NavHostController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(PrimaryBackground),
+fun ChatScreen(navController: NavHostController) {
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .background(PrimaryBackground),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ) {
+        ) {
         Text(
             "HOME Page",
             fontFamily = ubuntu,

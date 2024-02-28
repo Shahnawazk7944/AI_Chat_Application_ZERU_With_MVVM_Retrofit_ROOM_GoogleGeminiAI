@@ -10,21 +10,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.navigation.NavHostController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 
 @Composable
-fun Home(navController: NavHostController,dataStore: DataStore<Preferences>) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .background(PrimaryBackground),
+fun ChatDetails(navController: NavHostController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(PrimaryBackground),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-        ) {
+    ) {
         Text(
             "HOME Page",
             fontFamily = ubuntu,
