@@ -11,6 +11,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.domain.
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.mapper.toAuthError
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -28,6 +29,7 @@ class UserLoginRepositoryImpl @Inject constructor(
         Log.d("check2", "function called")
         return try {
             val result = auth.signInWithEmailAndPassword(email, password).await()
+            delay(3000)
             if (result.user != null) {
                 Log.e("isRemembered", "$rememberMe")
                 dataStore.edit { preferences ->
