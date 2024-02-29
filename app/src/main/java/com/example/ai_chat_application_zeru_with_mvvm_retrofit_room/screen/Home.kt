@@ -56,7 +56,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                 navigationIcon = {
                     IconButton(onClick = {
 
-                        activity?.finishAndRemoveTask()
+                        activity?.finish()
 
                     }) {
 

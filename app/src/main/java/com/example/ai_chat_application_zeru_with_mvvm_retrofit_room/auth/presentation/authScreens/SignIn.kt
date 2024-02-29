@@ -388,8 +388,11 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
 
 
                     }
+                    email = ""
+                    password = ""
 
                 },
+                isEnable = !state.value.isLoading,
                 eventText = "Sign In",
                 isLoading = state.value.isLoading,
                 modifier = Modifier

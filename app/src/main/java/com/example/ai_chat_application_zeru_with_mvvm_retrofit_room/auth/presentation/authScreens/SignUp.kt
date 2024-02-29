@@ -99,6 +99,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
     val snackbarState = remember {
         SnackbarHostState()
     }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -438,8 +439,13 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                             )
                         }
                     }
+                    name = ""
+                    email = ""
+                    password = ""
+
 
                 },
+                isEnable = !state.value.isLoading,
                 eventText = "Sign Up",
                 isLoading = state.value.isLoading,
                 modifier = Modifier
