@@ -32,7 +32,7 @@ class UserSignUpRepositoryImpl @Inject constructor(
         return try {
             val result = auth.createUserWithEmailAndPassword(email, password).await()
             delay(3000)
-            
+
             if (result.user != null) {
                 Log.e("isRemembered", "$rememberMe")
 
