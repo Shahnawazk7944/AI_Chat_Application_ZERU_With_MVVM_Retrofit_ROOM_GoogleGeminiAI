@@ -49,15 +49,41 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 
 <div align="center"><video src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/105175e0-9287-4d36-acef-c259a5069515" height="400" ></video></div>
 
-<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/691835ab-a984-4833-9646-107fa5e64114" width="220" height="400" ></p>
-<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/6547f1cf-8e22-407a-9e0a-56f7c0fd38a4" width="220" height="400" ></p>
-<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/62d7dcb1-5362-49eb-ae70-c82f5962fd25" width="220" height="400" ></p>
-<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/d78a3c5d-a94b-4bad-bf9b-cdccf12dc48a" width="220" height="400" ></p>
-<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/d42e0a52-119b-4608-a683-f62b10e80791" width="220" height="400" ></p>
-<p align="center"><img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/f3ff974a-0a85-4041-bc6f-59635f40daaf" width="220" height="400" ></p>
+<p align="center">
+<img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/691835ab-a984-4833-9646-107fa5e64114" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/c8fd93a0-f0e5-43ce-a3d8-7fc88c1570ec" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/62d7dcb1-5362-49eb-ae70-c82f5962fd25" width="220" height="400" >
+</p>
 
+
+<p align="center">
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/d78a3c5d-a94b-4bad-bf9b-cdccf12dc48a" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/d42e0a52-119b-4608-a683-f62b10e80791" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/f3ff974a-0a85-4041-bc6f-59635f40daaf" width="220" height="400" >
+</p>
+
+
+<p align="center">
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/d254b97c-4d01-4bcf-b618-22853fe1da96" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/5c20d48e-9659-4b85-8e20-89e06d915cc1" width="220" height="400" >&nbsp;&nbsp;
+<img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/6694bef8-a0f3-4d3d-be43-d3644a7b3907" width="220" height="400" >
+</p>
+
+
+<p align="center">
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/d6ba9cc1-8d6f-4af4-beed-b860799ef79e" width="220" height="400" >&nbsp;&nbsp;
+<img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/804f77c2-2ec4-483b-b68c-b01db9b05754" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/1d06b4b9-10f7-4a9a-9afa-3d7b019a7273" width="220" height="400" >
+</p>
+
+<p align="center">
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/cb5ff6d8-bd58-49d7-9f0c-13889ad0d8a3" width="220" height="400" >&nbsp;&nbsp;
+
+</p>
 
 # Pending......
+
+
 
 
 
