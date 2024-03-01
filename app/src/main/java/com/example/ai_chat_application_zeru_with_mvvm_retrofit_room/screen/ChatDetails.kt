@@ -83,7 +83,7 @@ fun ChatDetails(navController: NavHostController) {
         },
         bottomBar = {
             MainButton(
-                onClick = { navController.navigate(Screen.ChatDetails.route) },
+                onClick = { navController.navigate(Screen.ChatScreen.route) },
                 eventText = "Start Chat with Zeru",
                 modifier = Modifier
                     .padding(horizontal = 10.dp)
@@ -100,9 +100,9 @@ fun ChatDetails(navController: NavHostController) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                "HOME Page",
+                "ChatDetails Page",
                 fontFamily = ubuntu,
-                fontSize = 70.sp,
+                fontSize = 40.sp,
                 fontWeight = FontWeight.Medium,
                 color = PrimaryFontColor,
             )
