@@ -108,4 +108,7 @@ dependencies {
     implementation("io.arrow-kt:arrow-core:1.2.0")
     implementation("io.arrow-kt:arrow-fx-coroutines:1.2.0")
 
+    // Google AI client SDK for Android
+    implementation("com.google.ai.client.generativeai:generativeai:0.2.1")
+
 }
