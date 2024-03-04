@@ -23,6 +23,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.ChatD
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.GoogleSignIn
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Home
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.Welcome
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -34,7 +35,8 @@ fun NavigationGraph(
     navController: NavHostController,
     context: MainActivity,
     dataStore: DataStore<Preferences>,
-    imagePicker: ActivityResultLauncher<PickVisualMediaRequest>
+    imagePicker: ActivityResultLauncher<PickVisualMediaRequest>,
+    uriState: MutableStateFlow<String>
 ) {
     val signUpViewModel = viewModel<SignUpViewModel>()
     val loginViewModel = viewModel<LoginViewModel>()
@@ -84,7 +86,11 @@ fun NavigationGraph(
             ChatDetails(navController = navController)
         }
         composable(route = Screen.ChatScreen.route) {
-            ChatScreen(navController = navController, imagePicker = imagePicker)
+            ChatScreen(
+                navController = navController,
+                imagePicker = imagePicker,
+                uriState = uriState
+            )
         }
 
     }
