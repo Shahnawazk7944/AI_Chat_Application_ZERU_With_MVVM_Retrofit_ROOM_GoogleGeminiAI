@@ -58,7 +58,8 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         context = this@MainActivity,
                         dataStore = dataStore,
-                        imagePicker = imagePicker
+                        imagePicker = imagePicker,
+                        uriState = uriState
                     )
 
                 }

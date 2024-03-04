@@ -3,10 +3,12 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presen
 import android.graphics.Bitmap
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,20 +33,29 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.viewModel.ChatUiEvent
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.viewModel.ChatViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.LightGrayColor
@@ -53,18 +64,23 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.Pri
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.SecondaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     navController: NavHostController,
-    imagePicker: ActivityResultLauncher<PickVisualMediaRequest>
+    imagePicker: ActivityResultLauncher<PickVisualMediaRequest>,
+    uriState: MutableStateFlow<String>
 ) {
     var prompt by remember {
         mutableStateOf("")
     }
     val chatViewModel = viewModel<ChatViewModel>()
     val chatState = chatViewModel.chatState.collectAsState().value
+
+   chatState.bitmap = getImage(uriState)
     Scaffold(
         topBar = {
             TopAppBar(
@@ -115,48 +131,107 @@ fun ChatScreen(
             )
         },
         bottomBar = {
-            OutlinedTextField(
-                value = prompt,
-                onValueChange = {
-                    prompt = it
-                },
-                textStyle = TextStyle(
-                    fontFamily = ubuntu,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = PrimaryFontColor
-                ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email
-                ),
-                singleLine = true,
-                placeholder = {
-                    Text(
-                        text = "Email",
-                        fontFamily = ubuntu,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Normal,
-                        color = GrayColor
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                chatState.bitmap?.let {
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(260.dp)
+                            .padding(bottom = 2.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        contentDescription = "null",
+                        contentScale = ContentScale.Crop,
+                        bitmap = it.asImageBitmap()
                     )
-                },
-                shape = RoundedCornerShape(15.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color(0x1700CDBD),
-                    unfocusedContainerColor = Color(0xD8DFF5F3),
-                    unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = PrimaryColor,
-                    focusedLeadingIconColor = PrimaryColor,
-                    unfocusedLeadingIconColor = PrimaryFontColor
-                ),
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.email),
-                        contentDescription = "email icon",
-                        modifier = Modifier.size(25.dp)
+                }
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    OutlinedTextField(
+                        value = chatState.prompt,
+                        onValueChange = {
+                           chatViewModel.onEvent(ChatUiEvent.UpdatePrompt(it))
+                        },
+                        textStyle = TextStyle(
+                            fontFamily = ubuntu,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = PrimaryFontColor
+                        ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email
+                        ),
+                        singleLine = true,
+                        placeholder = {
+                            Text(
+                                text = "Type your Prompt",
+                                fontFamily = ubuntu,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = GrayColor
+                            )
+                        },
+                        shape = RoundedCornerShape(15.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedContainerColor = Color(0x1700CDBD),
+                            unfocusedContainerColor = Color(0xD8DFF5F3),
+                            unfocusedBorderColor = PrimaryColor,
+                            focusedBorderColor = PrimaryColor,
+                            focusedLeadingIconColor = PrimaryColor,
+                            unfocusedLeadingIconColor = PrimaryFontColor
+                        ),
+                        leadingIcon = {
+                            IconButton(onClick = {
+                                imagePicker.launch(
+                                    PickVisualMediaRequest
+                                        .Builder()
+                                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                        .build()
+                                )
+                            }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.select_image),
+                                    contentDescription = "add image",
+                                    tint = PrimaryColor,
+                                    modifier = Modifier
+                                        .size(35.dp)
+                                )
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp)
+                            .weight(4f),
                     )
-                },
-                modifier = Modifier.fillMaxWidth(),
-            )
+
+                    IconButton(onClick = {
+                        chatViewModel.onEvent(ChatUiEvent.SendPrompt(
+                            chatState.prompt,
+                            chatState.bitmap))
+                        uriState.update { "" } 
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.send_prompt),
+                            contentDescription = "send",
+                            tint = SecondaryFontColor,
+                            modifier = Modifier
+                                .size(70.dp)
+                                .weight(1f)
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(PrimaryColor)
+                                .padding(8.dp)
+                                .rotate(340f)
+                        )
+                    }
+
+                }
+            }
+
         }
 
     ) { it ->
@@ -181,17 +256,31 @@ fun ChatScreen(
                         UserChats(
                             prompt = item.prompt, bitmap = item.bitmap
                         )
-                    }else{
+                    } else {
                         AIChats(response = item.prompt)
                     }
 
                 }
             }
         }
-        
+
     }
 }
+@Composable
+fun getImage(uriState: MutableStateFlow<String>) :Bitmap? {
+    val uri = uriState.collectAsState().value
+    val imageState: AsyncImagePainter.State = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(uri)
+            .size(Size.ORIGINAL)
+            .build()
+    ).state
 
+    if (imageState is AsyncImagePainter.State.Success) {
+        return imageState.result.drawable.toBitmap()
+    }
+    return null
+}
 
 @Composable
 fun UserChats(prompt: String, bitmap: Bitmap?) {
@@ -248,3 +337,4 @@ fun AIChats(response: String) {
         )
     }
 }
+

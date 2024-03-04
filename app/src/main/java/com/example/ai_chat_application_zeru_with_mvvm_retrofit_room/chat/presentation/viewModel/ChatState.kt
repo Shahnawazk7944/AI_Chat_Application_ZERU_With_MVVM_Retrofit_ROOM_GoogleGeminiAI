@@ -6,5 +6,5 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.data.Ch
 data class ChatState(
     val chatList: MutableList<Chat> = mutableListOf(),
     val prompt: String = "",
-    val bitmap: Bitmap? = null,
+    var bitmap: Bitmap? = null,
 )
