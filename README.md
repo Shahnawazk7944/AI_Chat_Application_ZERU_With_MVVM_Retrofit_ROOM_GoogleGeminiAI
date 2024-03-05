@@ -47,7 +47,7 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 **I will implement this dribble UI design in my app.** **[Click Here to See](https://dribbble.com/shots/22958434-Bobo-Chatbot-Messenger-App-UI-Kit)**
 
 
-<div align="center"><video src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/105175e0-9287-4d36-acef-c259a5069515" height="400" ></video></div>
+<div align="center"><video src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/8a453e98-aac4-4427-8aef-d76e70c126fa" height="400" ></video></div>
 
 <p align="center">
 <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/691835ab-a984-4833-9646-107fa5e64114" width="220" height="400" >&nbsp;&nbsp;
