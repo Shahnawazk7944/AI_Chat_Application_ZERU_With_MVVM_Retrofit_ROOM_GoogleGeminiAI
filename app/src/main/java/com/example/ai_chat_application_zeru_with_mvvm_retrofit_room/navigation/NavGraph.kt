@@ -89,7 +89,7 @@ fun NavigationGraph(
             ChatScreen(
                 navController = navController,
                 imagePicker = imagePicker,
-                uriState = uriState
+                imageState = uriState
             )
         }
 

@@ -1,5 +1,6 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.Screen
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
@@ -7,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,10 +32,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -57,30 +56,30 @@ import coil.size.Size
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.viewModel.ChatUiEvent
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.viewModel.ChatViewModel
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AIChatBackgroundColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.LightGrayColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.SecondaryFontColor
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.rubik
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     navController: NavHostController,
     imagePicker: ActivityResultLauncher<PickVisualMediaRequest>,
-    uriState: MutableStateFlow<String>
+    imageState: MutableStateFlow<String>
 ) {
-    var prompt by remember {
-        mutableStateOf("")
-    }
+
     val chatViewModel = viewModel<ChatViewModel>()
     val chatState = chatViewModel.chatState.collectAsState().value
-
-   chatState.bitmap = getImage(uriState)
+    chatState.imageState = imageState
+    chatState.bitmap = getImage(chatState.imageState)
     Scaffold(
         topBar = {
             TopAppBar(
@@ -135,13 +134,32 @@ fun ChatScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                if (chatState.imageState.value.isNotEmpty()) {
+                    Box(
+                        Modifier.fillMaxWidth().padding(bottom = 1.dp),
+                        contentAlignment = Alignment.CenterEnd
+                    ) {
+                        IconButton(onClick = {
+                            chatState.imageState.update { "" }
+                        }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.cross),
+                                contentDescription = "cancel",
+                                tint = Color.Unspecified,
+                                modifier = Modifier
+                                    .size(22.dp)
+                            )
+                        }
+                    }
+                }
                 chatState.bitmap?.let {
                     Image(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(260.dp)
+                            .height(300.dp)
                             .padding(bottom = 2.dp)
-                            .clip(RoundedCornerShape(8.dp)),
+                            .padding(horizontal = 10.dp)
+                            .clip(RoundedCornerShape(12.dp)),
                         contentDescription = "null",
                         contentScale = ContentScale.Crop,
                         bitmap = it.asImageBitmap()
@@ -155,7 +173,7 @@ fun ChatScreen(
                     OutlinedTextField(
                         value = chatState.prompt,
                         onValueChange = {
-                           chatViewModel.onEvent(ChatUiEvent.UpdatePrompt(it))
+                            chatViewModel.onEvent(ChatUiEvent.UpdatePrompt(it))
                         },
                         textStyle = TextStyle(
                             fontFamily = ubuntu,
@@ -164,9 +182,25 @@ fun ChatScreen(
                             color = PrimaryFontColor
                         ),
                         keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Email
+                            keyboardType = KeyboardType.Text,
+                            // imeAction = ImeAction.Done,
+
+
                         ),
-                        singleLine = true,
+
+                        keyboardActions = KeyboardActions(
+                            onGo = null,
+//                            onDone = {
+//                                chatViewModel.onEvent(
+//                                    ChatUiEvent.SendPrompt(
+//                                        chatState.prompt,
+//                                        chatState.bitmap
+//                                    )
+//                                )
+//                                chatState.imageState.update { "" }
+//                            }
+                        ),
+                        singleLine = false,
                         placeholder = {
                             Text(
                                 text = "Type your Prompt",
@@ -210,10 +244,13 @@ fun ChatScreen(
                     )
 
                     IconButton(onClick = {
-                        chatViewModel.onEvent(ChatUiEvent.SendPrompt(
-                            chatState.prompt,
-                            chatState.bitmap))
-                        uriState.update { "" } 
+                        chatViewModel.onEvent(
+                            ChatUiEvent.SendPrompt(
+                                chatState.prompt,
+                                chatState.bitmap
+                            )
+                        )
+                        chatState.imageState.update { "" }
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.send_prompt),
@@ -235,6 +272,14 @@ fun ChatScreen(
         }
 
     ) { it ->
+        if (chatState.chatList.isEmpty()) {
+            chatViewModel.onEvent(
+                ChatUiEvent.SendPrompt(
+                    chatState.prompt,
+                    chatState.bitmap
+                )
+            )
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -249,7 +294,7 @@ fun ChatScreen(
                     .weight(1f)
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
-                reverseLayout = true
+                reverseLayout = false
             ) {
                 itemsIndexed(chatState.chatList) { index, item ->
                     if (item.isFromUser) {
@@ -266,8 +311,9 @@ fun ChatScreen(
 
     }
 }
+
 @Composable
-fun getImage(uriState: MutableStateFlow<String>) :Bitmap? {
+fun getImage(uriState: MutableStateFlow<String>): Bitmap? {
     val uri = uriState.collectAsState().value
     val imageState: AsyncImagePainter.State = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
@@ -286,14 +332,14 @@ fun getImage(uriState: MutableStateFlow<String>) :Bitmap? {
 fun UserChats(prompt: String, bitmap: Bitmap?) {
     Column(
         modifier = Modifier
-            .padding(start = 100.dp, bottom = 22.dp)
+            .padding(start = 100.dp, bottom = 22.dp,end = 2.dp)
     ) {
         bitmap?.let {
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(260.dp)
-                    .padding(bottom = 2.dp)
+                    .padding(bottom = 2.dp,)
                     .clip(RoundedCornerShape(12.dp)),
                 contentDescription = "null",
                 contentScale = ContentScale.Crop,
@@ -304,7 +350,7 @@ fun UserChats(prompt: String, bitmap: Bitmap?) {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(shape = RoundedCornerShape(15.dp, 15.dp, 0.dp, 15.dp))
+                .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 20.dp))
                 .background(PrimaryColor)
                 .padding(16.dp),
             text = prompt,
@@ -321,16 +367,16 @@ fun UserChats(prompt: String, bitmap: Bitmap?) {
 fun AIChats(response: String) {
     Column(
         modifier = Modifier
-            .padding(end = 100.dp, bottom = 22.dp)
+            .padding(end = 100.dp, bottom = 22.dp, start = 2.dp)
     ) {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(shape = RoundedCornerShape(0.dp, 15.dp, 15.dp, 15.dp))
-                .background(LightGrayColor)
+                .clip(shape = RoundedCornerShape(0.dp, 20.dp, 20.dp, 20.dp))
+                .background(AIChatBackgroundColor)
                 .padding(16.dp),
             text = response,
-            fontFamily = ubuntu,
+            fontFamily = rubik,
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             color = PrimaryFontColor,
