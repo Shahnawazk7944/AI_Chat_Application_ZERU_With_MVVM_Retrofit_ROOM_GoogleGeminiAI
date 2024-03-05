@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -80,6 +81,10 @@ fun ChatScreen(
     val chatState = chatViewModel.chatState.collectAsState().value
     chatState.imageState = imageState
     chatState.bitmap = getImage(chatState.imageState)
+
+    val listState = rememberLazyListState()
+
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -294,16 +299,19 @@ fun ChatScreen(
                     .weight(1f)
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),
+                state = listState,
                 reverseLayout = false
             ) {
                 itemsIndexed(chatState.chatList) { index, item ->
-                    if (item.isFromUser) {
-                        UserChats(
-                            prompt = item.prompt, bitmap = item.bitmap
-                        )
-                    } else {
-                        AIChats(response = item.prompt)
-                    }
+                        if (item.isFromUser) {
+                            UserChats(
+                                prompt = item.prompt, bitmap = item.bitmap
+                            )
+                        } else {
+                            AIChats(response = item.prompt)
+                        }
+
+
 
                 }
             }
@@ -311,6 +319,7 @@ fun ChatScreen(
 
     }
 }
+
 
 @Composable
 fun getImage(uriState: MutableStateFlow<String>): Bitmap? {
