@@ -78,12 +78,13 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 
 <p align="center">
   <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/cb5ff6d8-bd58-49d7-9f0c-13889ad0d8a3" width="220" height="400" >&nbsp;&nbsp;
-
+<img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/3bbd97d1-e1c0-46ed-85b3-2b01120537c4" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/3a06018c-6042-4935-9414-ffb205b4a4cd" width="220" height="400" >
 </p>
 
+<p align="center">
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/4edde661-96b6-4958-83c0-046175f7b793" width="220" height="400" >&nbsp;&nbsp;
+
 # Pending......
-
-
-
 
 
