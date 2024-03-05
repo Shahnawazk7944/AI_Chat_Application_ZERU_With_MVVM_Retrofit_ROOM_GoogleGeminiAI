@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.data.Chat
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.data.ChatData
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -13,7 +14,38 @@ import kotlinx.coroutines.launch
 class ChatViewModel : ViewModel() {
     private val _chatState = MutableStateFlow(ChatState())
     val chatState = _chatState.asStateFlow()
+init {
+    if (_chatState.value.chatList.isEmpty()){
+        viewModelScope.launch {
+            delay(2000)
+            _chatState.update {
+                it.copy(
+                    chatList = it.chatList.toMutableList().apply {
+                        add(Chat(prompt = "Hello, Shahnawaz!", bitmap = null, isFromUser = false))
+                    },
+                )
+            }
+            delay(2000)
 
+            _chatState.update {
+                it.copy(
+                    chatList = it.chatList.toMutableList().apply {
+                        add( Chat(prompt = "Welcome to the future of communication!", bitmap = null, isFromUser = false))
+                    },
+                )
+            }
+            delay(1000)
+
+            _chatState.update {
+                it.copy(
+                    chatList = it.chatList.toMutableList().apply {
+                        add( Chat(prompt = "I'm your AI assistant ZERU, ready to help you with anything you need. How can I help you today?", bitmap = null, isFromUser = false))
+                    },
+                )
+            }
+        }
+    }
+}
     fun onEvent(event: ChatUiEvent) {
         when (event) {
             is ChatUiEvent.SendPrompt -> {
@@ -25,6 +57,7 @@ class ChatViewModel : ViewModel() {
                     } else {
                         getResponse(event.prompt)
                     }
+
 
 
                 }
@@ -45,7 +78,7 @@ class ChatViewModel : ViewModel() {
         _chatState.update {
             it.copy(
                 chatList = it.chatList.toMutableList().apply {
-                    add(0, Chat(prompt = prompt, bitmap = bitmap, isFromUser = true))
+                    add( Chat(prompt = prompt, bitmap = bitmap, isFromUser = true))
                 },
                 prompt = "",
                 bitmap = null
@@ -60,7 +93,7 @@ class ChatViewModel : ViewModel() {
             _chatState.update {
                 it.copy(
                     chatList = it.chatList.toMutableList().apply {
-                        add(0, chat)
+                        add(chat)
                     }
                 )
             }
@@ -73,7 +106,7 @@ class ChatViewModel : ViewModel() {
             _chatState.update {
                 it.copy(
                     chatList = it.chatList.toMutableList().apply {
-                        add(0, chat)
+                        add( chat)
                     }
                 )
             }
