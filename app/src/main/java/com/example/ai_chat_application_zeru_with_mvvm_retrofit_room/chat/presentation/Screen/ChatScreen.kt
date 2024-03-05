@@ -32,7 +32,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -84,7 +87,15 @@ fun ChatScreen(
 
     val listState = rememberLazyListState()
 
+    LaunchedEffect(remember { derivedStateOf { listState.firstVisibleItemIndex } }, chatState.chatList) {
+        val lastItem = chatState.chatList.lastOrNull() ?: return@LaunchedEffect
 
+        val isLastItemVisible = listState.layoutInfo.visibleItemsInfo.any { it.index == lastItem.hashCode() }
+        if (!isLastItemVisible) {
+            val scrollTo = chatState.chatList.lastIndex
+            listState.animateScrollToItem(scrollTo)
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -173,7 +184,7 @@ fun ChatScreen(
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.Center, modifier = Modifier.padding(horizontal = 5.dp).padding(bottom = 4.dp)
                 ) {
                     OutlinedTextField(
                         value = chatState.prompt,
