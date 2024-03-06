@@ -25,12 +25,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -60,12 +59,9 @@ import coil.size.Size
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.viewModel.ChatUiEvent
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.viewModel.ChatViewModel
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AIChatBackgroundColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.SecondaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -98,51 +94,18 @@ fun ChatScreen(
     }
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        "Zeru",
-                        fontFamily = ubuntu,
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = PrimaryFontColor,
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navController.navigateUp()
-                    }) {
-
-                        Image(
-                            painter = painterResource(R.drawable.arrow_back),
-                            contentDescription = "back Icon", Modifier.size(18.dp)
-                        )
-                    }
-                },
-//                actions = {
-//                    IconButton(onClick = {
-//                        scop.launch {
-//                            dataStore.edit { preferences ->
-//                                preferences[KEY_REMEMBER_ME] = false
-//                            }
-//                        }
-//                        navController.navigate(Screen.GoogleSignIn.route) {
-//                            popUpTo(0) {
-//                                inclusive = true
-//                            }
-//                        }
-//                    }) {
-//                        Image(
-//                            painter = painterResource(R.drawable.logout),
-//                            contentDescription = "logout Icon",
-//                            modifier = Modifier.size(25.dp)
-//                        )
-//
-//                    }
-//                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = PrimaryBackground
+            MyTopAppBar(onClick = {
+                navController.navigateUp()
+            }, title = {
+                Text(
+                    "Zeru",
+                    fontFamily = ubuntu,
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = PrimaryFontColor,
                 )
+            },
+                action = {}
             )
         },
         bottomBar = {
@@ -152,7 +115,9 @@ fun ChatScreen(
             ) {
                 if (chatState.imageState.value.isNotEmpty()) {
                     Box(
-                        Modifier.fillMaxWidth().padding(bottom = 1.dp),
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 1.dp),
                         contentAlignment = Alignment.CenterEnd
                     ) {
                         IconButton(onClick = {
@@ -184,7 +149,9 @@ fun ChatScreen(
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center, modifier = Modifier.padding(horizontal = 5.dp).padding(bottom = 4.dp)
+                    horizontalArrangement = Arrangement.Center, modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .padding(bottom = 4.dp)
                 ) {
                     OutlinedTextField(
                         value = chatState.prompt,
@@ -195,7 +162,7 @@ fun ChatScreen(
                             fontFamily = ubuntu,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Normal,
-                            color = PrimaryFontColor
+                            color = MaterialTheme.colorScheme.secondary
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -223,17 +190,17 @@ fun ChatScreen(
                                 fontFamily = ubuntu,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Normal,
-                                color = GrayColor
+                                color = MaterialTheme.colorScheme.onError
                             )
                         },
                         shape = RoundedCornerShape(15.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedContainerColor = Color(0x1700CDBD),
-                            unfocusedContainerColor = Color(0xD8DFF5F3),
-                            unfocusedBorderColor = PrimaryColor,
-                            focusedBorderColor = PrimaryColor,
-                            focusedLeadingIconColor = PrimaryColor,
-                            unfocusedLeadingIconColor = PrimaryFontColor
+                            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            unfocusedBorderColor = Color.Transparent,
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+                            unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary
                         ),
                         leadingIcon = {
                             IconButton(onClick = {
@@ -271,7 +238,7 @@ fun ChatScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.send_prompt),
                             contentDescription = "send",
-                            tint = SecondaryFontColor,
+                            tint = MaterialTheme.colorScheme.secondary,
                             modifier = Modifier
                                 .size(70.dp)
                                 .weight(1f)
@@ -299,7 +266,7 @@ fun ChatScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(PrimaryBackground)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(it),
             //horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
@@ -371,13 +338,13 @@ fun UserChats(prompt: String, bitmap: Bitmap?) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 20.dp))
-                .background(PrimaryColor)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp),
             text = prompt,
             fontFamily = ubuntu,
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
-            color = SecondaryFontColor,
+            color = MaterialTheme.colorScheme.onSecondary,
         )
     }
 }
@@ -393,13 +360,13 @@ fun AIChats(response: String) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(0.dp, 20.dp, 20.dp, 20.dp))
-                .background(AIChatBackgroundColor)
+                .background(MaterialTheme.colorScheme.tertiary)
                 .padding(16.dp),
             text = response,
             fontFamily = poppins,
             fontSize = 20.sp,
             fontWeight = FontWeight.Normal,
-            color = PrimaryFontColor,
+            color = MaterialTheme.colorScheme.secondary,
         )
     }
 }
