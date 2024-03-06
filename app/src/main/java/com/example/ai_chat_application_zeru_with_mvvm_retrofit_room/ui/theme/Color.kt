@@ -36,13 +36,17 @@ val TextFieldColorFirst = Color(0x1700CDBD)
 val TextFieldColorSecond = Color(0xD8DFF5F3)
 
 //DarkColors
-val DarkPrimaryBackground = Color(0xFFf0ffff)
+val DarkPrimaryBackground = Color(0xFF1e0d07)
 val DarkPrimaryColor = Color(0xFF00CDBD)
-val DarkPrimaryFontColor = Color(0xFF1e0d07)
-val DarkSecondaryFontColor = Color(0xFFf0ffff)
+val DarkPrimaryFontColor = Color(0xFFf0ffff)
+val DarkSecondaryFontColor =  Color(0xFF1e0d07)
+
 val DarkAIChatBackgroundColor = Color(0x5EABD1D1)
+
 val DarkLightGrayColor = Color.LightGray
 val DarkGrayColor = Color.Gray
 val DarkPinkDark = Color(0xFFFF686C)
 val DarkTextFieldColorFirst = Color(0x1700CDBD)
-val DarkTextFieldColorSecond = Color(0xD8DFF5F3)
+
+val DarkTextFieldColorSecond = Color.LightGray
+//val DarkTextFieldColorSecond = Color(0xD8DFF5F3)

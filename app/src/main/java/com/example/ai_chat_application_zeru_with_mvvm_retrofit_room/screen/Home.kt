@@ -2,7 +2,6 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen
 
 import android.app.Activity
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,8 +44,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import kotlinx.coroutines.launch
@@ -108,13 +105,13 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(PrimaryBackground)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(paddingValues)
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Image(
+            Icon(
                 painter = painterResource(R.drawable.ai_intro_1),
                 contentDescription = "intro images",
                 modifier = Modifier
@@ -134,10 +131,10 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                     fontFamily = poppins,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
-                    color = PrimaryFontColor,
+                    color = MaterialTheme.colorScheme.secondary,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Image(
+                Icon(
                     painter = painterResource(id = R.drawable.hello),
                     contentDescription = "hand",
                     Modifier
@@ -154,7 +151,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 lineHeight = 40.sp,
-                color = PrimaryFontColor,
+                color = MaterialTheme.colorScheme.secondary,
             )
             Spacer(modifier = Modifier.height(15.dp))
 
@@ -164,7 +161,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Medium,
                 lineHeight = 40.sp,
-                color = PrimaryFontColor,
+                color = MaterialTheme.colorScheme.secondary,
 
             )
 
