@@ -1,7 +1,6 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen
 
 import android.app.Activity
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,15 +15,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,10 +34,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButton
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,20 +44,7 @@ fun GoogleSignIn(navController: NavHostController) {
     val activity = (LocalContext.current as? Activity)
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = {  activity?.finishAndRemoveTask() }) {
-                        Image(
-                            painter = painterResource(R.drawable.arrow_back),
-                            contentDescription = "back Icon", Modifier.size(18.dp)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = PrimaryBackground
-                )
-            )
+            MyTopAppBar(onClick = { activity?.finishAndRemoveTask()}, title = {})
         },
 
         ) { paddingValues ->
@@ -71,11 +53,11 @@ fun GoogleSignIn(navController: NavHostController) {
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(15.dp)
-                .background(PrimaryBackground),
+                .background(MaterialTheme.colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally,
             //verticalArrangement = Arrangement.Center
         ) {
-            Image(
+            Icon(
                 painter = painterResource(id = R.drawable.zeru),
                 contentDescription = "app icon",
                 modifier = Modifier
@@ -89,7 +71,7 @@ fun GoogleSignIn(navController: NavHostController) {
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Medium,
                 //lineHeight = 60.sp,
-                color = PrimaryFontColor,
+                color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 40.dp)
             )
@@ -117,7 +99,7 @@ fun GoogleSignIn(navController: NavHostController) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
-                    color = PrimaryFontColor,
+                    color = MaterialTheme.colorScheme.secondary,
                     textAlign = TextAlign.Center,
                 )
                 Divider(Modifier.weight(2f))
@@ -133,7 +115,7 @@ fun GoogleSignIn(navController: NavHostController) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onError,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.width(5.dp))
@@ -142,7 +124,7 @@ fun GoogleSignIn(navController: NavHostController) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = PrimaryColor,
+                    color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable { navController.navigate(Screen.SignUp.route) }
                 )

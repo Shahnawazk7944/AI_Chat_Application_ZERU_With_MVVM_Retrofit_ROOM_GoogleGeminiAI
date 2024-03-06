@@ -32,6 +32,8 @@ val AIChatBackgroundColor = Color(0x5EABD1D1)
 val LightGrayColor = Color.LightGray
 val GrayColor = Color.Gray
 val PinkDark = Color(0xFFFF686C)
+val TextFieldColorFirst = Color(0x1700CDBD)
+val TextFieldColorSecond = Color(0xD8DFF5F3)
 
 //DarkColors
 val DarkPrimaryBackground = Color(0xFFf0ffff)
@@ -42,3 +44,5 @@ val DarkAIChatBackgroundColor = Color(0x5EABD1D1)
 val DarkLightGrayColor = Color.LightGray
 val DarkGrayColor = Color.Gray
 val DarkPinkDark = Color(0xFFFF686C)
+val DarkTextFieldColorFirst = Color(0x1700CDBD)
+val DarkTextFieldColorSecond = Color(0xD8DFF5F3)

@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,8 +25,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 
 @Composable
@@ -44,7 +43,7 @@ fun ThirdPartyAuthButton(onClick: () -> Unit, eventText: String, icon: Int, modi
         ),
         border = BorderStroke(1.dp, color = Color.LightGray),
         colors = ButtonDefaults.buttonColors(
-            containerColor = PrimaryBackground,
+            containerColor = MaterialTheme.colorScheme.background,
             //contentColor = SecondaryFontColor
         )
     ) {
@@ -65,7 +64,7 @@ fun ThirdPartyAuthButton(onClick: () -> Unit, eventText: String, icon: Int, modi
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
-                color = PrimaryFontColor
+                color = MaterialTheme.colorScheme.secondary
             )
         }
     }

@@ -1,7 +1,6 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
 import android.util.Patterns.EMAIL_ADDRESS
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +21,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -30,8 +30,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -58,6 +56,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.SignUpViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.RoundedCornerCheckbox
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
@@ -102,7 +101,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            MyTopAppBar(
                 title = {
                     SnackbarHost(
                         hostState = snackbarState,
@@ -131,18 +130,10 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                         }
                     }
                 },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Image(
-                            painter = painterResource(R.drawable.arrow_back),
-                            contentDescription = "back Icon", Modifier.size(18.dp)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    //containerColor = Color.Red
-                    containerColor = PrimaryBackground
-                )
+                onClick = {
+                    navController.navigateUp()
+                }
+
             )
         },
 
@@ -164,7 +155,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 fontSize = 50.sp,
                 fontWeight = FontWeight.Medium,
                 lineHeight = 60.sp,
-                color = PrimaryFontColor,
+                color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
             )
@@ -178,7 +169,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
-                    color = PrimaryFontColor
+                    color = MaterialTheme.colorScheme.secondary
                 ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text
@@ -190,17 +181,17 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                         fontFamily = ubuntu,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = GrayColor
+                        color = MaterialTheme.colorScheme.onSecondary
                     )
                 },
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color(0x1700CDBD),
-                    unfocusedContainerColor = Color(0xD8DFF5F3),
+                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = PrimaryColor,
-                    focusedLeadingIconColor = PrimaryColor,
-                    unfocusedLeadingIconColor = PrimaryFontColor
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary
                 ),
                 leadingIcon = {
                     Icon(
@@ -238,12 +229,12 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 },
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color(0x1700CDBD),
-                    unfocusedContainerColor = Color(0xD8DFF5F3),
+                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = PrimaryColor,
-                    focusedLeadingIconColor = PrimaryColor,
-                    unfocusedLeadingIconColor = PrimaryFontColor
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary
                 ),
                 leadingIcon = {
                     Icon(
@@ -284,14 +275,14 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 singleLine = true,
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color(0x1700CDBD),
-                    unfocusedContainerColor = Color(0xD8DFF5F3),
+                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = PrimaryColor,
-                    focusedLeadingIconColor = PrimaryColor,
-                    unfocusedLeadingIconColor = PrimaryFontColor,
-                    focusedTrailingIconColor = PrimaryColor,
-                    unfocusedTrailingIconColor = PrimaryFontColor
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary,
+                    focusedTrailingIconColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTrailingIconColor = MaterialTheme.colorScheme.secondary
                 ),
                 leadingIcon = {
                     Icon(
@@ -393,10 +384,10 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
 
                             else -> {
                                 viewModel.viewModelScope.launch {
-                                    viewModel.signUp(name, email, password,checkedState)
+                                    viewModel.signUp(name, email, password, checkedState)
                                     viewModel.state.collectLatest { state ->
                                         if (state.loggedIn) {
-                                            navController.navigate(Screen.Home.route){
+                                            navController.navigate(Screen.Home.route) {
                                                 popUpTo(0)
                                             }
                                         } else {
