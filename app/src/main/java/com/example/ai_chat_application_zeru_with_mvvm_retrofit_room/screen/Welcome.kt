@@ -18,15 +18,13 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -39,9 +37,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.MainActivity
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import kotlinx.coroutines.launch
 
@@ -66,7 +61,7 @@ fun Welcome(navController: NavHostController, context: MainActivity) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(PrimaryBackground),
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -94,7 +89,7 @@ fun Welcome(navController: NavHostController, context: MainActivity) {
                     fontSize = 35.sp,
                     fontWeight = FontWeight.Medium,
                     lineHeight = 40.sp,
-                    color = PrimaryFontColor,
+                    color = MaterialTheme.colorScheme.secondary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = 40.dp)
                 )
@@ -165,7 +160,7 @@ fun IndicatorDot(isSelected: Boolean) {
             .height(15.dp)
             .width(width.value)
             .clip(CircleShape)
-            .background(if (isSelected) PrimaryColor else Color.Gray)
+            .background(if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onError)
     )
 }
 fun setOnboardingCompleted(context : MainActivity) {

@@ -22,8 +22,9 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = DarkSecondaryFontColor,    //secondary font as onSecondary
     tertiary = DarkAIChatBackgroundColor,    //AIChatBackground as tertiary
     error = DarkPinkDark,                     //PinkDark as error
-    onError = DarkGrayColor                     //GrayColor as onError
-
+    onError = DarkGrayColor,                     //GrayColor as onError
+    secondaryContainer = DarkTextFieldColorFirst, // TextField Focused color
+    onSecondaryContainer = DarkTextFieldColorSecond, // TextField unFocused color
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -33,7 +34,12 @@ private val LightColorScheme = lightColorScheme(
     onSecondary = SecondaryFontColor,    //secondary font as onSecondary
     tertiary = AIChatBackgroundColor,    //AIChatBackground as tertiary
     error = PinkDark,                     //PinkDark as error
-    onError = GrayColor                     //GrayColor as onError
+    onError = GrayColor,                    //GrayColor as onError
+    secondaryContainer = TextFieldColorFirst, // TextField Focused color
+    onSecondaryContainer = TextFieldColorSecond, // TextField unFocused color
+
+
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -67,7 +73,7 @@ fun AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOMTheme(
         SideEffect {
             val window = (view.context as Activity).window
             //window.statusBarColor = colorScheme.primary.toArgb()
-            window.statusBarColor = PrimaryColor.toArgb()
+            window.statusBarColor = colorScheme.background.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }

@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,8 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.SecondaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 
 @Composable
@@ -48,8 +47,8 @@ fun MainButton(
             pressedElevation = 3.dp
         ),
         colors = ButtonDefaults.buttonColors(
-            containerColor = PrimaryColor,
-            contentColor = SecondaryFontColor
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onSecondary
         )
     ) {
         if (!isLoading) {
@@ -74,7 +73,7 @@ fun MainButton(
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.width(10.dp))
-                CircularProgressIndicator(Modifier.size(40.dp), color = SecondaryFontColor)
+                CircularProgressIndicator(Modifier.size(40.dp), color = MaterialTheme.colorScheme.onSecondary)
             }
 
         }
