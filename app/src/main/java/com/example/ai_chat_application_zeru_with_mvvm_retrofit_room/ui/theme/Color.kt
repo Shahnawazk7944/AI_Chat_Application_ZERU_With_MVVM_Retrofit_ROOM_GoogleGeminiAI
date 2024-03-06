@@ -23,6 +23,7 @@ val ChocolateBrown = Color(0xFF3f000f)
 val RootBeer = Color(0xFF2c1608)
 val DarkBrown = Color(0xFF1e0d07)
 val PaleYellow = Color(0xFFffffbf)
+//lightColors
 val PrimaryBackground = Color(0xFFf0ffff)
 val PrimaryColor = Color(0xFF00CDBD)
 val PrimaryFontColor = Color(0xFF1e0d07)
@@ -31,3 +32,13 @@ val AIChatBackgroundColor = Color(0x5EABD1D1)
 val LightGrayColor = Color.LightGray
 val GrayColor = Color.Gray
 val PinkDark = Color(0xFFFF686C)
+
+//DarkColors
+val DarkPrimaryBackground = Color(0xFFf0ffff)
+val DarkPrimaryColor = Color(0xFF00CDBD)
+val DarkPrimaryFontColor = Color(0xFF1e0d07)
+val DarkSecondaryFontColor = Color(0xFFf0ffff)
+val DarkAIChatBackgroundColor = Color(0x5EABD1D1)
+val DarkLightGrayColor = Color.LightGray
+val DarkGrayColor = Color.Gray
+val DarkPinkDark = Color(0xFFFF686C)
