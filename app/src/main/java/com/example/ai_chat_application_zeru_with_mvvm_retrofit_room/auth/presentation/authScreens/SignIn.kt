@@ -1,7 +1,6 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.authScreens
 
 import android.util.Patterns.EMAIL_ADDRESS
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +21,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -30,8 +30,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -58,14 +56,9 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.auth.presentation.viewModel.LoginViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.RoundedCornerCheckbox
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PinkDark
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.SecondaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import com.example.androidjetpackcomposepracticeprojects.store.util.Event
 import com.example.androidjetpackcomposepracticeprojects.store.util.EventBus
@@ -98,7 +91,10 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
     }
     Scaffold(
         topBar = {
-            TopAppBar(
+            MyTopAppBar(
+                onClick = {
+                    navController.navigateUp()
+                },
                 title = {
                     SnackbarHost(
                         hostState = snackbarState,
@@ -109,13 +105,13 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                                     text = it.visuals.actionLabel!!,
                                     fontFamily = ubuntu,
                                     fontSize = 15.sp,
-                                    color = PrimaryFontColor,
+                                    color = MaterialTheme.colorScheme.secondary,
                                     fontWeight = FontWeight.Medium,
                                     modifier = Modifier.clickable { snackbarState.currentSnackbarData?.dismiss() }
                                 )
                             },
-                            containerColor = PinkDark,
-                            contentColor = SecondaryFontColor,
+                            containerColor = MaterialTheme.colorScheme.error,
+                            contentColor = MaterialTheme.colorScheme.onSecondary,
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
@@ -127,17 +123,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                         }
                     }
                 },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Image(
-                            painter = painterResource(R.drawable.arrow_back),
-                            contentDescription = "back Icon", Modifier.size(18.dp)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = PrimaryBackground
-                )
+                action = {}
             )
         },
 //        snackbarHost = {
@@ -156,9 +142,10 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(PrimaryBackground)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(paddingValues)
-                .padding(20.dp).verticalScroll(rememberScrollState()),
+                .padding(20.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top
         ) {
@@ -180,7 +167,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                 fontSize = 50.sp,
                 fontWeight = FontWeight.Medium,
                 lineHeight = 60.sp,
-                color = PrimaryFontColor,
+                color = MaterialTheme.colorScheme.secondary,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
             )
@@ -194,7 +181,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
-                    color = PrimaryFontColor
+                    color = MaterialTheme.colorScheme.secondary
                 ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email
@@ -206,17 +193,17 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                         fontFamily = ubuntu,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = GrayColor
+                        color = MaterialTheme.colorScheme.onError
                     )
                 },
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color(0x1700CDBD),
-                    unfocusedContainerColor = Color(0xD8DFF5F3),
+                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = PrimaryColor,
-                    focusedLeadingIconColor = PrimaryColor,
-                    unfocusedLeadingIconColor = PrimaryFontColor
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary
                 ),
                 leadingIcon = {
                     Icon(
@@ -239,7 +226,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
-                    color = PrimaryFontColor
+                    color = MaterialTheme.colorScheme.secondary
                 ),
 
                 placeholder = {
@@ -248,7 +235,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                         fontFamily = ubuntu,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = GrayColor
+                        color = MaterialTheme.colorScheme.onError
                     )
                 },
                 keyboardOptions = KeyboardOptions(
@@ -257,14 +244,14 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                 singleLine = true,
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color(0x1700CDBD),
-                    unfocusedContainerColor = Color(0xD8DFF5F3),
+                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = PrimaryColor,
-                    focusedLeadingIconColor = PrimaryColor,
-                    unfocusedLeadingIconColor = PrimaryFontColor,
-                    focusedTrailingIconColor = PrimaryColor,
-                    unfocusedTrailingIconColor = PrimaryFontColor
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
+                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary,
+                    focusedTrailingIconColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTrailingIconColor = MaterialTheme.colorScheme.secondary
                 ),
                 leadingIcon = {
                     Icon(
@@ -315,9 +302,9 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                 RoundedCornerCheckbox(
                     label = "Remember Me",
                     labelSize = 18.sp,
-                    labelColor = PrimaryFontColor,
-                    checkedColor = PrimaryColor,
-                    uncheckedColor = SecondaryFontColor,
+                    labelColor = MaterialTheme.colorScheme.secondary,
+                    checkedColor = MaterialTheme.colorScheme.primary,
+                    uncheckedColor = MaterialTheme.colorScheme.onSecondary,
                     isChecked = checkedState,
                     onValueChange = { checkedState = it },
                     modifier = Modifier.padding(10.dp)
@@ -410,7 +397,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
-                    color = GrayColor,
+                    color = MaterialTheme.colorScheme.onError,
                     textAlign = TextAlign.Center,
                 )
                 Divider(Modifier.weight(2f))
@@ -444,7 +431,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onError,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.width(5.dp))
@@ -453,7 +440,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = PrimaryColor,
+                    color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable {
                         navController.navigate(Screen.SignUp.route) {

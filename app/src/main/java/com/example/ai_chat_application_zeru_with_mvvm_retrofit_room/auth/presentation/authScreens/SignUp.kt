@@ -59,12 +59,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.compo
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.RoundedCornerCheckbox
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.GrayColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PinkDark
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.SecondaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import com.example.androidjetpackcomposepracticeprojects.store.util.Event
 import com.example.androidjetpackcomposepracticeprojects.store.util.EventBus
@@ -112,13 +106,13 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                                     text = it.visuals.actionLabel!!,
                                     fontFamily = ubuntu,
                                     fontSize = 12.sp,
-                                    color = PrimaryFontColor,
+                                    color = MaterialTheme.colorScheme.secondary,
                                     fontWeight = FontWeight.Medium,
                                     modifier = Modifier.clickable { snackbarState.currentSnackbarData?.dismiss() }
                                 )
                             },
-                            containerColor = PinkDark,
-                            contentColor = SecondaryFontColor,
+                            containerColor = MaterialTheme.colorScheme.error,
+                            contentColor = MaterialTheme.colorScheme.onSecondary,
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
@@ -132,8 +126,8 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 },
                 onClick = {
                     navController.navigateUp()
-                }
-
+                },
+                action = {}
             )
         },
 
@@ -141,7 +135,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(PrimaryBackground)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(paddingValues)
                 .padding(20.dp)
                 .verticalScroll(rememberScrollState()),
@@ -212,7 +206,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
-                    color = PrimaryFontColor
+                    color = MaterialTheme.colorScheme.secondary
                 ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email
@@ -224,7 +218,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                         fontFamily = ubuntu,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = GrayColor
+                        color = MaterialTheme.colorScheme.onSecondary
                     )
                 },
                 shape = RoundedCornerShape(15.dp),
@@ -257,7 +251,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
-                    color = PrimaryFontColor
+                    color = MaterialTheme.colorScheme.secondary
                 ),
 
                 placeholder = {
@@ -266,7 +260,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                         fontFamily = ubuntu,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = GrayColor
+                        color = MaterialTheme.colorScheme.onSecondary
                     )
                 },
                 keyboardOptions = KeyboardOptions(
@@ -332,9 +326,9 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 RoundedCornerCheckbox(
                     label = "Remember Me",
                     labelSize = 18.sp,
-                    labelColor = PrimaryFontColor,
-                    checkedColor = PrimaryColor,
-                    uncheckedColor = SecondaryFontColor,
+                    labelColor = MaterialTheme.colorScheme.secondary,
+                    checkedColor = MaterialTheme.colorScheme.primary,
+                    uncheckedColor = MaterialTheme.colorScheme.onSecondary,
                     isChecked = checkedState,
                     onValueChange = { checkedState = it },
                     modifier = Modifier.padding(10.dp)
@@ -454,7 +448,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
-                    color = GrayColor,
+                    color = MaterialTheme.colorScheme.onError,
                     textAlign = TextAlign.Center,
                 )
                 Divider(Modifier.weight(2f))
@@ -488,7 +482,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onError,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.width(5.dp))
@@ -497,7 +491,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = PrimaryColor,
+                    color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable {
                         navController.navigate(Screen.SignIn.route) {

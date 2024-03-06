@@ -44,7 +44,7 @@ fun GoogleSignIn(navController: NavHostController) {
     val activity = (LocalContext.current as? Activity)
     Scaffold(
         topBar = {
-            MyTopAppBar(onClick = { activity?.finishAndRemoveTask()}, title = {})
+            MyTopAppBar(onClick = { activity?.finishAndRemoveTask()}, title = {}, action = {})
         },
 
         ) { paddingValues ->

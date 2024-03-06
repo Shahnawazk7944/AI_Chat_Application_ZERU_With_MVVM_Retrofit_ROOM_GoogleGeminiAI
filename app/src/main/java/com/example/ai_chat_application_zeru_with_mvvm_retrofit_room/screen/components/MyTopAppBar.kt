@@ -1,5 +1,6 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components
 
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -17,7 +18,8 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 @Composable
 fun MyTopAppBar(
     onClick: () -> Unit,
-    title: @Composable () -> Unit
+    title: @Composable () -> Unit,
+    action: @Composable RowScope.() -> Unit
 ) {
     TopAppBar(
         title = title,
@@ -33,6 +35,7 @@ fun MyTopAppBar(
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background
-        )
+        ),
+        actions = action
     )
 }
