@@ -15,11 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -44,6 +44,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryBackground
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
@@ -58,30 +59,19 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
     val scop = rememberCoroutineScope()
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
+            MyTopAppBar(
+                onClick = {
+                    activity?.finish()
+                }, title = {
                     Text(
                         "Zeru",
                         fontFamily = ubuntu,
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
-                        color = PrimaryFontColor,
+                        color = MaterialTheme.colorScheme.secondary,
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = {
-
-                        activity?.finish()
-
-                    }) {
-
-                        Image(
-                            painter = painterResource(R.drawable.arrow_back),
-                            contentDescription = "back Icon", Modifier.size(18.dp)
-                        )
-                    }
-                },
-                actions = {
+                action = {
                     IconButton(onClick = {
                         scop.launch {
                             dataStore.edit { preferences ->
@@ -94,24 +84,22 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                             }
                         }
                     }) {
-                        Image(
+                        Icon(
                             painter = painterResource(R.drawable.logout),
                             contentDescription = "logout Icon",
                             modifier = Modifier.size(25.dp)
                         )
 
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = PrimaryBackground
-                )
-            )
+                })
         },
         bottomBar = {
             MainButton(
                 onClick = { navController.navigate(Screen.ChatDetails.route) },
                 eventText = "Start Chat with Zeru",
-                modifier = Modifier.padding(horizontal = 10.dp).padding(bottom = 30.dp)
+                modifier = Modifier
+                    .padding(horizontal = 10.dp)
+                    .padding(bottom = 30.dp)
             )
         }
 
@@ -152,7 +140,9 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                 Image(
                     painter = painterResource(id = R.drawable.hello),
                     contentDescription = "hand",
-                    Modifier.size(25.dp).rotate(320f)
+                    Modifier
+                        .size(25.dp)
+                        .rotate(320f)
                 )
             }
 
