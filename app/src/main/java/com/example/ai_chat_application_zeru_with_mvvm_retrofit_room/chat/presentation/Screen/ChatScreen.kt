@@ -66,7 +66,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.Pri
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.SecondaryFontColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.rubik
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
@@ -396,9 +396,9 @@ fun AIChats(response: String) {
                 .background(AIChatBackgroundColor)
                 .padding(16.dp),
             text = response,
-            fontFamily = rubik,
+            fontFamily = poppins,
             fontSize = 20.sp,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.Normal,
             color = PrimaryFontColor,
         )
     }
