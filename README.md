@@ -42,9 +42,6 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 - Build a functional and informative app showcasing skills learned.
 
 ### Screenshots/Visuals:
-![Screenshot_1709852230]()
-![Screenshot_1709852231]()
-![Screenshot_1709852234]()
 
 **I will implement this dribble UI design in my app.** **[Click Here to See](https://dribbble.com/shots/22958434-Bobo-Chatbot-Messenger-App-UI-Kit)**
 
