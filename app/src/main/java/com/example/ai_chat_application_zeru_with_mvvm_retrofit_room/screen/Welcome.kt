@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,6 +36,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.MainActivity
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import kotlinx.coroutines.launch
 
@@ -61,7 +61,7 @@ fun Welcome(navController: NavHostController, context: MainActivity) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(AppTheme.colors.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -89,7 +89,7 @@ fun Welcome(navController: NavHostController, context: MainActivity) {
                     fontSize = 35.sp,
                     fontWeight = FontWeight.Medium,
                     lineHeight = 40.sp,
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = AppTheme.colors.secondary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(bottom = 40.dp)
                 )
@@ -160,7 +160,7 @@ fun IndicatorDot(isSelected: Boolean) {
             .height(15.dp)
             .width(width.value)
             .clip(CircleShape)
-            .background(if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onError)
+            .background(if (isSelected) AppTheme.colors.primary else AppTheme.colors.onError)
     )
 }
 fun setOnboardingCompleted(context : MainActivity) {

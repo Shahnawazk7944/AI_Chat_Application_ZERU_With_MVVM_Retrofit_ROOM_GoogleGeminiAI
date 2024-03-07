@@ -16,12 +16,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +36,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.S
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButton
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,8 +44,9 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubu
 fun GoogleSignIn(navController: NavHostController) {
     val activity = (LocalContext.current as? Activity)
     Scaffold(
+        containerColor = AppTheme.colors.background,
         topBar = {
-            MyTopAppBar(onClick = { activity?.finishAndRemoveTask()}, title = {}, action = {})
+            MyTopAppBar(onClick = { activity?.finishAndRemoveTask() }, title = {}, action = {})
         },
 
         ) { paddingValues ->
@@ -53,13 +55,14 @@ fun GoogleSignIn(navController: NavHostController) {
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(15.dp)
-                .background(MaterialTheme.colorScheme.background),
+                .background(AppTheme.colors.background),
             horizontalAlignment = Alignment.CenterHorizontally,
             //verticalArrangement = Arrangement.Center
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.zeru),
                 contentDescription = "app icon",
+                tint = Color.Unspecified,
                 modifier = Modifier
                     .size(280.dp)
                     .fillMaxWidth()
@@ -71,7 +74,7 @@ fun GoogleSignIn(navController: NavHostController) {
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Medium,
                 //lineHeight = 60.sp,
-                color = MaterialTheme.colorScheme.secondary,
+                color = AppTheme.colors.secondary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 40.dp)
             )
@@ -85,7 +88,9 @@ fun GoogleSignIn(navController: NavHostController) {
             )
             ThirdPartyAuthButton(
                 onClick = {}, icon = R.drawable.apple,
-                eventText = "Continue with Apple", modifier = Modifier
+                eventText = "Continue with Apple",
+                iconColor = AppTheme.colors.secondary,
+                modifier = Modifier
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -99,15 +104,17 @@ fun GoogleSignIn(navController: NavHostController) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = AppTheme.colors.secondary,
                     textAlign = TextAlign.Center,
                 )
                 Divider(Modifier.weight(2f))
             }
             Spacer(modifier = Modifier.height(8.dp))
-            MainButton(onClick = {navController.navigate(Screen.SignIn.route)},
+            MainButton(
+                onClick = { navController.navigate(Screen.SignIn.route) },
                 eventText = "Sign In with Password",
-                modifier = Modifier)
+                modifier = Modifier
+            )
 
             Row(Modifier.padding(top = 8.dp)) {
                 Text(
@@ -115,7 +122,7 @@ fun GoogleSignIn(navController: NavHostController) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.onError,
+                    color = AppTheme.colors.onError,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.width(5.dp))
@@ -124,7 +131,7 @@ fun GoogleSignIn(navController: NavHostController) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = AppTheme.colors.primary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable { navController.navigate(Screen.SignUp.route) }
                 )

@@ -25,7 +25,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -60,6 +59,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.viewModel.ChatUiEvent
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.viewModel.ChatViewModel
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
@@ -162,7 +162,7 @@ fun ChatScreen(
                             fontFamily = ubuntu,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Normal,
-                            color = MaterialTheme.colorScheme.secondary
+                            color = AppTheme.colors.secondary
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -190,17 +190,17 @@ fun ChatScreen(
                                 fontFamily = ubuntu,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Normal,
-                                color = MaterialTheme.colorScheme.onError
+                                color = AppTheme.colors.onError
                             )
                         },
                         shape = RoundedCornerShape(15.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                            unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                            focusedContainerColor = AppTheme.colors.secondaryContainer,
+                            unfocusedContainerColor = AppTheme.colors.onSecondaryContainer,
                             unfocusedBorderColor = Color.Transparent,
-                            focusedBorderColor = MaterialTheme.colorScheme.primary,
-                            focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
-                            unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary
+                            focusedBorderColor = AppTheme.colors.primary,
+                            focusedLeadingIconColor = AppTheme.colors.primary,
+                            unfocusedLeadingIconColor = AppTheme.colors.secondary
                         ),
                         leadingIcon = {
                             IconButton(onClick = {
@@ -238,7 +238,7 @@ fun ChatScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.send_prompt),
                             contentDescription = "send",
-                            tint = MaterialTheme.colorScheme.secondary,
+                            tint = AppTheme.colors.secondary,
                             modifier = Modifier
                                 .size(70.dp)
                                 .weight(1f)
@@ -266,7 +266,7 @@ fun ChatScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(AppTheme.colors.background)
                 .padding(it),
             //horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Bottom
@@ -338,13 +338,13 @@ fun UserChats(prompt: String, bitmap: Bitmap?) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 20.dp))
-                .background(MaterialTheme.colorScheme.background)
+                .background(AppTheme.colors.background)
                 .padding(16.dp),
             text = prompt,
             fontFamily = ubuntu,
             fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onSecondary,
+            color = AppTheme.colors.onSecondary,
         )
     }
 }
@@ -360,13 +360,13 @@ fun AIChats(response: String) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(0.dp, 20.dp, 20.dp, 20.dp))
-                .background(MaterialTheme.colorScheme.tertiary)
+                .background(AppTheme.colors.tertiary)
                 .padding(16.dp),
             text = response,
             fontFamily = poppins,
             fontSize = 20.sp,
             fontWeight = FontWeight.Normal,
-            color = MaterialTheme.colorScheme.secondary,
+            color = AppTheme.colors.secondary,
         )
     }
 }

@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +43,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.R
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import kotlinx.coroutines.launch
@@ -65,7 +65,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                         fontFamily = ubuntu,
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = AppTheme.colors.secondary,
                     )
                 },
                 action = {
@@ -105,7 +105,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(AppTheme.colors.background)
                 .padding(paddingValues)
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -131,7 +131,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                     fontFamily = poppins,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = AppTheme.colors.secondary,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Icon(
@@ -151,7 +151,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 lineHeight = 40.sp,
-                color = MaterialTheme.colorScheme.secondary,
+                color = AppTheme.colors.secondary,
             )
             Spacer(modifier = Modifier.height(15.dp))
 
@@ -161,7 +161,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Medium,
                 lineHeight = 40.sp,
-                color = MaterialTheme.colorScheme.secondary,
+                color = AppTheme.colors.secondary,
 
             )
 

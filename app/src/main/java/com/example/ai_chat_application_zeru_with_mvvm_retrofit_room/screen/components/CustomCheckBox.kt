@@ -1,5 +1,6 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandHorizontally
@@ -37,7 +38,7 @@ fun RoundedCornerCheckbox(
     labelSize: TextUnit = 18.sp,
     labelColor: Color = Color.Black,
     isChecked: Boolean,
-    modifier: Modifier = Modifier,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
     size: Float = 24f,
     checkedColor: Color = Color.Blue,
     uncheckedColor: Color = Color.Black,

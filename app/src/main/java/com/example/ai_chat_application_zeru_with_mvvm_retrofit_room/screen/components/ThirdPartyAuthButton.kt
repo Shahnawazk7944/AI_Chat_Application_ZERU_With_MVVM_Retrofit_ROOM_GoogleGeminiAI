@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,10 +24,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 
 @Composable
-fun ThirdPartyAuthButton(onClick: () -> Unit, eventText: String, icon: Int, modifier: Modifier) {
+fun ThirdPartyAuthButton(
+    onClick: () -> Unit,
+    eventText: String,
+    icon: Int,
+    iconColor:Color = Color.Unspecified,
+    modifier: Modifier
+) {
     Button(
         onClick = onClick,
         modifier = modifier
@@ -43,7 +49,7 @@ fun ThirdPartyAuthButton(onClick: () -> Unit, eventText: String, icon: Int, modi
         ),
         border = BorderStroke(1.dp, color = Color.LightGray),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = AppTheme.colors.background,
             //contentColor = SecondaryFontColor
         )
     ) {
@@ -55,7 +61,7 @@ fun ThirdPartyAuthButton(onClick: () -> Unit, eventText: String, icon: Int, modi
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = "null",
-                tint = Color.Unspecified, modifier = Modifier.size(30.dp)
+                tint = iconColor, modifier = Modifier.size(30.dp)
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
@@ -64,7 +70,7 @@ fun ThirdPartyAuthButton(onClick: () -> Unit, eventText: String, icon: Int, modi
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.secondary
+                color = AppTheme.colors.secondary
             )
         }
     }
