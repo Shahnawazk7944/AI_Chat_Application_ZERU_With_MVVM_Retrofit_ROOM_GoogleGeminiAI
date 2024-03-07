@@ -29,7 +29,7 @@ class UserLoginRepositoryImpl @Inject constructor(
         Log.d("check2", "function called")
         return try {
             val result = auth.signInWithEmailAndPassword(email, password).await()
-            delay(10000)
+            delay(3000)
             if (result.user != null) {
                 Log.e("isRemembered", "$rememberMe")
                 dataStore.edit { preferences ->
