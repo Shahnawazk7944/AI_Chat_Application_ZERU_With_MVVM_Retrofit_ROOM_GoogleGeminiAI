@@ -4,7 +4,7 @@
     <style name="Theme.AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM" parent="android:Theme.Material.Light.NoActionBar" />
 
     <style name="Theme.MySplashScreen" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/azure_mist</item>
+        <item name="windowSplashScreenBackground">@color/dark_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/zeru_288_dp</item>
         <item name="postSplashScreenTheme">
             @style/Theme.AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM

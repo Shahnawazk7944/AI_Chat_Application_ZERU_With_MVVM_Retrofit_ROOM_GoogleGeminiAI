@@ -200,15 +200,15 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor =AppTheme.colors.secondary,
-                    unfocusedTextColor = AppTheme.colors.onSecondary,
+                    unfocusedTextColor = AppTheme.colors.secondary,
                     focusedContainerColor = AppTheme.colors.secondaryContainer,
                     unfocusedContainerColor = AppTheme.colors.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
                     focusedBorderColor = AppTheme.colors.primary,
                     focusedPlaceholderColor = AppTheme.colors.secondary,
-                    unfocusedPlaceholderColor =AppTheme.colors.onSecondary ,
+                    unfocusedPlaceholderColor =AppTheme.colors.onError ,
                     focusedLeadingIconColor = AppTheme.colors.primary,
-                    unfocusedLeadingIconColor = AppTheme.colors.onSecondary,
+                    unfocusedLeadingIconColor = AppTheme.colors.onError,
                 ),
                 leadingIcon = {
                     Icon(
@@ -250,17 +250,17 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor =AppTheme.colors.secondary,
-                    unfocusedTextColor = AppTheme.colors.onSecondary,
+                    unfocusedTextColor = AppTheme.colors.secondary,
                     focusedContainerColor = AppTheme.colors.secondaryContainer,
                     unfocusedContainerColor = AppTheme.colors.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
                     focusedBorderColor = AppTheme.colors.primary,
                     focusedPlaceholderColor = AppTheme.colors.secondary,
-                    unfocusedPlaceholderColor =AppTheme.colors.onSecondary ,
+                    unfocusedPlaceholderColor =AppTheme.colors.onError ,
                     focusedLeadingIconColor = AppTheme.colors.primary,
-                    unfocusedLeadingIconColor = AppTheme.colors.onSecondary,
+                    unfocusedLeadingIconColor = AppTheme.colors.onError,
                     focusedTrailingIconColor = AppTheme.colors.primary,
-                    unfocusedTrailingIconColor = AppTheme.colors.onSecondary
+                    unfocusedTrailingIconColor = AppTheme.colors.onError
                 ),
                 leadingIcon = {
                     Icon(
@@ -313,7 +313,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                     labelSize = 18.sp,
                     labelColor = AppTheme.colors.secondary,
                     checkedColor = AppTheme.colors.primary,
-                    uncheckedColor = AppTheme.colors.onSecondary,
+                    uncheckedColor = AppTheme.colors.background,
                     isChecked = checkedState,
                     onValueChange = { checkedState = it },
                     modifier = Modifier.padding(10.dp)
