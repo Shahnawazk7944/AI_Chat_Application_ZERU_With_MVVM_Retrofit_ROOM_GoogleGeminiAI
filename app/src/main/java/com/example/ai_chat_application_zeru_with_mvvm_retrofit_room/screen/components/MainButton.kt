@@ -48,7 +48,9 @@ fun MainButton(
         ),
         colors = ButtonDefaults.buttonColors(
             containerColor = AppTheme.colors.primary,
-            contentColor = AppTheme.colors.onSecondary
+            contentColor = AppTheme.colors.onSecondary,
+            disabledContainerColor = AppTheme.colors.onError,
+            disabledContentColor = AppTheme.colors.onSecondary
         )
     ) {
         if (!isLoading) {
@@ -73,7 +75,7 @@ fun MainButton(
                     textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.width(10.dp))
-                CircularProgressIndicator(Modifier.size(40.dp), color = AppTheme.colors.onSecondary)
+                CircularProgressIndicator(Modifier.size(40.dp), color = AppTheme.colors.secondary)
             }
 
         }

@@ -112,7 +112,7 @@ fun SignIn(navController: NavHostController, viewModel: LoginViewModel) {
                                 )
                             },
                             containerColor = AppTheme.colors.error,
-                            contentColor = AppTheme.colors.onSecondary,
+                            contentColor = AppTheme.colors.secondary,
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
