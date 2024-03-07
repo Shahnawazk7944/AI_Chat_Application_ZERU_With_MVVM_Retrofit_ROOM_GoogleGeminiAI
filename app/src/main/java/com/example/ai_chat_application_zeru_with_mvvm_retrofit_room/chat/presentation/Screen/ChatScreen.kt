@@ -162,7 +162,7 @@ fun ChatScreen(
                             fontFamily = ubuntu,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Normal,
-                            color = AppTheme.colors.secondary
+                            //color = AppTheme.colors.secondary
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -190,17 +190,21 @@ fun ChatScreen(
                                 fontFamily = ubuntu,
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Normal,
-                                color = AppTheme.colors.onError
+                                //color = AppTheme.colors.onError
                             )
                         },
                         shape = RoundedCornerShape(15.dp),
                         colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor =AppTheme.colors.secondary,
+                            unfocusedTextColor = AppTheme.colors.secondary,
                             focusedContainerColor = AppTheme.colors.secondaryContainer,
                             unfocusedContainerColor = AppTheme.colors.onSecondaryContainer,
                             unfocusedBorderColor = Color.Transparent,
                             focusedBorderColor = AppTheme.colors.primary,
+                            focusedPlaceholderColor = AppTheme.colors.secondary,
+                            unfocusedPlaceholderColor =AppTheme.colors.onError ,
                             focusedLeadingIconColor = AppTheme.colors.primary,
-                            unfocusedLeadingIconColor = AppTheme.colors.secondary
+                            unfocusedLeadingIconColor = AppTheme.colors.onError,
                         ),
                         leadingIcon = {
                             IconButton(onClick = {
@@ -214,7 +218,7 @@ fun ChatScreen(
                                 Icon(
                                     painter = painterResource(id = R.drawable.select_image),
                                     contentDescription = "add image",
-                                    tint = PrimaryColor,
+                                   tint = PrimaryColor,
                                     modifier = Modifier
                                         .size(35.dp)
                                 )
@@ -338,7 +342,7 @@ fun UserChats(prompt: String, bitmap: Bitmap?) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 20.dp))
-                .background(AppTheme.colors.background)
+                .background(AppTheme.colors.primary)
                 .padding(16.dp),
             text = prompt,
             fontFamily = ubuntu,

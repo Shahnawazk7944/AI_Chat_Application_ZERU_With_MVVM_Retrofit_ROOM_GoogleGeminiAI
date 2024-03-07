@@ -23,6 +23,8 @@ val ChocolateBrown = Color(0xFF3f000f)
 val RootBeer = Color(0xFF2c1608)
 val DarkBrown = Color(0xFF1e0d07)
 val PaleYellow = Color(0xFFffffbf)
+
+
 //lightColors
 val PrimaryBackground = Color(0xFFf0ffff)
 val PrimaryColor = Color(0xFF00CDBD)
@@ -47,6 +49,5 @@ val DarkLightGrayColor = Color.LightGray
 val DarkGrayColor = Color.Gray
 val DarkPinkDark = Color(0xFFFF686C)
 val DarkTextFieldColorFirst = Color(0x1700CDBD)
-
-val DarkTextFieldColorSecond = Color.LightGray
+val DarkTextFieldColorSecond = Color(0xCE505050)
 //val DarkTextFieldColorSecond = Color(0xD8DFF5F3)
