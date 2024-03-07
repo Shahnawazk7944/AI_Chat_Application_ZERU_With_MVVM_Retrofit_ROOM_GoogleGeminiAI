@@ -42,19 +42,25 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 - Build a functional and informative app showcasing skills learned.
 
 ### Screenshots/Visuals:
-
+![Screenshot_1709852230]()
+![Screenshot_1709852231]()
+![Screenshot_1709852234]()
 
 **I will implement this dribble UI design in my app.** **[Click Here to See](https://dribbble.com/shots/22958434-Bobo-Chatbot-Messenger-App-UI-Kit)**
-
 
 <div align="center"><video src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/55f0467a-3011-46a5-81ca-10a45f108ddd" height="400" ></video></div>
 
 <p align="center">
-<img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/691835ab-a984-4833-9646-107fa5e64114" width="220" height="400" >&nbsp;&nbsp;
-  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/c8fd93a0-f0e5-43ce-a3d8-7fc88c1570ec" width="220" height="400" >&nbsp;&nbsp;
-  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/62d7dcb1-5362-49eb-ae70-c82f5962fd25" width="220" height="400" >
+<img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/372ddd37-6c10-4fa4-83a7-e3119464b207" width="220" height="400" >&nbsp;&nbsp;
+ <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/dfee9e97-14a3-4205-9e69-1c068524e855" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/e0e32e03-a0cb-4d14-94de-3a5990d236db" width="220" height="400" >
 </p>
 
+<p align="center">
+<img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/691835ab-a984-4833-9646-107fa5e64114" width="220" height="400" >&nbsp;&nbsp;
+ <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/c8fd93a0-f0e5-43ce-a3d8-7fc88c1570ec" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/62d7dcb1-5362-49eb-ae70-c82f5962fd25" width="220" height="400" >
+</p>
 
 <p align="center">
   <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/d78a3c5d-a94b-4bad-bf9b-cdccf12dc48a" width="220" height="400" >&nbsp;&nbsp;
@@ -89,7 +95,13 @@ Imagine having a witty, knowledgeable, and ever-evolving AI companion right in y
 
 <p align="center">
   <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/b1169bf3-624e-4d11-b2a4-3895a7be59b0" width="220" height="400" >&nbsp;&nbsp;
-<img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/093448bb-53e9-436b-be6b-80c5bc3d5b03" width="220" height="400" >&nbsp;&nbsp;
+ <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/c0841ef3-92fc-49c9-becb-511a0d618bc3" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/c3d112ca-997c-48ee-9c63-683b9cc3e22c" width="220" height="400" >
+</p>
+
+<p align="center">
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/fb3111cc-2096-47d2-9711-80333cd440cd" width="220" height="400" >&nbsp;&nbsp;
+  <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/093448bb-53e9-436b-be6b-80c5bc3d5b03" width="220" height="400" >&nbsp;&nbsp;
   <img src="https://github.com/Shahnawazk7944/AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOM_GoogleGeminiAI/assets/74444644/03b75280-998f-4bd8-b25c-adba437723b2" width="220" height="400" >
 </p>
 
