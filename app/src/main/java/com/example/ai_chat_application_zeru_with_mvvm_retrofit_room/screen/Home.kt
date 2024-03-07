@@ -23,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -55,6 +56,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
     val KEY_REMEMBER_ME = booleanPreferencesKey("rememberMe")
     val scop = rememberCoroutineScope()
     Scaffold(
+        containerColor = AppTheme.colors.background,
         topBar = {
             MyTopAppBar(
                 onClick = {
@@ -84,6 +86,8 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                         Icon(
                             painter = painterResource(R.drawable.logout),
                             contentDescription = "logout Icon",
+                            tint = Color.Unspecified,
+
                             modifier = Modifier.size(25.dp)
                         )
 
@@ -114,6 +118,7 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
             Icon(
                 painter = painterResource(R.drawable.ai_intro_1),
                 contentDescription = "intro images",
+                tint = Color.Unspecified,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(450.dp),
@@ -137,7 +142,8 @@ fun Home(navController: NavHostController, dataStore: DataStore<Preferences>) {
                 Icon(
                     painter = painterResource(id = R.drawable.hello),
                     contentDescription = "hand",
-                    Modifier
+                    tint = Color.Unspecified,
+                    modifier = Modifier
                         .size(25.dp)
                         .rotate(320f)
                 )
