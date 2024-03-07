@@ -21,7 +21,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -59,6 +58,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.compo
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.RoundedCornerCheckbox
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.ThirdPartyAuthButtonWithOutTitle
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import com.example.androidjetpackcomposepracticeprojects.store.util.Event
 import com.example.androidjetpackcomposepracticeprojects.store.util.EventBus
@@ -94,6 +94,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
     }
 
     Scaffold(
+        containerColor = AppTheme.colors.background,
         topBar = {
             MyTopAppBar(
                 title = {
@@ -106,13 +107,13 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                                     text = it.visuals.actionLabel!!,
                                     fontFamily = ubuntu,
                                     fontSize = 12.sp,
-                                    color = MaterialTheme.colorScheme.secondary,
+                                    color = AppTheme.colors.secondary,
                                     fontWeight = FontWeight.Medium,
                                     modifier = Modifier.clickable { snackbarState.currentSnackbarData?.dismiss() }
                                 )
                             },
-                            containerColor = MaterialTheme.colorScheme.error,
-                            contentColor = MaterialTheme.colorScheme.onSecondary,
+                            containerColor = AppTheme.colors.error,
+                            contentColor = AppTheme.colors.onSecondary,
                             shape = RoundedCornerShape(12.dp)
                         ) {
                             Text(
@@ -135,7 +136,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(AppTheme.colors.background)
                 .padding(paddingValues)
                 .padding(20.dp)
                 .verticalScroll(rememberScrollState()),
@@ -149,7 +150,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 fontSize = 50.sp,
                 fontWeight = FontWeight.Medium,
                 lineHeight = 60.sp,
-                color = MaterialTheme.colorScheme.secondary,
+                color = AppTheme.colors.secondary,
                 textAlign = TextAlign.Start,
                 modifier = Modifier
             )
@@ -163,7 +164,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.secondary
+                    //color = AppTheme.colors.secondary
                 ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text
@@ -175,17 +176,21 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                         fontFamily = ubuntu,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = MaterialTheme.colorScheme.onSecondary
+                        //color = AppTheme.colors.secondary
                     )
                 },
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    focusedTextColor =AppTheme.colors.secondary,
+                    unfocusedTextColor = AppTheme.colors.onSecondary,
+                    focusedContainerColor = AppTheme.colors.secondaryContainer,
+                    unfocusedContainerColor = AppTheme.colors.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
-                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary
+                    focusedBorderColor = AppTheme.colors.primary,
+                    focusedPlaceholderColor = AppTheme.colors.secondary,
+                    unfocusedPlaceholderColor =AppTheme.colors.onSecondary ,
+                    focusedLeadingIconColor = AppTheme.colors.primary,
+                    unfocusedLeadingIconColor = AppTheme.colors.onSecondary
                 ),
                 leadingIcon = {
                     Icon(
@@ -206,7 +211,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.secondary
+                    //color = AppTheme.colors.secondary
                 ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email
@@ -218,17 +223,21 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                         fontFamily = ubuntu,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = MaterialTheme.colorScheme.onSecondary
+                        //color = AppTheme.colors.onSecondary
                     )
                 },
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    focusedTextColor =AppTheme.colors.secondary,
+                    unfocusedTextColor = AppTheme.colors.onSecondary,
+                    focusedContainerColor = AppTheme.colors.secondaryContainer,
+                    unfocusedContainerColor = AppTheme.colors.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
-                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary
+                    focusedBorderColor = AppTheme.colors.primary,
+                    focusedPlaceholderColor = AppTheme.colors.secondary,
+                    unfocusedPlaceholderColor =AppTheme.colors.onSecondary ,
+                    focusedLeadingIconColor = AppTheme.colors.primary,
+                    unfocusedLeadingIconColor = AppTheme.colors.onSecondary
                 ),
                 leadingIcon = {
                     Icon(
@@ -251,7 +260,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.secondary
+                    //color = AppTheme.colors.secondary
                 ),
 
                 placeholder = {
@@ -260,7 +269,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                         fontFamily = ubuntu,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
-                        color = MaterialTheme.colorScheme.onSecondary
+                        //color = AppTheme.colors.onSecondary
                     )
                 },
                 keyboardOptions = KeyboardOptions(
@@ -269,14 +278,18 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 singleLine = true,
                 shape = RoundedCornerShape(15.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    unfocusedContainerColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                    focusedTextColor =AppTheme.colors.secondary,
+                    unfocusedTextColor = AppTheme.colors.onSecondary,
+                    focusedContainerColor = AppTheme.colors.secondaryContainer,
+                    unfocusedContainerColor = AppTheme.colors.onSecondaryContainer,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = MaterialTheme.colorScheme.primary,
-                    focusedLeadingIconColor = MaterialTheme.colorScheme.primary,
-                    unfocusedLeadingIconColor = MaterialTheme.colorScheme.secondary,
-                    focusedTrailingIconColor = MaterialTheme.colorScheme.primary,
-                    unfocusedTrailingIconColor = MaterialTheme.colorScheme.secondary
+                    focusedBorderColor = AppTheme.colors.primary,
+                    focusedPlaceholderColor = AppTheme.colors.secondary,
+                    unfocusedPlaceholderColor =AppTheme.colors.onSecondary ,
+                    focusedLeadingIconColor = AppTheme.colors.primary,
+                    unfocusedLeadingIconColor = AppTheme.colors.onSecondary,
+                    focusedTrailingIconColor = AppTheme.colors.primary,
+                    unfocusedTrailingIconColor = AppTheme.colors.onSecondary
                 ),
                 leadingIcon = {
                     Icon(
@@ -326,9 +339,9 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                 RoundedCornerCheckbox(
                     label = "Remember Me",
                     labelSize = 18.sp,
-                    labelColor = MaterialTheme.colorScheme.secondary,
-                    checkedColor = MaterialTheme.colorScheme.primary,
-                    uncheckedColor = MaterialTheme.colorScheme.onSecondary,
+                    labelColor = AppTheme.colors.secondary,
+                    checkedColor = AppTheme.colors.primary,
+                    uncheckedColor = AppTheme.colors.onSecondary,
                     isChecked = checkedState,
                     onValueChange = { checkedState = it },
                     modifier = Modifier.padding(10.dp)
@@ -448,7 +461,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.onError,
+                    color = AppTheme.colors.onError,
                     textAlign = TextAlign.Center,
                 )
                 Divider(Modifier.weight(2f))
@@ -466,6 +479,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     onClick = { /*TODO*/ }, icon = R.drawable.facebook, modifier = Modifier
                 )
                 ThirdPartyAuthButtonWithOutTitle(
+                    iconColor = AppTheme.colors.secondary,
                     onClick = { /*TODO*/ }, icon = R.drawable.apple, modifier = Modifier
                 )
             }
@@ -482,7 +496,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.onError,
+                    color = AppTheme.colors.onError,
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.width(5.dp))
@@ -491,7 +505,7 @@ fun SignUp(navController: NavHostController, viewModel: SignUpViewModel) {
                     fontFamily = ubuntu,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = AppTheme.colors.primary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.clickable {
                         navController.navigate(Screen.SignIn.route) {

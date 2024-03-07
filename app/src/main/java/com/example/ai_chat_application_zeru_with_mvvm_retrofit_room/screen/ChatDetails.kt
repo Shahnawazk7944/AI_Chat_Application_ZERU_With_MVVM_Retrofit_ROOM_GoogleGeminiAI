@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +18,7 @@ import androidx.navigation.NavHostController
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.Screen
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MainButton
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 
@@ -56,7 +56,7 @@ fun ChatDetails(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(AppTheme.colors.background)
                 .padding(it),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -66,7 +66,7 @@ fun ChatDetails(navController: NavHostController) {
                 fontFamily = ubuntu,
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.secondary,
+                color = AppTheme.colors.secondary,
             )
         }
     }

@@ -13,18 +13,19 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 
 @Composable
 fun ThirdPartyAuthButtonWithOutTitle(
     onClick: () -> Unit,
     icon: Int,
+    iconColor:Color = Color.Unspecified,
     modifier: Modifier
 ) {
     Button(
@@ -40,7 +41,7 @@ fun ThirdPartyAuthButtonWithOutTitle(
         ),
         border = BorderStroke(1.dp, color = Color.LightGray),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = AppTheme.colors.background,
             //contentColor = SecondaryFontColor
         )
     ) {
@@ -52,7 +53,7 @@ fun ThirdPartyAuthButtonWithOutTitle(
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = "null",
-                tint = Color.Unspecified, modifier = Modifier.size(40.dp)
+                tint = iconColor, modifier = Modifier.size(40.dp)
             )
         }
     }
