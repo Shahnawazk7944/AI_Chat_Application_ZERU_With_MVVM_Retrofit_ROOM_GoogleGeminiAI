@@ -3,7 +3,9 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -64,9 +66,17 @@ fun ChatDetails(navController: NavHostController) {
             Text(
                 "ChatDetails Page",
                 fontFamily = ubuntu,
-                fontSize = 40.sp,
+                fontSize = 30.sp,
                 fontWeight = FontWeight.Medium,
                 color = AppTheme.colors.secondary,
+            ) 
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                    "Coming Soon....",
+            fontFamily = ubuntu,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.Medium,
+            color = AppTheme.colors.secondary,
             )
         }
     }

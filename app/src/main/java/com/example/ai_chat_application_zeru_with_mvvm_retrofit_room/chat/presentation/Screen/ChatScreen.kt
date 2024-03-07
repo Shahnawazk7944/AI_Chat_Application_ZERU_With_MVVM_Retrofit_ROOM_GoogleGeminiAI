@@ -7,6 +7,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,12 +29,17 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -61,11 +67,11 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.present
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.screen.components.MyTopAppBar
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
-import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryFontColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +81,10 @@ fun ChatScreen(
     imagePicker: ActivityResultLauncher<PickVisualMediaRequest>,
     imageState: MutableStateFlow<String>
 ) {
-
+    val scope = rememberCoroutineScope()
+    val snackbarState = remember {
+        SnackbarHostState()
+    }
     val chatViewModel = viewModel<ChatViewModel>()
     val chatState = chatViewModel.chatState.collectAsState().value
     chatState.imageState = imageState
@@ -83,10 +92,14 @@ fun ChatScreen(
 
     val listState = rememberLazyListState()
 
-    LaunchedEffect(remember { derivedStateOf { listState.firstVisibleItemIndex } }, chatState.chatList) {
+    LaunchedEffect(
+        remember { derivedStateOf { listState.firstVisibleItemIndex } },
+        chatState.chatList
+    ) {
         val lastItem = chatState.chatList.lastOrNull() ?: return@LaunchedEffect
 
-        val isLastItemVisible = listState.layoutInfo.visibleItemsInfo.any { it.index == lastItem.hashCode() }
+        val isLastItemVisible =
+            listState.layoutInfo.visibleItemsInfo.any { it.index == lastItem.hashCode() }
         if (!isLastItemVisible) {
             val scrollTo = chatState.chatList.lastIndex
             listState.animateScrollToItem(scrollTo)
@@ -102,11 +115,40 @@ fun ChatScreen(
                     fontFamily = ubuntu,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,
-                    color = PrimaryFontColor,
+                    color = AppTheme.colors.secondary,
                 )
             },
-                action = {}
+                action = {
+                }
             )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarState,
+            ) {
+                Snackbar(
+                    action = {
+                        Text(
+                            text = it.visuals.actionLabel!!,
+                            fontFamily = ubuntu,
+                            fontSize = 15.sp,
+                            color = AppTheme.colors.secondary,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.clickable { snackbarState.currentSnackbarData?.dismiss() }
+                        )
+                    },
+                    containerColor = AppTheme.colors.error,
+                    contentColor = AppTheme.colors.secondary,
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text(
+                        text = it.visuals.message,
+                        fontFamily = ubuntu,
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Medium,
+                    )
+                }
+            }
         },
         bottomBar = {
             Column(
@@ -195,14 +237,14 @@ fun ChatScreen(
                         },
                         shape = RoundedCornerShape(15.dp),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor =AppTheme.colors.secondary,
+                            focusedTextColor = AppTheme.colors.secondary,
                             unfocusedTextColor = AppTheme.colors.secondary,
                             focusedContainerColor = AppTheme.colors.secondaryContainer,
                             unfocusedContainerColor = AppTheme.colors.onSecondaryContainer,
                             unfocusedBorderColor = Color.Transparent,
                             focusedBorderColor = AppTheme.colors.primary,
                             focusedPlaceholderColor = AppTheme.colors.secondary,
-                            unfocusedPlaceholderColor =AppTheme.colors.onError ,
+                            unfocusedPlaceholderColor = AppTheme.colors.onError,
                             focusedLeadingIconColor = AppTheme.colors.primary,
                             unfocusedLeadingIconColor = AppTheme.colors.onError,
                         ),
@@ -218,7 +260,7 @@ fun ChatScreen(
                                 Icon(
                                     painter = painterResource(id = R.drawable.select_image),
                                     contentDescription = "add image",
-                                   tint = PrimaryColor,
+                                    tint = PrimaryColor,
                                     modifier = Modifier
                                         .size(35.dp)
                                 )
@@ -231,13 +273,24 @@ fun ChatScreen(
                     )
 
                     IconButton(onClick = {
-                        chatViewModel.onEvent(
-                            ChatUiEvent.SendPrompt(
-                                chatState.prompt,
-                                chatState.bitmap
+                        if (chatState.prompt.isNotEmpty()) {
+                            chatViewModel.onEvent(
+                                ChatUiEvent.SendPrompt(
+                                    chatState.prompt,
+                                    chatState.bitmap
+                                )
                             )
-                        )
-                        chatState.imageState.update { "" }
+                            chatState.imageState.update { "" }
+                        } else {
+                            scope.launch {
+                                snackbarState.currentSnackbarData?.dismiss()
+                                snackbarState.showSnackbar(
+                                    message = "Prompt can not be empty",
+                                    actionLabel = "Retry",
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
+                        }
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.send_prompt),
@@ -285,14 +338,13 @@ fun ChatScreen(
                 reverseLayout = false
             ) {
                 itemsIndexed(chatState.chatList) { index, item ->
-                        if (item.isFromUser) {
-                            UserChats(
-                                prompt = item.prompt, bitmap = item.bitmap
-                            )
-                        } else {
-                            AIChats(response = item.prompt)
-                        }
-
+                    if (item.isFromUser) {
+                        UserChats(
+                            prompt = item.prompt, bitmap = item.bitmap
+                        )
+                    } else {
+                        AIChats(response = item.prompt)
+                    }
 
 
                 }
@@ -323,15 +375,17 @@ fun getImage(uriState: MutableStateFlow<String>): Bitmap? {
 fun UserChats(prompt: String, bitmap: Bitmap?) {
     Column(
         modifier = Modifier
-            .padding(start = 100.dp, bottom = 22.dp,end = 2.dp)
+            .padding(start = 100.dp, bottom = 22.dp, end = 2.dp)
+            .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 20.dp))
+            .background(AppTheme.colors.primary)
     ) {
         bitmap?.let {
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(260.dp)
-                    .padding(bottom = 2.dp,)
-                    .clip(RoundedCornerShape(12.dp)),
+                    .padding(4.dp)
+                    .clip(RoundedCornerShape(15.dp)),
                 contentDescription = "null",
                 contentScale = ContentScale.Crop,
                 bitmap = it.asImageBitmap()
@@ -341,8 +395,8 @@ fun UserChats(prompt: String, bitmap: Bitmap?) {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 20.dp))
-                .background(AppTheme.colors.primary)
+                // .clip(shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 20.dp))
+                //.background(AppTheme.colors.primary)
                 .padding(16.dp),
             text = prompt,
             fontFamily = ubuntu,
