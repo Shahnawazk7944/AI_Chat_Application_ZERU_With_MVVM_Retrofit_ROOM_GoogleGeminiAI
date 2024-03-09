@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -88,7 +89,7 @@ fun ChatScreen(
     val snackbarState = remember {
         SnackbarHostState()
     }
-    val menuSate by remember {
+    var menuSate by remember {
         mutableStateOf(false)
     }
     val chatViewModel = viewModel<ChatViewModel>()
@@ -127,6 +128,7 @@ fun ChatScreen(
                 action = {
                     Box {
                         IconButton(onClick = {
+                            menuSate = true
                         }) {
                             Icon(
                                 painter = painterResource(R.drawable.dots),
@@ -140,9 +142,66 @@ fun ChatScreen(
                     }
                     DropdownMenu(
                         expanded = menuSate,
-                        onDismissRequest = { /*TODO*/ }) {
+                        onDismissRequest = { menuSate = false}) {
 
                     }
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                            "Restart Session",
+                            fontFamily = ubuntu,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = AppTheme.colors.secondary,
+                        )},
+                        onClick = { /*TODO*/ },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.restart),
+                                contentDescription = "restart",
+                                tint = AppTheme.colors.secondary,
+                                modifier = Modifier.size(25.dp)
+                            )
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                "Save Session",
+                                fontFamily = ubuntu,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = AppTheme.colors.secondary,
+                            )},
+                        onClick = { /*TODO*/ },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.save_session),
+                                contentDescription = "restart",
+                                tint = AppTheme.colors.secondary,
+                                modifier = Modifier.size(25.dp)
+                            )
+                        }
+                    )
+                    DropdownMenuItem(
+                        text = {
+                            Text(
+                                "End Session",
+                                fontFamily = ubuntu,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = AppTheme.colors.secondary,
+                            )},
+                        onClick = { /*TODO*/ },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(R.drawable.end_session),
+                                contentDescription = "restart",
+                                tint = AppTheme.colors.secondary,
+                                modifier = Modifier.size(25.dp)
+                            )
+                        }
+                    )
 
                 }
             )
