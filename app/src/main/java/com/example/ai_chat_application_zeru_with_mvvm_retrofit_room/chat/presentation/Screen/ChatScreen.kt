@@ -23,6 +23,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,6 +39,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -85,6 +88,9 @@ fun ChatScreen(
     val snackbarState = remember {
         SnackbarHostState()
     }
+    val menuSate by remember {
+        mutableStateOf(false)
+    }
     val chatViewModel = viewModel<ChatViewModel>()
     val chatState = chatViewModel.chatState.collectAsState().value
     chatState.imageState = imageState
@@ -119,6 +125,25 @@ fun ChatScreen(
                 )
             },
                 action = {
+                    Box {
+                        IconButton(onClick = {
+                        }) {
+                            Icon(
+                                painter = painterResource(R.drawable.dots),
+                                contentDescription = "logout Icon",
+                                tint = AppTheme.colors.secondary,
+                                modifier = Modifier.size(25.dp)
+                            )
+
+
+                        }
+                    }
+                    DropdownMenu(
+                        expanded = menuSate,
+                        onDismissRequest = { /*TODO*/ }) {
+
+                    }
+
                 }
             )
         },
