@@ -14,7 +14,11 @@ import kotlinx.coroutines.launch
 class ChatViewModel : ViewModel() {
     private val _chatState = MutableStateFlow(ChatState())
     val chatState = _chatState.asStateFlow()
+
 init {
+ addWelcomePrompt()
+}
+    fun addWelcomePrompt(){
     if (_chatState.value.chatList.isEmpty()){
         viewModelScope.launch {
             delay(2000)
@@ -112,4 +116,24 @@ init {
             }
         }
     }
+    fun clearSession() {
+        _chatState.update {
+            it.copy(
+                chatList = it.chatList.toMutableList().apply {
+                clear() },
+                prompt = "",
+                imageState = MutableStateFlow(""),
+               // bitmap = null,
+
+            )
+        }
+    }
+    fun loadImage(uri:String) {
+        _chatState.update {
+           it.copy(
+               imageState =  MutableStateFlow(uri)
+           )
+        }
+    }
+
 }

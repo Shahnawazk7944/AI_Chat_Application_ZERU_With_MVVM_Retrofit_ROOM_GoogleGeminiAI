@@ -2,6 +2,7 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presen
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,17 +18,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -44,6 +48,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,6 +61,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
@@ -73,7 +79,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.App
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -83,7 +88,6 @@ import kotlinx.coroutines.launch
 fun ChatScreen(
     navController: NavHostController,
     imagePicker: ActivityResultLauncher<PickVisualMediaRequest>,
-    imageState: MutableStateFlow<String>
 ) {
     val scope = rememberCoroutineScope()
     val snackbarState = remember {
@@ -94,8 +98,8 @@ fun ChatScreen(
     }
     val chatViewModel = viewModel<ChatViewModel>()
     val chatState = chatViewModel.chatState.collectAsState().value
-    chatState.imageState = imageState
-    chatState.bitmap = getImage(chatState.imageState)
+    chatState.bitmap = getImage(chatState.imageState.value)
+    Log.d("check2", chatState.imageState.toString())
 
     val listState = rememberLazyListState()
 
@@ -116,6 +120,7 @@ fun ChatScreen(
         topBar = {
             MyTopAppBar(onClick = {
                 navController.navigateUp()
+                chatViewModel.clearSession()
             }, title = {
                 Text(
                     "Zeru",
@@ -126,7 +131,7 @@ fun ChatScreen(
                 )
             },
                 action = {
-                    Box {
+                    Box(Modifier.wrapContentSize()) {
                         IconButton(onClick = {
                             menuSate = true
                         }) {
@@ -136,72 +141,102 @@ fun ChatScreen(
                                 tint = AppTheme.colors.secondary,
                                 modifier = Modifier.size(25.dp)
                             )
+                        }
+                        MaterialTheme(
+                            colorScheme = MaterialTheme.colorScheme.copy(surface = AppTheme.colors.onSecondary),
+                            shapes = MaterialTheme.shapes.copy(RoundedCornerShape(15))
+                        ) {
+                            DropdownMenu(
+                                expanded = menuSate,
+                                onDismissRequest = { menuSate = false },
+                                modifier = Modifier,
+                                //.clip(RoundedCornerShape(20.dp)),
+                                //.background(AppTheme.colors.onSecondary),
+                                offset = DpOffset(2.dp, 2.dp)
 
+                            ) {
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            "Restart Session",
+                                            fontFamily = ubuntu,
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Normal,
+                                            color = AppTheme.colors.secondary,
+                                        )
+                                    },
+                                    onClick = {
+                                        chatViewModel.clearSession()
+                                        chatViewModel.addWelcomePrompt()
+                                        menuSate = false
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(R.drawable.restart),
+                                            contentDescription = "restart",
+                                            tint = AppTheme.colors.onError,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                )
+                                Divider(
+                                    thickness = 0.dp,
+                                    color = AppTheme.colors.onError,
+                                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp)
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            "Save Session",
+                                            fontFamily = ubuntu,
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Normal,
+                                            color = AppTheme.colors.secondary,
+                                        )
+                                    },
+                                    onClick = { /*TODO*/ },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(R.drawable.save_session),
+                                            contentDescription = "restart",
+                                            tint = AppTheme.colors.onError,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                )
+                                Divider(
+                                    thickness = 0.dp,
+                                    color = AppTheme.colors.onError,
+                                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 5.dp)
+                                )
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            "Exit Session",
+                                            fontFamily = ubuntu,
+                                            fontSize = 20.sp,
+                                            fontWeight = FontWeight.Normal,
+                                            color = AppTheme.colors.secondary,
+                                        )
+                                    },
+                                    onClick = {
+                                        chatViewModel.clearSession()
+                                        menuSate = false
+                                        navController.navigateUp()
+                                    },
+                                    leadingIcon = {
+                                        Icon(
+                                            painter = painterResource(R.drawable.end_sess),
+                                            contentDescription = "exit",
+                                            tint = AppTheme.colors.onError,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                )
 
+                            }
                         }
                     }
-                    DropdownMenu(
-                        expanded = menuSate,
-                        onDismissRequest = { menuSate = false}) {
-
-                    }
-                    DropdownMenuItem(
-                        text = {
-                            Text(
-                            "Restart Session",
-                            fontFamily = ubuntu,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Normal,
-                            color = AppTheme.colors.secondary,
-                        )},
-                        onClick = { /*TODO*/ },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(R.drawable.restart),
-                                contentDescription = "restart",
-                                tint = AppTheme.colors.secondary,
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = {
-                            Text(
-                                "Save Session",
-                                fontFamily = ubuntu,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Normal,
-                                color = AppTheme.colors.secondary,
-                            )},
-                        onClick = { /*TODO*/ },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(R.drawable.save_session),
-                                contentDescription = "restart",
-                                tint = AppTheme.colors.secondary,
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = {
-                            Text(
-                                "End Session",
-                                fontFamily = ubuntu,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Normal,
-                                color = AppTheme.colors.secondary,
-                            )},
-                        onClick = { /*TODO*/ },
-                        leadingIcon = {
-                            Icon(
-                                painter = painterResource(R.drawable.end_session),
-                                contentDescription = "restart",
-                                tint = AppTheme.colors.secondary,
-                                modifier = Modifier.size(25.dp)
-                            )
-                        }
-                    )
 
                 }
             )
@@ -436,12 +471,24 @@ fun ChatScreen(
         }
 
     }
+
 }
 
 
 @Composable
-fun getImage(uriState: MutableStateFlow<String>): Bitmap? {
-    val uri = uriState.collectAsState().value
+fun getImage(
+    uri:String
+): Bitmap? {
+
+//    val state  = viewModel.chatState.collectAsState().value
+//    var uri = state.imageState
+
+//    viewModel.viewModelScope.launch {
+//        viewModel.chatState.collectLatest {
+//            uri = it.imageState
+//        }
+//    }
+    Log.d("chec", uri)
     val imageState: AsyncImagePainter.State = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(uri)
@@ -452,8 +499,10 @@ fun getImage(uriState: MutableStateFlow<String>): Bitmap? {
     if (imageState is AsyncImagePainter.State.Success) {
         return imageState.result.drawable.toBitmap()
     }
+
     return null
 }
+
 
 @Composable
 fun UserChats(prompt: String, bitmap: Bitmap?) {

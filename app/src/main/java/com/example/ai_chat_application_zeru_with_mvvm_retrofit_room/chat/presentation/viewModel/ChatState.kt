@@ -8,5 +8,6 @@ data class ChatState(
     val chatList: MutableList<Chat> = mutableListOf(),
     val prompt: String = "",
     var bitmap: Bitmap? = null,
+   // var imageState: String = ""
     var imageState: MutableStateFlow<String> = MutableStateFlow("")
 )
