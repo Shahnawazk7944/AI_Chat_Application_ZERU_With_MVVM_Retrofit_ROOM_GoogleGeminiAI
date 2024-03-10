@@ -79,15 +79,16 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.App
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-@SuppressLint("StateFlowValueCalledInComposition")
+@SuppressLint("StateFlowValueCalledInComposition", "CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     navController: NavHostController,
     imagePicker: ActivityResultLauncher<PickVisualMediaRequest>,
+    imageState: MutableStateFlow<String> = MutableStateFlow("")
 ) {
     val scope = rememberCoroutineScope()
     val snackbarState = remember {
@@ -98,11 +99,26 @@ fun ChatScreen(
     }
     val chatViewModel = viewModel<ChatViewModel>()
     val chatState = chatViewModel.chatState.collectAsState().value
-    chatState.bitmap = getImage(chatState.imageState.value)
-    Log.d("check2", chatState.imageState.toString())
+
+//    chatViewModel.viewModelScope.launch {
+//        chatState.imageState.collectLatest {
+//            chatState.imageState.update { it }
+//        }
+//    }
+    chatViewModel.loadImage(imageState = imageState)
+    //chatState.imageState.value = imageState.value
+    chatState.bitmap = getImage(chatState.imageState)
+
+//    val bitmapState = remember { mutableStateOf<Bitmap?>(null) }
+//
+//    LaunchedEffect(chatState.imageState.value) {
+//        chatState.bitmap.update {
+//            getImage(chatState.imageState.value)
+//        }
+//    }
+
 
     val listState = rememberLazyListState()
-
     LaunchedEffect(
         remember { derivedStateOf { listState.firstVisibleItemIndex } },
         chatState.chatList
@@ -270,11 +286,12 @@ fun ChatScreen(
             }
         },
         bottomBar = {
+
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (chatState.imageState.value.isNotEmpty()) {
+                if (chatState.imageState.isNotEmpty()) {
                     Box(
                         Modifier
                             .fillMaxWidth()
@@ -282,7 +299,7 @@ fun ChatScreen(
                         contentAlignment = Alignment.CenterEnd
                     ) {
                         IconButton(onClick = {
-                            chatState.imageState.update { "" }
+                            chatState.imageState = ""
                         }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.cross),
@@ -294,6 +311,7 @@ fun ChatScreen(
                         }
                     }
                 }
+
                 chatState.bitmap?.let {
                     Image(
                         modifier = Modifier
@@ -375,6 +393,7 @@ fun ChatScreen(
                                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
                                         .build()
                                 )
+
                             }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.select_image),
@@ -399,7 +418,7 @@ fun ChatScreen(
                                     chatState.bitmap
                                 )
                             )
-                            chatState.imageState.update { "" }
+                            chatState.imageState = ""
                         } else {
                             scope.launch {
                                 snackbarState.currentSnackbarData?.dismiss()
@@ -431,14 +450,14 @@ fun ChatScreen(
         }
 
     ) { it ->
-        if (chatState.chatList.isEmpty()) {
-            chatViewModel.onEvent(
-                ChatUiEvent.SendPrompt(
-                    chatState.prompt,
-                    chatState.bitmap
-                )
-            )
-        }
+//        if (chatState.chatList.isEmpty()) {
+//            chatViewModel.onEvent(
+//                ChatUiEvent.SendPrompt(
+//                    chatState.prompt,
+//                    chatState.bitmap
+//                )
+//            )
+//        }
         Column(
             modifier = Modifier
                 .fillMaxSize()

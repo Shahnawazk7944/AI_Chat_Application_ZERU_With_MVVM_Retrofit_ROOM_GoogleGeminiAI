@@ -15,41 +15,61 @@ class ChatViewModel : ViewModel() {
     private val _chatState = MutableStateFlow(ChatState())
     val chatState = _chatState.asStateFlow()
 
-init {
- addWelcomePrompt()
-}
-    fun addWelcomePrompt(){
-    if (_chatState.value.chatList.isEmpty()){
-        viewModelScope.launch {
-            delay(2000)
-            _chatState.update {
-                it.copy(
-                    chatList = it.chatList.toMutableList().apply {
-                        add(Chat(prompt = "Hello, Shahnawaz!", bitmap = null, isFromUser = false))
-                    },
-                )
-            }
-            delay(2000)
+    init {
+        addWelcomePrompt()
+    }
 
-            _chatState.update {
-                it.copy(
-                    chatList = it.chatList.toMutableList().apply {
-                        add( Chat(prompt = "Welcome to the future of communication!", bitmap = null, isFromUser = false))
-                    },
-                )
-            }
-            delay(1000)
+    fun addWelcomePrompt() {
+        if (_chatState.value.chatList.isEmpty()) {
+            viewModelScope.launch {
+                delay(2000)
+                _chatState.update {
+                    it.copy(
+                        chatList = it.chatList.toMutableList().apply {
+                            add(
+                                Chat(
+                                    prompt = "Hello, Shahnawaz!",
+                                    bitmap = null,
+                                    isFromUser = false
+                                )
+                            )
+                        },
+                    )
+                }
+                delay(2000)
 
-            _chatState.update {
-                it.copy(
-                    chatList = it.chatList.toMutableList().apply {
-                        add( Chat(prompt = "I'm your AI assistant ZERU, ready to help you with anything you need. How can I help you today?", bitmap = null, isFromUser = false))
-                    },
-                )
+                _chatState.update {
+                    it.copy(
+                        chatList = it.chatList.toMutableList().apply {
+                            add(
+                                Chat(
+                                    prompt = "Welcome to the future of communication!",
+                                    bitmap = null,
+                                    isFromUser = false
+                                )
+                            )
+                        },
+                    )
+                }
+                delay(1000)
+
+                _chatState.update {
+                    it.copy(
+                        chatList = it.chatList.toMutableList().apply {
+                            add(
+                                Chat(
+                                    prompt = "I'm your AI assistant ZERU, ready to help you with anything you need. How can I help you today?",
+                                    bitmap = null,
+                                    isFromUser = false
+                                )
+                            )
+                        },
+                    )
+                }
             }
         }
     }
-}
+
     fun onEvent(event: ChatUiEvent) {
         when (event) {
             is ChatUiEvent.SendPrompt -> {
@@ -61,7 +81,6 @@ init {
                     } else {
                         getResponse(event.prompt)
                     }
-
 
 
                 }
@@ -82,7 +101,7 @@ init {
         _chatState.update {
             it.copy(
                 chatList = it.chatList.toMutableList().apply {
-                    add( Chat(prompt = prompt, bitmap = bitmap, isFromUser = true))
+                    add(Chat(prompt = prompt, bitmap = bitmap, isFromUser = true))
                 },
                 prompt = "",
                 bitmap = null
@@ -110,30 +129,41 @@ init {
             _chatState.update {
                 it.copy(
                     chatList = it.chatList.toMutableList().apply {
-                        add( chat)
+                        add(chat)
                     }
                 )
             }
         }
     }
+
     fun clearSession() {
         _chatState.update {
             it.copy(
                 chatList = it.chatList.toMutableList().apply {
-                clear() },
+                    clear()
+                },
                 prompt = "",
                 imageState = MutableStateFlow(""),
-               // bitmap = null,
+                bitmap = null,
 
+                )
+        }
+    }
+
+//    @Composable
+//    fun LoadImageAsBitmap(uri: String) {
+//        _chatState.update {
+//            it.copy(
+//                bitmap = getImage(uri)
+//            )
+//        }
+//    }
+
+    fun loadImage(imageState: MutableStateFlow<String> = MutableStateFlow("")) {
+        _chatState.update {
+            it.copy(
+                imageState = imageState
             )
         }
     }
-    fun loadImage(uri:String) {
-        _chatState.update {
-           it.copy(
-               imageState =  MutableStateFlow(uri)
-           )
-        }
-    }
-
 }
