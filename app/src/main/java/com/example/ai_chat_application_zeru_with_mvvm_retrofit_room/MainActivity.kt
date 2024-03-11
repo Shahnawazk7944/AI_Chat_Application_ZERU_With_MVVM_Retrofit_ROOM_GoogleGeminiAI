@@ -2,6 +2,7 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
@@ -23,8 +24,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation.N
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AI_Chat_Application_ZERU_With_MVVM_Retrofit_ROOMTheme
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,7 +31,7 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var dataStore: DataStore<Preferences>
     private lateinit var navController: NavHostController
-    private var imageState: MutableStateFlow<String> = MutableStateFlow("")
+    //private var imageUri: MutableStateFlow<String> = MutableStateFlow("")
     private val chatViewModel by viewModels<ChatViewModel>()
 
     //private val uriState = chatViewModel.chatState.value.imageState
@@ -40,12 +39,9 @@ class MainActivity : ComponentActivity() {
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         uri?.let { it ->
-            imageState.update { it.toString() }
-            //chatViewModel.loadImage(it.toString())
-//            chatViewModel.chatState.value.imageState.update {
-//                uri.toString()
-//            }
-
+            chatViewModel.loadImage(it.toString())
+            Log.d("chec", chatViewModel.chatState.value.imageUri.value)
+           // imageUri.update { it.toString() }
         }
     }
 
@@ -68,7 +64,7 @@ class MainActivity : ComponentActivity() {
                         context = this@MainActivity,
                         dataStore = dataStore,
                         imagePicker = imagePicker,
-                        imageState = imageState
+                       // uri = imageUri
                     )
 
                 }
