@@ -79,7 +79,7 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.App
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @SuppressLint("StateFlowValueCalledInComposition", "CoroutineCreationDuringComposition")
@@ -88,7 +88,7 @@ import kotlinx.coroutines.launch
 fun ChatScreen(
     navController: NavHostController,
     imagePicker: ActivityResultLauncher<PickVisualMediaRequest>,
-    imageState: MutableStateFlow<String> = MutableStateFlow("")
+    //uri: MutableStateFlow<String> = MutableStateFlow("")
 ) {
     val scope = rememberCoroutineScope()
     val snackbarState = remember {
@@ -101,20 +101,32 @@ fun ChatScreen(
     val chatState = chatViewModel.chatState.collectAsState().value
 
 //    chatViewModel.viewModelScope.launch {
+//        chatViewModel.chatState.collectLatest {
+//
+//        }
+//    }
+    LaunchedEffect(chatViewModel.chatState) {
+        val uri = chatState.imageUri.value
+        Log.d("check in chatScreen", uri)
+    }
+    chatState.bitmap = getImage(uri = chatState.imageUri.value)
+
+    //chatViewModel.loadImage(uri = uri.value)
+    //Log.d("check in chatScreen", chatState.imageUri)
+    // chatViewModel.LoadImageAsBitmap(uri = chatState.imageUri)
+//    chatViewModel.viewModelScope.launch {
 //        chatState.imageState.collectLatest {
 //            chatState.imageState.update { it }
 //        }
 //    }
-    chatViewModel.loadImage(imageState = imageState)
-    //chatState.imageState.value = imageState.value
-    chatState.bitmap = getImage(chatState.imageState)
+
+//    chatState.imageState.update { imageState.value }
+//    chatState.bitmap = getImage(chatState.imageState.value)
 
 //    val bitmapState = remember { mutableStateOf<Bitmap?>(null) }
 //
-//    LaunchedEffect(chatState.imageState.value) {
-//        chatState.bitmap.update {
-//            getImage(chatState.imageState.value)
-//        }
+//    LaunchedEffect(chatState.imageUri.value) {
+//        Log.d("check in chatScreen", chatState.imageUri.value)
 //    }
 
 
@@ -291,7 +303,7 @@ fun ChatScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (chatState.imageState.isNotEmpty()) {
+                if (chatState.imageUri.value.isNotEmpty()) {
                     Box(
                         Modifier
                             .fillMaxWidth()
@@ -299,7 +311,7 @@ fun ChatScreen(
                         contentAlignment = Alignment.CenterEnd
                     ) {
                         IconButton(onClick = {
-                            chatState.imageState = ""
+                            chatState.imageUri.update { "" }
                         }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.cross),
@@ -387,6 +399,7 @@ fun ChatScreen(
                         ),
                         leadingIcon = {
                             IconButton(onClick = {
+
                                 imagePicker.launch(
                                     PickVisualMediaRequest
                                         .Builder()
@@ -418,7 +431,7 @@ fun ChatScreen(
                                     chatState.bitmap
                                 )
                             )
-                            chatState.imageState = ""
+                            chatState.imageUri.update { "" }
                         } else {
                             scope.launch {
                                 snackbarState.currentSnackbarData?.dismiss()

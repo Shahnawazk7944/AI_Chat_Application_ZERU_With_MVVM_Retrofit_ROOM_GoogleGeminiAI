@@ -1,20 +1,21 @@
 package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.viewModel
 
 import android.graphics.Bitmap
+import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.data.Chat
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.data.ChatData
+import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presentation.Screen.getImage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ChatViewModel : ViewModel() {
+class ChatViewModel: ViewModel() {
     private val _chatState = MutableStateFlow(ChatState())
     val chatState = _chatState.asStateFlow()
-
     init {
         addWelcomePrompt()
     }
@@ -143,26 +144,26 @@ class ChatViewModel : ViewModel() {
                     clear()
                 },
                 prompt = "",
-                imageState = MutableStateFlow(""),
+                imageUri = it.imageUri.apply {it.imageUri.update { "" } },
                 bitmap = null,
 
                 )
         }
     }
 
-//    @Composable
-//    fun LoadImageAsBitmap(uri: String) {
-//        _chatState.update {
-//            it.copy(
-//                bitmap = getImage(uri)
-//            )
-//        }
-//    }
-
-    fun loadImage(imageState: MutableStateFlow<String> = MutableStateFlow("")) {
+    @Composable
+    fun LoadImageAsBitmap(uri: String) {
         _chatState.update {
             it.copy(
-                imageState = imageState
+                bitmap = getImage(uri)
+            )
+        }
+    }
+
+    fun loadImage(uri: String) {
+        _chatState.update {
+            it.copy(
+                imageUri = it.imageUri.apply {it.imageUri.update { uri } }
             )
         }
     }
