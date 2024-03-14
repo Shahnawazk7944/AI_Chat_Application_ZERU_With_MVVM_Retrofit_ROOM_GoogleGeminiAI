@@ -13,9 +13,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ChatViewModel: ViewModel() {
+class ChatViewModel : ViewModel() {
     private val _chatState = MutableStateFlow(ChatState())
     val chatState = _chatState.asStateFlow()
+
     init {
         addWelcomePrompt()
     }
@@ -93,6 +94,13 @@ class ChatViewModel: ViewModel() {
                 }
             }
 
+            is ChatUiEvent.AddImageUri -> {
+                loadImageUri(event.uri)
+            }
+
+//            is ChatUiEvent.RemoveImageUri -> {
+//                removeImageUri(event.emptyUri)
+//            }
         }
 
     }
@@ -105,6 +113,7 @@ class ChatViewModel: ViewModel() {
                     add(Chat(prompt = prompt, bitmap = bitmap, isFromUser = true))
                 },
                 prompt = "",
+                imageUri = "",
                 bitmap = null
             )
         }
@@ -144,7 +153,7 @@ class ChatViewModel: ViewModel() {
                     clear()
                 },
                 prompt = "",
-                imageUri = it.imageUri.apply {it.imageUri.update { "" } },
+                imageUri = "",
                 bitmap = null,
 
                 )
@@ -160,10 +169,19 @@ class ChatViewModel: ViewModel() {
         }
     }
 
-    fun loadImage(uri: String) {
+    private fun loadImageUri(uri: String) {
         _chatState.update {
             it.copy(
-                imageUri = it.imageUri.apply {it.imageUri.update { uri } }
+                imageUri = uri
+            )
+        }
+    }
+
+
+    fun removeImageUri() {
+        _chatState.update {
+            it.copy(
+                imageUri = ""
             )
         }
     }
