@@ -3,8 +3,6 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.navigation
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.compose.runtime.Composable
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -34,8 +32,7 @@ fun NavigationGraph(
     navController: NavHostController,
     context: MainActivity,
     dataStore: DataStore<Preferences>,
-    imagePicker: ActivityResultLauncher<PickVisualMediaRequest>,
-    //uri: MutableStateFlow<String> = MutableStateFlow("")
+
 ) {
     val signUpViewModel = viewModel<SignUpViewModel>()
     val loginViewModel = viewModel<LoginViewModel>()
@@ -87,9 +84,6 @@ fun NavigationGraph(
         composable(route = Screen.ChatScreen.route) {
             ChatScreen(
                 navController = navController,
-                imagePicker = imagePicker,
-               // uri = uri
-
             )
         }
 

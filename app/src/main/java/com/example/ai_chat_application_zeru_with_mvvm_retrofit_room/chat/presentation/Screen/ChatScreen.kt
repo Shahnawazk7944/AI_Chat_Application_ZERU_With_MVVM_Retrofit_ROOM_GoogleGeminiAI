@@ -3,8 +3,7 @@ package com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.chat.presen
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -79,7 +78,6 @@ import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.App
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.PrimaryColor
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.poppins
 import com.example.ai_chat_application_zeru_with_mvvm_retrofit_room.ui.theme.ubuntu
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @SuppressLint("StateFlowValueCalledInComposition", "CoroutineCreationDuringComposition")
@@ -87,48 +85,29 @@ import kotlinx.coroutines.launch
 @Composable
 fun ChatScreen(
     navController: NavHostController,
-    imagePicker: ActivityResultLauncher<PickVisualMediaRequest>,
-    //uri: MutableStateFlow<String> = MutableStateFlow("")
 ) {
-    val scope = rememberCoroutineScope()
-    val snackbarState = remember {
-        SnackbarHostState()
-    }
-    var menuSate by remember {
-        mutableStateOf(false)
-    }
     val chatViewModel = viewModel<ChatViewModel>()
     val chatState = chatViewModel.chatState.collectAsState().value
 
-//    chatViewModel.viewModelScope.launch {
-//        chatViewModel.chatState.collectLatest {
-//
-//        }
-//    }
-    LaunchedEffect(chatViewModel.chatState) {
-        val uri = chatState.imageUri.value
-        Log.d("check in chatScreen", uri)
+    val scope = rememberCoroutineScope()
+    val snackbarState = remember {
+        SnackbarHostState() }
+    var menuSate by remember {
+        mutableStateOf(false) }
+
+    var bitmap by remember {
+        mutableStateOf<Bitmap?>(null)
     }
-    chatState.bitmap = getImage(uri = chatState.imageUri.value)
+    val launcher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent()
+        ) { it ->
+            chatViewModel.onEvent(ChatUiEvent.AddImageUri(uri = it.toString()))
 
-    //chatViewModel.loadImage(uri = uri.value)
-    //Log.d("check in chatScreen", chatState.imageUri)
-    // chatViewModel.LoadImageAsBitmap(uri = chatState.imageUri)
-//    chatViewModel.viewModelScope.launch {
-//        chatState.imageState.collectLatest {
-//            chatState.imageState.update { it }
-//        }
-//    }
-
-//    chatState.imageState.update { imageState.value }
-//    chatState.bitmap = getImage(chatState.imageState.value)
-
-//    val bitmapState = remember { mutableStateOf<Bitmap?>(null) }
-//
-//    LaunchedEffect(chatState.imageUri.value) {
-//        Log.d("check in chatScreen", chatState.imageUri.value)
-//    }
-
+            //imageUri = it
+        }
+   //bitmap = getImage(uri = chatState.imageUri.value)
+    chatViewModel.LoadImageAsBitmap(uri = chatState.imageUri)
 
     val listState = rememberLazyListState()
     LaunchedEffect(
@@ -222,7 +201,9 @@ fun ChatScreen(
                                             color = AppTheme.colors.secondary,
                                         )
                                     },
-                                    onClick = { /*TODO*/ },
+                                    onClick = {
+                                              menuSate = false
+                                              },
                                     leadingIcon = {
                                         Icon(
                                             painter = painterResource(R.drawable.save_session),
@@ -303,7 +284,7 @@ fun ChatScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (chatState.imageUri.value.isNotEmpty()) {
+                if (chatState.imageUri.isNotEmpty()) {
                     Box(
                         Modifier
                             .fillMaxWidth()
@@ -311,7 +292,7 @@ fun ChatScreen(
                         contentAlignment = Alignment.CenterEnd
                     ) {
                         IconButton(onClick = {
-                            chatState.imageUri.update { "" }
+                            chatViewModel.removeImageUri()
                         }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.cross),
@@ -399,13 +380,13 @@ fun ChatScreen(
                         ),
                         leadingIcon = {
                             IconButton(onClick = {
-
-                                imagePicker.launch(
-                                    PickVisualMediaRequest
-                                        .Builder()
-                                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                                        .build()
-                                )
+                                launcher.launch("image/*")
+//                                imagePicker.launch(
+//                                    PickVisualMediaRequest
+//                                        .Builder()
+//                                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
+//                                        .build()
+//                                )
 
                             }) {
                                 Icon(
@@ -431,7 +412,8 @@ fun ChatScreen(
                                     chatState.bitmap
                                 )
                             )
-                            chatState.imageUri.update { "" }
+                            chatState.imageUri = ""
+                            chatState.bitmap = null
                         } else {
                             scope.launch {
                                 snackbarState.currentSnackbarData?.dismiss()
